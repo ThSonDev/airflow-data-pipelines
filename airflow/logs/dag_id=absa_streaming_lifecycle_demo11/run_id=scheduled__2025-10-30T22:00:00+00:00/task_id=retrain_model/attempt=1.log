@@ -1,0 +1,212 @@
+[2025-10-31T06:00:09.249+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-31T06:00:09.269+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:00:09.277+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:00:09.278+0700] {taskinstance.py:2303} INFO - Starting attempt 1 of 2
+[2025-10-31T06:00:09.294+0700] {taskinstance.py:2327} INFO - Executing <Task(BashOperator): retrain_model> on 2025-10-30 22:00:00+00:00
+[2025-10-31T06:00:09.304+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=2207) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-31T06:00:09.306+0700] {standard_task_runner.py:63} INFO - Started process 2222 to run task
+[2025-10-31T06:00:09.306+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo11', 'retrain_model', 'scheduled__2025-10-30T22:00:00+00:00', '--job-id', '8', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmp_5qtul48']
+[2025-10-31T06:00:09.308+0700] {standard_task_runner.py:91} INFO - Job 8: Subtask retrain_model
+[2025-10-31T06:00:09.353+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [running]> on host dd5a6d0635d0
+[2025-10-31T06:00:09.451+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo11' AIRFLOW_CTX_TASK_ID='retrain_model' AIRFLOW_CTX_EXECUTION_DATE='2025-10-30T22:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-30T22:00:00+00:00'
+[2025-10-31T06:00:09.453+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-31T06:00:09.455+0700] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-10-31T06:00:09.455+0700] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash -c "set -euo pipefail; python /opt/***/projects/absa_streaming/scripts/retrain.py"']
+[2025-10-31T06:00:09.480+0700] {subprocess.py:86} INFO - Output:
+[2025-10-31T06:00:18.116+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/transformers/optimization.py:588: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+[2025-10-31T06:00:18.117+0700] {subprocess.py:93} INFO -   warnings.warn(
+[2025-10-31T06:01:54.934+0700] {local_task_job_runner.py:310} WARNING - State of this instance has been externally set to restarting. Terminating instance.
+[2025-10-31T06:01:54.935+0700] {local_task_job_runner.py:222} INFO - ::endgroup::
+[2025-10-31T06:01:54.937+0700] {process_utils.py:132} INFO - Sending 15 to group 2222. PIDs of all processes in the group: [2224, 2222]
+[2025-10-31T06:01:54.938+0700] {process_utils.py:87} INFO - Sending the signal 15 to group 2222
+[2025-10-31T06:01:54.939+0700] {taskinstance.py:2607} ERROR - Received SIGTERM. Terminating subprocesses.
+[2025-10-31T06:01:54.939+0700] {subprocess.py:104} INFO - Sending SIGTERM signal to process group
+[2025-10-31T06:01:54.941+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-31T06:01:54.953+0700] {taskinstance.py:2890} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 460, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 234, in execute
+    result = self.subprocess_hook.run_command(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/hooks/subprocess.py", line 91, in run_command
+    for raw_line in iter(self.sub_process.stdout.readline, b""):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 2609, in signal_handler
+    raise AirflowTaskTerminated("Task received SIGTERM signal")
+airflow.exceptions.AirflowTaskTerminated: Task received SIGTERM signal
+[2025-10-31T06:01:54.959+0700] {taskinstance.py:1205} INFO - Marking task as UP_FOR_RETRY. dag_id=absa_streaming_lifecycle_demo11, task_id=retrain_model, execution_date=20251030T220000, start_date=20251030T230009, end_date=20251030T230154
+[2025-10-31T06:01:55.191+0700] {process_utils.py:80} INFO - Process psutil.Process(pid=2224, status='terminated', started='06:00:09') (2224) terminated with exit code None
+[2025-10-31T06:01:55.192+0700] {process_utils.py:80} INFO - Process psutil.Process(pid=2222, status='terminated', exitcode=2, started='06:00:09') (2222) terminated with exit code 2
+[2025-10-31T06:06:29.278+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-31T06:06:29.298+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:06:29.305+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:06:29.305+0700] {taskinstance.py:2303} INFO - Starting attempt 1 of 2
+[2025-10-31T06:06:29.322+0700] {taskinstance.py:2327} INFO - Executing <Task(BashOperator): retrain_model> on 2025-10-30 22:00:00+00:00
+[2025-10-31T06:06:29.335+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=316) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-31T06:06:29.337+0700] {standard_task_runner.py:63} INFO - Started process 324 to run task
+[2025-10-31T06:06:29.338+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo11', 'retrain_model', 'scheduled__2025-10-30T22:00:00+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmpeu96nl_o']
+[2025-10-31T06:06:29.341+0700] {standard_task_runner.py:91} INFO - Job 4: Subtask retrain_model
+[2025-10-31T06:06:29.376+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [running]> on host 5583489ca3dd
+[2025-10-31T06:06:29.435+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo11' AIRFLOW_CTX_TASK_ID='retrain_model' AIRFLOW_CTX_EXECUTION_DATE='2025-10-30T22:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-30T22:00:00+00:00'
+[2025-10-31T06:06:29.437+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-31T06:06:29.438+0700] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-10-31T06:06:29.438+0700] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash -c "set -euo pipefail; python /opt/***/projects/absa_streaming/scripts/retrain.py"']
+[2025-10-31T06:06:29.451+0700] {subprocess.py:86} INFO - Output:
+[2025-10-31T06:06:34.401+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/huggingface_hub/file_download.py:942: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+[2025-10-31T06:06:34.401+0700] {subprocess.py:93} INFO -   warnings.warn(
+[2025-10-31T06:09:22.393+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/transformers/optimization.py:588: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+[2025-10-31T06:09:22.394+0700] {subprocess.py:93} INFO -   warnings.warn(
+[2025-10-31T06:11:11.279+0700] {subprocess.py:93} INFO - /opt/***/projects/absa_streaming/scripts/retrain.py:386: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+[2025-10-31T06:11:11.279+0700] {subprocess.py:93} INFO -   "saved_at": datetime.utcnow().isoformat(),
+[2025-10-31T06:11:11.451+0700] {subprocess.py:93} INFO - ==> Khởi động retrain.py (train=TRAIN; VAL chỉ hỗ trợ; quyết định dựa trên TEST cuối).
+[2025-10-31T06:11:11.452+0700] {subprocess.py:93} INFO - [Info] F1_macro tốt nhất đã log: 0.0000
+[2025-10-31T06:11:11.452+0700] {subprocess.py:93} INFO - [Info] VAL: /opt/***/projects/absa_streaming/data/val_data.csv (rows=936)
+[2025-10-31T06:11:11.452+0700] {subprocess.py:93} INFO - [Info] ✅ Loaded model tốt nhất hiện tại: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:11:11.452+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:11:11.452+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:11:11.452+0700] {subprocess.py:93} INFO - [Epoch 2] time=25.1s | train_loss=0.0000 | VAL: loss=0.0000 acc=1.0000 f1_macro=1.0000 pre_macro=1.0000 rec_macro=1.0000
+[2025-10-31T06:11:11.452+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:11:11.452+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:11:11.453+0700] {subprocess.py:93} INFO - [Epoch 4] time=23.1s | train_loss=0.0000 | VAL: loss=0.0000 acc=1.0000 f1_macro=1.0000 pre_macro=1.0000 rec_macro=1.0000
+[2025-10-31T06:11:11.453+0700] {subprocess.py:93} INFO - [FINAL TEST] loss=0.0000 | acc=1.0000 | f1_macro=1.0000 | pre_macro=1.0000 | rec_macro=1.0000
+[2025-10-31T06:11:11.453+0700] {subprocess.py:93} INFO - [SAVE] TEST f1_macro improved (0.0000 -> 1.0000). Saved to: /opt/***/models/newer_models/best_absa_2
+[2025-10-31T06:11:11.453+0700] {subprocess.py:93} INFO - ==> Retrain hoàn tất.
+[2025-10-31T06:11:16.041+0700] {subprocess.py:97} INFO - Command exited with return code 0
+[2025-10-31T06:11:16.088+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-31T06:11:16.340+0700] {taskinstance.py:1205} INFO - Marking task as SUCCESS. dag_id=absa_streaming_lifecycle_demo11, task_id=retrain_model, execution_date=20251030T220000, start_date=20251030T230629, end_date=20251030T231116
+[2025-10-31T06:11:16.524+0700] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-10-31T06:11:16.564+0700] {taskinstance.py:3482} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-10-31T06:11:16.684+0700] {local_task_job_runner.py:222} INFO - ::endgroup::
+[2025-10-31T06:18:57.689+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-31T06:18:57.706+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:18:57.712+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:18:57.712+0700] {taskinstance.py:2303} INFO - Starting attempt 1 of 2
+[2025-10-31T06:18:57.723+0700] {taskinstance.py:2327} INFO - Executing <Task(BashOperator): retrain_model> on 2025-10-30 22:00:00+00:00
+[2025-10-31T06:18:57.731+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=383) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-31T06:18:57.732+0700] {standard_task_runner.py:63} INFO - Started process 388 to run task
+[2025-10-31T06:18:57.733+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo11', 'retrain_model', 'scheduled__2025-10-30T22:00:00+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmp2f9ix2gr']
+[2025-10-31T06:18:57.735+0700] {standard_task_runner.py:91} INFO - Job 4: Subtask retrain_model
+[2025-10-31T06:18:57.772+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [running]> on host b701d4cdc1cf
+[2025-10-31T06:18:57.827+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo11' AIRFLOW_CTX_TASK_ID='retrain_model' AIRFLOW_CTX_EXECUTION_DATE='2025-10-30T22:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-30T22:00:00+00:00'
+[2025-10-31T06:18:57.829+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-31T06:18:57.829+0700] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-10-31T06:18:57.830+0700] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash -c "set -euo pipefail; python /opt/***/projects/absa_streaming/scripts/retrain.py"']
+[2025-10-31T06:18:57.841+0700] {subprocess.py:86} INFO - Output:
+[2025-10-31T06:19:02.146+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/huggingface_hub/file_download.py:942: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+[2025-10-31T06:19:02.146+0700] {subprocess.py:93} INFO -   warnings.warn(
+[2025-10-31T06:23:14.377+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/transformers/optimization.py:588: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+[2025-10-31T06:23:14.567+0700] {subprocess.py:93} INFO -   warnings.warn(
+[2025-10-31T06:25:08.400+0700] {subprocess.py:93} INFO - /opt/***/projects/absa_streaming/scripts/retrain.py:386: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+[2025-10-31T06:25:08.402+0700] {subprocess.py:93} INFO -   "saved_at": datetime.utcnow().isoformat(),
+[2025-10-31T06:25:15.270+0700] {subprocess.py:93} INFO - ==> Khởi động retrain.py (train=TRAIN; VAL chỉ hỗ trợ; quyết định dựa trên TEST cuối).
+[2025-10-31T06:25:15.274+0700] {subprocess.py:93} INFO - [Info] F1_macro tốt nhất đã log: 0.0000
+[2025-10-31T06:25:15.277+0700] {subprocess.py:93} INFO - [Info] VAL: /opt/***/projects/absa_streaming/data/val_data.csv (rows=936)
+[2025-10-31T06:25:15.279+0700] {subprocess.py:93} INFO - [Info] Loaded model mặc định: /opt/***/models/best_absa_hardshare.pt
+[2025-10-31T06:25:15.281+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:25:15.285+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:25:15.287+0700] {subprocess.py:93} INFO - [Epoch 2] time=24.2s | train_loss=0.0795 | VAL: loss=0.0525 acc=0.9953 f1_macro=0.3326 pre_macro=0.3333 rec_macro=0.3318
+[2025-10-31T06:25:15.287+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:25:15.288+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:25:15.289+0700] {subprocess.py:93} INFO - [Epoch 4] time=22.5s | train_loss=0.0183 | VAL: loss=0.0186 acc=0.9999 f1_macro=0.5000 pre_macro=0.5000 rec_macro=0.4999
+[2025-10-31T06:25:15.290+0700] {subprocess.py:93} INFO - [FINAL TEST] loss=0.0173 | acc=0.9992 | f1_macro=0.3332 | pre_macro=0.3333 | rec_macro=0.3331
+[2025-10-31T06:25:15.291+0700] {subprocess.py:93} INFO - [SAVE] TEST f1_macro improved (0.0000 -> 0.3332). Saved to: /opt/***/models/newer_models/best_absa_1
+[2025-10-31T06:25:15.292+0700] {subprocess.py:93} INFO - ==> Retrain hoàn tất.
+[2025-10-31T06:25:18.064+0700] {subprocess.py:97} INFO - Command exited with return code 0
+[2025-10-31T06:25:18.095+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-31T06:25:18.712+0700] {taskinstance.py:1205} INFO - Marking task as SUCCESS. dag_id=absa_streaming_lifecycle_demo11, task_id=retrain_model, execution_date=20251030T220000, start_date=20251030T231857, end_date=20251030T232518
+[2025-10-31T06:25:18.912+0700] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-10-31T06:25:19.225+0700] {taskinstance.py:3482} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-10-31T06:25:19.227+0700] {local_task_job_runner.py:222} INFO - ::endgroup::
+[2025-10-31T06:32:41.747+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-31T06:32:41.766+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:32:41.772+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:32:41.773+0700] {taskinstance.py:2303} INFO - Starting attempt 1 of 2
+[2025-10-31T06:32:41.782+0700] {taskinstance.py:2327} INFO - Executing <Task(BashOperator): retrain_model> on 2025-10-30 22:00:00+00:00
+[2025-10-31T06:32:41.790+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=2573) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-31T06:32:41.791+0700] {standard_task_runner.py:63} INFO - Started process 2690 to run task
+[2025-10-31T06:32:41.792+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo11', 'retrain_model', 'scheduled__2025-10-30T22:00:00+00:00', '--job-id', '9', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmpj0jdyarc']
+[2025-10-31T06:32:41.794+0700] {standard_task_runner.py:91} INFO - Job 9: Subtask retrain_model
+[2025-10-31T06:32:41.827+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [running]> on host b701d4cdc1cf
+[2025-10-31T06:32:41.892+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo11' AIRFLOW_CTX_TASK_ID='retrain_model' AIRFLOW_CTX_EXECUTION_DATE='2025-10-30T22:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-30T22:00:00+00:00'
+[2025-10-31T06:32:41.894+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-31T06:32:41.895+0700] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-10-31T06:32:41.895+0700] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash -c "set -euo pipefail; python /opt/***/projects/absa_streaming/scripts/retrain.py"']
+[2025-10-31T06:32:41.909+0700] {subprocess.py:86} INFO - Output:
+[2025-10-31T06:32:54.297+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/transformers/optimization.py:588: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+[2025-10-31T06:32:54.298+0700] {subprocess.py:93} INFO -   warnings.warn(
+[2025-10-31T06:34:28.593+0700] {subprocess.py:93} INFO - /opt/***/projects/absa_streaming/scripts/retrain.py:386: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+[2025-10-31T06:34:28.594+0700] {subprocess.py:93} INFO -   "saved_at": datetime.utcnow().isoformat(),
+[2025-10-31T06:34:28.789+0700] {subprocess.py:93} INFO - ==> Khởi động retrain.py (train=TRAIN; VAL chỉ hỗ trợ; quyết định dựa trên TEST cuối).
+[2025-10-31T06:34:28.789+0700] {subprocess.py:93} INFO - [Info] F1_macro tốt nhất đã log: 0.0000
+[2025-10-31T06:34:28.790+0700] {subprocess.py:93} INFO - [Info] VAL: /opt/***/projects/absa_streaming/data/val_data.csv (rows=936)
+[2025-10-31T06:34:28.790+0700] {subprocess.py:93} INFO - [Info] Loaded model mặc định: /opt/***/models/best_absa_hardshare.pt
+[2025-10-31T06:34:28.790+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:34:28.790+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:34:28.790+0700] {subprocess.py:93} INFO - [Epoch 2] time=22.4s | train_loss=0.0776 | VAL: loss=0.0520 acc=0.9956 f1_macro=0.3326 pre_macro=0.3333 rec_macro=0.3319
+[2025-10-31T06:34:28.790+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:34:28.791+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:34:28.791+0700] {subprocess.py:93} INFO - [Epoch 4] time=23.1s | train_loss=0.0181 | VAL: loss=0.0184 acc=0.9997 f1_macro=0.4999 pre_macro=0.5000 rec_macro=0.4999
+[2025-10-31T06:34:28.791+0700] {subprocess.py:93} INFO - [FINAL TEST] loss=0.0170 | acc=0.9991 | f1_macro=0.3332 | pre_macro=0.3333 | rec_macro=0.3330
+[2025-10-31T06:34:28.791+0700] {subprocess.py:93} INFO - [SAVE] TEST f1_macro improved (0.0000 -> 0.3332). Saved to: /opt/***/models/newer_models/best_absa_1
+[2025-10-31T06:34:28.791+0700] {subprocess.py:93} INFO - ==> Retrain hoàn tất.
+[2025-10-31T06:34:29.668+0700] {subprocess.py:97} INFO - Command exited with return code 0
+[2025-10-31T06:34:29.669+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-31T06:34:29.697+0700] {taskinstance.py:1205} INFO - Marking task as SUCCESS. dag_id=absa_streaming_lifecycle_demo11, task_id=retrain_model, execution_date=20251030T220000, start_date=20251030T233241, end_date=20251030T233429
+[2025-10-31T06:34:29.746+0700] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-10-31T06:34:29.759+0700] {taskinstance.py:3482} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-10-31T06:34:29.773+0700] {local_task_job_runner.py:222} INFO - ::endgroup::
+[2025-10-31T06:46:02.332+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-31T06:46:02.354+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:46:02.359+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:46:02.360+0700] {taskinstance.py:2303} INFO - Starting attempt 1 of 2
+[2025-10-31T06:46:02.370+0700] {taskinstance.py:2327} INFO - Executing <Task(BashOperator): retrain_model> on 2025-10-30 22:00:00+00:00
+[2025-10-31T06:46:02.382+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=4595) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-31T06:46:02.384+0700] {standard_task_runner.py:63} INFO - Started process 4601 to run task
+[2025-10-31T06:46:02.384+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo11', 'retrain_model', 'scheduled__2025-10-30T22:00:00+00:00', '--job-id', '11', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmpkvz70m4g']
+[2025-10-31T06:46:02.386+0700] {standard_task_runner.py:91} INFO - Job 11: Subtask retrain_model
+[2025-10-31T06:46:02.421+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo11.retrain_model scheduled__2025-10-30T22:00:00+00:00 [running]> on host b701d4cdc1cf
+[2025-10-31T06:46:02.487+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo11' AIRFLOW_CTX_TASK_ID='retrain_model' AIRFLOW_CTX_EXECUTION_DATE='2025-10-30T22:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-30T22:00:00+00:00'
+[2025-10-31T06:46:02.490+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-31T06:46:02.491+0700] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-10-31T06:46:02.492+0700] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash -c "set -euo pipefail; python /opt/***/projects/absa_streaming/scripts/retrain.py"']
+[2025-10-31T06:46:02.510+0700] {subprocess.py:86} INFO - Output:
+[2025-10-31T06:46:12.814+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/transformers/optimization.py:588: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+[2025-10-31T06:46:12.815+0700] {subprocess.py:93} INFO -   warnings.warn(
+[2025-10-31T06:48:32.647+0700] {subprocess.py:93} INFO - /opt/***/projects/absa_streaming/scripts/retrain.py:385: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+[2025-10-31T06:48:37.738+0700] {subprocess.py:93} INFO -   "saved_at": datetime.utcnow().isoformat(),
+[2025-10-31T06:48:37.739+0700] {subprocess.py:93} INFO - ==> Khởi động retrain.py (train=TRAIN; VAL chỉ hỗ trợ; quyết định dựa trên TEST cuối).
+[2025-10-31T06:48:37.740+0700] {subprocess.py:93} INFO - [Info] F1_macro tốt nhất đã log: 0.0000
+[2025-10-31T06:48:37.741+0700] {subprocess.py:93} INFO - [Info] VAL: /opt/***/projects/absa_streaming/data/val_data.csv (rows=936)
+[2025-10-31T06:48:37.741+0700] {subprocess.py:93} INFO - [Info] Loaded model mặc định: /opt/***/models/best_absa_hardshare.pt
+[2025-10-31T06:48:37.741+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:48:37.742+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:48:37.742+0700] {subprocess.py:93} INFO - [Epoch 2] time=31.7s | train_loss=0.0431 | VAL: loss=0.0225 acc=0.9995 f1_macro=0.3332 pre_macro=0.3333 rec_macro=0.3332
+[2025-10-31T06:48:37.743+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:48:37.743+0700] {subprocess.py:93} INFO - Bắt đầu train 1 epoch
+[2025-10-31T06:48:37.744+0700] {subprocess.py:93} INFO - [Epoch 4] time=31.5s | train_loss=0.0038 | VAL: loss=0.0027 acc=1.0000 f1_macro=1.0000 pre_macro=1.0000 rec_macro=1.0000
+[2025-10-31T06:48:37.744+0700] {subprocess.py:93} INFO - [FINAL TEST] loss=0.0025 | acc=1.0000 | f1_macro=1.0000 | pre_macro=1.0000 | rec_macro=1.0000
+[2025-10-31T06:48:37.744+0700] {subprocess.py:93} INFO - [SAVE] TEST f1_macro improved (0.0000 -> 1.0000). Saved to: /opt/***/models/newer_models/best_absa_1
+[2025-10-31T06:48:37.747+0700] {subprocess.py:93} INFO - ==> Retrain hoàn tất.
+[2025-10-31T06:48:39.109+0700] {subprocess.py:97} INFO - Command exited with return code 0
+[2025-10-31T06:48:39.124+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-31T06:48:39.238+0700] {taskinstance.py:1205} INFO - Marking task as SUCCESS. dag_id=absa_streaming_lifecycle_demo11, task_id=retrain_model, execution_date=20251030T220000, start_date=20251030T234602, end_date=20251030T234839
+[2025-10-31T06:48:39.332+0700] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-10-31T06:48:39.526+0700] {taskinstance.py:3482} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-10-31T06:48:39.528+0700] {local_task_job_runner.py:222} INFO - ::endgroup::

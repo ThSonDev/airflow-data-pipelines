@@ -1,0 +1,152 @@
+[2025-10-29T04:05:59.699+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-29T04:05:59.716+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo1.deploy_consumer manual__2025-10-28T21:05:57.406980+00:00 [queued]>
+[2025-10-29T04:05:59.721+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo1.deploy_consumer manual__2025-10-28T21:05:57.406980+00:00 [queued]>
+[2025-10-29T04:05:59.722+0700] {taskinstance.py:2303} INFO - Starting attempt 1 of 6
+[2025-10-29T04:05:59.733+0700] {taskinstance.py:2327} INFO - Executing <Task(BashOperator): deploy_consumer> on 2025-10-28 21:05:57.406980+00:00
+[2025-10-29T04:05:59.741+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=305) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-29T04:05:59.743+0700] {standard_task_runner.py:63} INFO - Started process 311 to run task
+[2025-10-29T04:05:59.744+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo1', 'deploy_consumer', 'manual__2025-10-28T21:05:57.406980+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmpsojlgxlc']
+[2025-10-29T04:05:59.746+0700] {standard_task_runner.py:91} INFO - Job 5: Subtask deploy_consumer
+[2025-10-29T04:05:59.773+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo1.deploy_consumer manual__2025-10-28T21:05:57.406980+00:00 [running]> on host c8122caeb8bc
+[2025-10-29T04:05:59.819+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo1' AIRFLOW_CTX_TASK_ID='deploy_consumer' AIRFLOW_CTX_EXECUTION_DATE='2025-10-28T21:05:57.406980+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-10-28T21:05:57.406980+00:00'
+[2025-10-29T04:05:59.820+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-29T04:05:59.821+0700] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-10-29T04:05:59.821+0700] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash -c "timeout 45m /opt/***/projects/absa_streaming/scripts/run_consumer.sh"']
+[2025-10-29T04:05:59.831+0700] {subprocess.py:86} INFO - Output:
+[2025-10-29T04:05:59.835+0700] {subprocess.py:93} INFO - [Consumer] Starting Spark Structured Streaming job...
+[2025-10-29T04:05:59.879+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2025-10-29T04:06:01.014+0700] {subprocess.py:93} INFO - :: loading settings :: url = jar:file:/home/***/.local/lib/python3.12/site-packages/pyspark/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+[2025-10-29T04:06:01.087+0700] {subprocess.py:93} INFO - Ivy Default Cache set to: /home/***/.ivy2/cache
+[2025-10-29T04:06:01.088+0700] {subprocess.py:93} INFO - The jars for the packages stored in: /home/***/.ivy2/jars
+[2025-10-29T04:06:01.094+0700] {subprocess.py:93} INFO - org.apache.spark#spark-sql-kafka-0-10_2.12 added as a dependency
+[2025-10-29T04:06:01.095+0700] {subprocess.py:93} INFO - org.postgresql#postgresql added as a dependency
+[2025-10-29T04:06:01.095+0700] {subprocess.py:93} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-c206b2dd-ef8a-408f-b613-3d4cfd326e05;1.0
+[2025-10-29T04:06:01.096+0700] {subprocess.py:93} INFO - 	confs: [default]
+[2025-10-29T04:06:01.234+0700] {subprocess.py:93} INFO - 	found org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1 in central
+[2025-10-29T04:06:01.271+0700] {subprocess.py:93} INFO - 	found org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1 in central
+[2025-10-29T04:06:01.672+0700] {subprocess.py:93} INFO - 	found org.apache.kafka#kafka-clients;3.4.1 in central
+[2025-10-29T04:06:01.689+0700] {subprocess.py:93} INFO - 	found org.lz4#lz4-java;1.8.0 in central
+[2025-10-29T04:06:01.843+0700] {subprocess.py:93} INFO - 	found org.xerial.snappy#snappy-java;1.1.10.3 in central
+[2025-10-29T04:06:02.973+0700] {subprocess.py:93} INFO - 	found org.slf4j#slf4j-api;2.0.7 in central
+[2025-10-29T04:06:04.968+0700] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-client-runtime;3.3.4 in central
+[2025-10-29T04:06:05.173+0700] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-client-api;3.3.4 in central
+[2025-10-29T04:06:06.143+0700] {subprocess.py:93} INFO - 	found commons-logging#commons-logging;1.1.3 in central
+[2025-10-29T04:06:06.281+0700] {subprocess.py:93} INFO - 	found com.google.code.findbugs#jsr305;3.0.0 in central
+[2025-10-29T04:06:08.260+0700] {subprocess.py:93} INFO - 	found org.apache.commons#commons-pool2;2.11.1 in central
+[2025-10-29T04:06:08.385+0700] {subprocess.py:93} INFO - 	found org.postgresql#postgresql;42.6.0 in central
+[2025-10-29T04:06:08.593+0700] {subprocess.py:93} INFO - 	found org.checkerframework#checker-qual;3.31.0 in central
+[2025-10-29T04:06:08.753+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.5.1/spark-sql-kafka-0-10_2.12-3.5.1.jar ...
+[2025-10-29T04:06:08.959+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1!spark-sql-kafka-0-10_2.12.jar (347ms)
+[2025-10-29T04:06:09.020+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/postgresql/postgresql/42.6.0/postgresql-42.6.0.jar ...
+[2025-10-29T04:06:09.139+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.postgresql#postgresql;42.6.0!postgresql.jar (179ms)
+[2025-10-29T04:06:09.204+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/apache/spark/spark-token-provider-kafka-0-10_2.12/3.5.1/spark-token-provider-kafka-0-10_2.12-3.5.1.jar ...
+[2025-10-29T04:06:09.262+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1!spark-token-provider-kafka-0-10_2.12.jar (122ms)
+[2025-10-29T04:06:09.320+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.4.1/kafka-clients-3.4.1.jar ...
+[2025-10-29T04:06:09.704+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.apache.kafka#kafka-clients;3.4.1!kafka-clients.jar (441ms)
+[2025-10-29T04:06:09.770+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0.jar ...
+[2025-10-29T04:06:09.827+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] com.google.code.findbugs#jsr305;3.0.0!jsr305.jar (121ms)
+[2025-10-29T04:06:09.887+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.11.1/commons-pool2-2.11.1.jar ...
+[2025-10-29T04:06:09.945+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.apache.commons#commons-pool2;2.11.1!commons-pool2.jar (118ms)
+[2025-10-29T04:06:10.007+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-runtime/3.3.4/hadoop-client-runtime-3.3.4.jar ...
+[2025-10-29T04:06:12.077+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/lz4/lz4-java/1.8.0/lz4-java-1.8.0.jar ...
+[2025-10-29T04:06:12.152+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.lz4#lz4-java;1.8.0!lz4-java.jar (133ms)
+[2025-10-29T04:06:12.212+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.10.3/snappy-java-1.1.10.3.jar ...
+[2025-10-29T04:06:12.327+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.xerial.snappy#snappy-java;1.1.10.3!snappy-java.jar(bundle) (175ms)
+[2025-10-29T04:06:12.399+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/slf4j/slf4j-api/2.0.7/slf4j-api-2.0.7.jar ...
+[2025-10-29T04:06:12.454+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.slf4j#slf4j-api;2.0.7!slf4j-api.jar (127ms)
+[2025-10-29T04:06:12.512+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-api/3.3.4/hadoop-client-api-3.3.4.jar ...
+[2025-10-29T04:06:13.584+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar ...
+[2025-10-29T04:06:13.644+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] commons-logging#commons-logging;1.1.3!commons-logging.jar (119ms)
+[2025-10-29T04:06:13.705+0700] {subprocess.py:93} INFO - downloading https://repo1.maven.org/maven2/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar ...
+[2025-10-29T04:06:13.764+0700] {subprocess.py:93} INFO - 	[SUCCESSFUL ] org.checkerframework#checker-qual;3.31.0!checker-qual.jar (120ms)
+[2025-10-29T04:06:13.765+0700] {subprocess.py:93} INFO - :: resolution report :: resolve 7516ms :: artifacts dl 5154ms
+[2025-10-29T04:06:13.765+0700] {subprocess.py:93} INFO - 	:: modules in use:
+[2025-10-29T04:06:13.765+0700] {subprocess.py:93} INFO - 	com.google.code.findbugs#jsr305;3.0.0 from central in [default]
+[2025-10-29T04:06:13.766+0700] {subprocess.py:93} INFO - 	commons-logging#commons-logging;1.1.3 from central in [default]
+[2025-10-29T04:06:13.766+0700] {subprocess.py:93} INFO - 	org.apache.commons#commons-pool2;2.11.1 from central in [default]
+[2025-10-29T04:06:13.766+0700] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-client-api;3.3.4 from central in [default]
+[2025-10-29T04:06:13.766+0700] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-client-runtime;3.3.4 from central in [default]
+[2025-10-29T04:06:13.766+0700] {subprocess.py:93} INFO - 	org.apache.kafka#kafka-clients;3.4.1 from central in [default]
+[2025-10-29T04:06:13.767+0700] {subprocess.py:93} INFO - 	org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1 from central in [default]
+[2025-10-29T04:06:13.767+0700] {subprocess.py:93} INFO - 	org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1 from central in [default]
+[2025-10-29T04:06:13.767+0700] {subprocess.py:93} INFO - 	org.checkerframework#checker-qual;3.31.0 from central in [default]
+[2025-10-29T04:06:13.767+0700] {subprocess.py:93} INFO - 	org.lz4#lz4-java;1.8.0 from central in [default]
+[2025-10-29T04:06:13.767+0700] {subprocess.py:93} INFO - 	org.postgresql#postgresql;42.6.0 from central in [default]
+[2025-10-29T04:06:13.768+0700] {subprocess.py:93} INFO - 	org.slf4j#slf4j-api;2.0.7 from central in [default]
+[2025-10-29T04:06:13.768+0700] {subprocess.py:93} INFO - 	org.xerial.snappy#snappy-java;1.1.10.3 from central in [default]
+[2025-10-29T04:06:13.768+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-29T04:06:13.768+0700] {subprocess.py:93} INFO - 	|                  |            modules            ||   artifacts   |
+[2025-10-29T04:06:13.768+0700] {subprocess.py:93} INFO - 	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+[2025-10-29T04:06:13.768+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-29T04:06:13.769+0700] {subprocess.py:93} INFO - 	|      default     |   13  |   10  |   9   |   0   ||   13  |   11  |
+[2025-10-29T04:06:13.769+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-29T04:06:13.769+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.769+0700] {subprocess.py:93} INFO - :: problems summary ::
+[2025-10-29T04:06:13.769+0700] {subprocess.py:93} INFO - :::: WARNINGS
+[2025-10-29T04:06:13.770+0700] {subprocess.py:93} INFO - 		[FAILED     ] org.apache.hadoop#hadoop-client-runtime;3.3.4!hadoop-client-runtime.jar: Downloaded file size (0) doesn't match expected Content Length (30085504) for https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-runtime/3.3.4/hadoop-client-runtime-3.3.4.jar. Please retry. (2072ms)
+[2025-10-29T04:06:13.770+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.770+0700] {subprocess.py:93} INFO - 		[FAILED     ] org.apache.hadoop#hadoop-client-runtime;3.3.4!hadoop-client-runtime.jar: Downloaded file size (0) doesn't match expected Content Length (30085504) for https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-runtime/3.3.4/hadoop-client-runtime-3.3.4.jar. Please retry. (2072ms)
+[2025-10-29T04:06:13.770+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.770+0700] {subprocess.py:93} INFO - 	==== central: tried
+[2025-10-29T04:06:13.771+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.771+0700] {subprocess.py:93} INFO - 	  https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-runtime/3.3.4/hadoop-client-runtime-3.3.4.jar
+[2025-10-29T04:06:13.771+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.771+0700] {subprocess.py:93} INFO - 		[FAILED     ] org.apache.hadoop#hadoop-client-api;3.3.4!hadoop-client-api.jar: Downloaded file size (0) doesn't match expected Content Length (19458635) for https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-api/3.3.4/hadoop-client-api-3.3.4.jar. Please retry. (1070ms)
+[2025-10-29T04:06:13.771+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.772+0700] {subprocess.py:93} INFO - 		[FAILED     ] org.apache.hadoop#hadoop-client-api;3.3.4!hadoop-client-api.jar: Downloaded file size (0) doesn't match expected Content Length (19458635) for https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-api/3.3.4/hadoop-client-api-3.3.4.jar. Please retry. (1070ms)
+[2025-10-29T04:06:13.772+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.772+0700] {subprocess.py:93} INFO - 	==== central: tried
+[2025-10-29T04:06:13.772+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.772+0700] {subprocess.py:93} INFO - 	  https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-api/3.3.4/hadoop-client-api-3.3.4.jar
+[2025-10-29T04:06:13.773+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.773+0700] {subprocess.py:93} INFO - 		::::::::::::::::::::::::::::::::::::::::::::::
+[2025-10-29T04:06:13.773+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.773+0700] {subprocess.py:93} INFO - 		::              FAILED DOWNLOADS            ::
+[2025-10-29T04:06:13.773+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.773+0700] {subprocess.py:93} INFO - 		:: ^ see resolution messages for details  ^ ::
+[2025-10-29T04:06:13.774+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.774+0700] {subprocess.py:93} INFO - 		::::::::::::::::::::::::::::::::::::::::::::::
+[2025-10-29T04:06:13.774+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.774+0700] {subprocess.py:93} INFO - 		:: org.apache.hadoop#hadoop-client-runtime;3.3.4!hadoop-client-runtime.jar
+[2025-10-29T04:06:13.774+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.775+0700] {subprocess.py:93} INFO - 		:: org.apache.hadoop#hadoop-client-api;3.3.4!hadoop-client-api.jar
+[2025-10-29T04:06:13.775+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.775+0700] {subprocess.py:93} INFO - 		::::::::::::::::::::::::::::::::::::::::::::::
+[2025-10-29T04:06:13.775+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.775+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.776+0700] {subprocess.py:93} INFO - 
+[2025-10-29T04:06:13.776+0700] {subprocess.py:93} INFO - :: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS
+[2025-10-29T04:06:13.776+0700] {subprocess.py:93} INFO - Exception in thread "main" java.lang.RuntimeException: [download failed: org.apache.hadoop#hadoop-client-runtime;3.3.4!hadoop-client-runtime.jar, download failed: org.apache.hadoop#hadoop-client-api;3.3.4!hadoop-client-api.jar]
+[2025-10-29T04:06:13.776+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmitUtils$.resolveMavenCoordinates(SparkSubmit.scala:1608)
+[2025-10-29T04:06:13.776+0700] {subprocess.py:93} INFO - 	at org.apache.spark.util.DependencyUtils$.resolveMavenDependencies(DependencyUtils.scala:185)
+[2025-10-29T04:06:13.777+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmit.prepareSubmitEnvironment(SparkSubmit.scala:334)
+[2025-10-29T04:06:13.777+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmit.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:964)
+[2025-10-29T04:06:13.777+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmit.doRunMain$1(SparkSubmit.scala:194)
+[2025-10-29T04:06:13.777+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmit.submit(SparkSubmit.scala:217)
+[2025-10-29T04:06:13.777+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:91)
+[2025-10-29T04:06:13.778+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:1120)
+[2025-10-29T04:06:13.778+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:1129)
+[2025-10-29T04:06:13.778+0700] {subprocess.py:93} INFO - 	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+[2025-10-29T04:06:13.798+0700] {subprocess.py:97} INFO - Command exited with return code 1
+[2025-10-29T04:06:13.799+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-29T04:06:13.809+0700] {taskinstance.py:2890} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 460, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 243, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2025-10-29T04:06:13.814+0700] {taskinstance.py:1205} INFO - Marking task as UP_FOR_RETRY. dag_id=absa_streaming_lifecycle_demo1, task_id=deploy_consumer, execution_date=20251028T210557, start_date=20251028T210559, end_date=20251028T210613
+[2025-10-29T04:06:13.827+0700] {standard_task_runner.py:110} ERROR - Failed to execute job 5 for task deploy_consumer (Bash command failed. The command returned a non-zero exit code 1.; 311)
+[2025-10-29T04:06:13.877+0700] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2025-10-29T04:06:13.893+0700] {taskinstance.py:3482} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-10-29T04:06:13.893+0700] {local_task_job_runner.py:222} INFO - ::endgroup::

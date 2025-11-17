@@ -1,0 +1,91 @@
+Dọn sạch nếu cần
+docker stop $(docker ps -aq) 2>/dev/null || true
+docker rm -f $(docker ps -aq) 2>/dev/null || true
+docker rmi -f $(docker images -aq) 2>/dev/null || true
+docker volume rm -f $(docker volume ls -q) 2>/dev/null || true
+docker network rm $(docker network ls -q) 2>/dev/null || true
+docker builder prune -a -f
+docker system prune -a --volumes -f
+
+
+sudo chown -R 50000:0 /media/thsondev/SSD/Code/appbigdata/airflow
+sudo chmod -R 775 /media/thsondev/SSD/Code/appbigdata/airflow
+
+
+Install cuda for docker
+docker run --rm --gpus all nvidia/cuda:12.1.1-base-ubuntu22.04 nvidia-smi
+
+1. Set DockerFile, docker-compose.yaml, .env (	AIRFLOW_GID=0
+_AIRFLOW_WWW_USER_USERNAME=admin
+_AIRFLOW_WWW_USER_PASSWORD=admin)
+
+2. docker compose build --no-cache
+
+3. docker compose up airflow-init -d
+
+4. docker compose up -d
+
+Step 5: if PermissionError: [Errno 13] Permission denied: '/home/airflow/.cache/huggingface'
+5. docker exec -it --user root airflow-airflow-scheduler-1 bash
+
+	mkdir -p /home/airflow/.cache/huggingface
+	
+	chown -R airflow:root  /home/airflow/.cache
+	
+	chmod -R 777 /home/airflow/.cache
+	
+	exit
+
+6. docker exec -it airflow-airflow-scheduler-1 python /opt/airflow/projects/absa_streaming/scripts/checkGPU.py
+
+docker exec -it airflow-airflow-scheduler-1 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.postgresql:postgresql:42.6.0 /opt/airflow/projects/absa_streaming/scripts/consumer_postgres_streaming.py
+
+docker exec -it airflow-airflow-scheduler-1 python /opt/airflow/projects/absa_streaming/scripts/producer.py
+
+
+7. docker exec -it airflow-postgres-1 psql -U airflow -d airflow
+SELECT * FROM absa_results LIMIT 10;
+\q
+
+
+
+
+docker exec -it airflow-airflow-scheduler-1 bash -c "airflow dags delete absa_streaming_lifecycle_demo11 --yes"
+
+
+TRUNCATE TABLE absa_results;
+
+TRUNCATE TABLE retrain_results;
+TRUNCATE retrain_results RESTART IDENTITY;
+
+swapon --show
+free -h
+sudo swapoff -a
+sudo swapon -a
+sudo swapon /swapfile2
+
+
+docker exec -it airflow-airflow-scheduler-1 bash
+
+docker compose build
+docker compose down -v
+docker compose up airflow-init -d
+docker compose up -d
+
+
+
+
+
+curl -s -X POST "https://models.github.ai/inference/chat/completions" \
+  -H "Authorization: Bearer $GITHUB_MODELS_PAT" \
+  -H "Accept: application/vnd.github+json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "meta/meta-llama-3.1-8b-instruct",
+    "messages": [
+      {"role": "system", "content": "You are a friendly AI assistant."},
+      {"role": "user", "content": "Hello! Say hi from GitHub Models on Ubuntu."}
+    ],
+    "max_tokens": 256
+  }' | jq -r '.choices[0].message.content'
+

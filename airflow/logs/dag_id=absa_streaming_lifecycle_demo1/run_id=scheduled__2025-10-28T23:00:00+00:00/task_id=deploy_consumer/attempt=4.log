@@ -1,0 +1,835 @@
+[2025-10-29T07:13:17.463+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-29T07:13:17.474+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo1.deploy_consumer scheduled__2025-10-28T23:00:00+00:00 [queued]>
+[2025-10-29T07:13:17.478+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo1.deploy_consumer scheduled__2025-10-28T23:00:00+00:00 [queued]>
+[2025-10-29T07:13:17.478+0700] {taskinstance.py:2303} INFO - Starting attempt 4 of 6
+[2025-10-29T07:13:17.485+0700] {taskinstance.py:2327} INFO - Executing <Task(BashOperator): deploy_consumer> on 2025-10-28 23:00:00+00:00
+[2025-10-29T07:13:17.491+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=19281) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-29T07:13:17.492+0700] {standard_task_runner.py:63} INFO - Started process 19290 to run task
+[2025-10-29T07:13:17.492+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo1', 'deploy_consumer', 'scheduled__2025-10-28T23:00:00+00:00', '--job-id', '26', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmp9qjgd_7u']
+[2025-10-29T07:13:17.494+0700] {standard_task_runner.py:91} INFO - Job 26: Subtask deploy_consumer
+[2025-10-29T07:13:17.517+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo1.deploy_consumer scheduled__2025-10-28T23:00:00+00:00 [running]> on host 6f0586100d56
+[2025-10-29T07:13:17.561+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo1' AIRFLOW_CTX_TASK_ID='deploy_consumer' AIRFLOW_CTX_EXECUTION_DATE='2025-10-28T23:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='4' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-28T23:00:00+00:00'
+[2025-10-29T07:13:17.562+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-29T07:13:17.563+0700] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-10-29T07:13:17.563+0700] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash -c "timeout 45m /opt/***/projects/absa_streaming/scripts/run_consumer.sh"']
+[2025-10-29T07:13:17.574+0700] {subprocess.py:86} INFO - Output:
+[2025-10-29T07:13:17.578+0700] {subprocess.py:93} INFO - [Consumer] Starting Spark Structured Streaming job...
+[2025-10-29T07:13:17.609+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2025-10-29T07:13:18.454+0700] {subprocess.py:93} INFO - :: loading settings :: url = jar:file:/home/***/.local/lib/python3.12/site-packages/pyspark/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+[2025-10-29T07:13:18.502+0700] {subprocess.py:93} INFO - Ivy Default Cache set to: /home/***/.ivy2/cache
+[2025-10-29T07:13:18.502+0700] {subprocess.py:93} INFO - The jars for the packages stored in: /home/***/.ivy2/jars
+[2025-10-29T07:13:18.505+0700] {subprocess.py:93} INFO - org.apache.spark#spark-sql-kafka-0-10_2.12 added as a dependency
+[2025-10-29T07:13:18.505+0700] {subprocess.py:93} INFO - org.postgresql#postgresql added as a dependency
+[2025-10-29T07:13:18.506+0700] {subprocess.py:93} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-595437b2-967b-43ea-9c09-0c2b89addbc9;1.0
+[2025-10-29T07:13:18.506+0700] {subprocess.py:93} INFO - 	confs: [default]
+[2025-10-29T07:13:18.606+0700] {subprocess.py:93} INFO - 	found org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1 in central
+[2025-10-29T07:13:18.641+0700] {subprocess.py:93} INFO - 	found org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1 in central
+[2025-10-29T07:13:18.657+0700] {subprocess.py:93} INFO - 	found org.apache.kafka#kafka-clients;3.4.1 in central
+[2025-10-29T07:13:18.672+0700] {subprocess.py:93} INFO - 	found org.lz4#lz4-java;1.8.0 in central
+[2025-10-29T07:13:18.685+0700] {subprocess.py:93} INFO - 	found org.xerial.snappy#snappy-java;1.1.10.3 in central
+[2025-10-29T07:13:18.698+0700] {subprocess.py:93} INFO - 	found org.slf4j#slf4j-api;2.0.7 in central
+[2025-10-29T07:13:18.715+0700] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-client-runtime;3.3.4 in central
+[2025-10-29T07:13:18.736+0700] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-client-api;3.3.4 in central
+[2025-10-29T07:13:18.755+0700] {subprocess.py:93} INFO - 	found commons-logging#commons-logging;1.1.3 in central
+[2025-10-29T07:13:18.768+0700] {subprocess.py:93} INFO - 	found com.google.code.findbugs#jsr305;3.0.0 in central
+[2025-10-29T07:13:18.780+0700] {subprocess.py:93} INFO - 	found org.apache.commons#commons-pool2;2.11.1 in central
+[2025-10-29T07:13:18.788+0700] {subprocess.py:93} INFO - 	found org.postgresql#postgresql;42.6.0 in central
+[2025-10-29T07:13:18.795+0700] {subprocess.py:93} INFO - 	found org.checkerframework#checker-qual;3.31.0 in central
+[2025-10-29T07:13:18.811+0700] {subprocess.py:93} INFO - :: resolution report :: resolve 296ms :: artifacts dl 9ms
+[2025-10-29T07:13:18.811+0700] {subprocess.py:93} INFO - 	:: modules in use:
+[2025-10-29T07:13:18.811+0700] {subprocess.py:93} INFO - 	com.google.code.findbugs#jsr305;3.0.0 from central in [default]
+[2025-10-29T07:13:18.812+0700] {subprocess.py:93} INFO - 	commons-logging#commons-logging;1.1.3 from central in [default]
+[2025-10-29T07:13:18.812+0700] {subprocess.py:93} INFO - 	org.apache.commons#commons-pool2;2.11.1 from central in [default]
+[2025-10-29T07:13:18.812+0700] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-client-api;3.3.4 from central in [default]
+[2025-10-29T07:13:18.812+0700] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-client-runtime;3.3.4 from central in [default]
+[2025-10-29T07:13:18.813+0700] {subprocess.py:93} INFO - 	org.apache.kafka#kafka-clients;3.4.1 from central in [default]
+[2025-10-29T07:13:18.813+0700] {subprocess.py:93} INFO - 	org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1 from central in [default]
+[2025-10-29T07:13:18.813+0700] {subprocess.py:93} INFO - 	org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1 from central in [default]
+[2025-10-29T07:13:18.813+0700] {subprocess.py:93} INFO - 	org.checkerframework#checker-qual;3.31.0 from central in [default]
+[2025-10-29T07:13:18.814+0700] {subprocess.py:93} INFO - 	org.lz4#lz4-java;1.8.0 from central in [default]
+[2025-10-29T07:13:18.814+0700] {subprocess.py:93} INFO - 	org.postgresql#postgresql;42.6.0 from central in [default]
+[2025-10-29T07:13:18.814+0700] {subprocess.py:93} INFO - 	org.slf4j#slf4j-api;2.0.7 from central in [default]
+[2025-10-29T07:13:18.814+0700] {subprocess.py:93} INFO - 	org.xerial.snappy#snappy-java;1.1.10.3 from central in [default]
+[2025-10-29T07:13:18.814+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-29T07:13:18.815+0700] {subprocess.py:93} INFO - 	|                  |            modules            ||   artifacts   |
+[2025-10-29T07:13:18.815+0700] {subprocess.py:93} INFO - 	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+[2025-10-29T07:13:18.815+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-29T07:13:18.815+0700] {subprocess.py:93} INFO - 	|      default     |   13  |   0   |   0   |   0   ||   13  |   0   |
+[2025-10-29T07:13:18.816+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-29T07:13:18.816+0700] {subprocess.py:93} INFO - :: retrieving :: org.apache.spark#spark-submit-parent-595437b2-967b-43ea-9c09-0c2b89addbc9
+[2025-10-29T07:13:18.816+0700] {subprocess.py:93} INFO - 	confs: [default]
+[2025-10-29T07:13:18.821+0700] {subprocess.py:93} INFO - 	0 artifacts copied, 13 already retrieved (0kB/6ms)
+[2025-10-29T07:13:18.954+0700] {subprocess.py:93} INFO - 25/10/29 07:13:18 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2025-10-29T07:13:22.090+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Running Spark version 3.5.1
+[2025-10-29T07:13:22.091+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: OS info Linux, 6.14.0-33-generic, amd64
+[2025-10-29T07:13:22.091+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Java version 17.0.17
+[2025-10-29T07:13:22.104+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO ResourceUtils: ==============================================================
+[2025-10-29T07:13:22.104+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO ResourceUtils: No custom resources configured for spark.driver.
+[2025-10-29T07:13:22.105+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO ResourceUtils: ==============================================================
+[2025-10-29T07:13:22.105+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Submitted application: Kafka_ABSA_Postgres
+[2025-10-29T07:13:22.117+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+[2025-10-29T07:13:22.121+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO ResourceProfile: Limiting resource is cpu
+[2025-10-29T07:13:22.122+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO ResourceProfileManager: Added ResourceProfile id: 0
+[2025-10-29T07:13:22.149+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SecurityManager: Changing view acls to: default
+[2025-10-29T07:13:22.149+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SecurityManager: Changing modify acls to: default
+[2025-10-29T07:13:22.149+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SecurityManager: Changing view acls groups to:
+[2025-10-29T07:13:22.149+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SecurityManager: Changing modify acls groups to:
+[2025-10-29T07:13:22.149+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: default; groups with view permissions: EMPTY; users with modify permissions: default; groups with modify permissions: EMPTY
+[2025-10-29T07:13:22.267+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Successfully started service 'sparkDriver' on port 39415.
+[2025-10-29T07:13:22.284+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkEnv: Registering MapOutputTracker
+[2025-10-29T07:13:22.306+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkEnv: Registering BlockManagerMaster
+[2025-10-29T07:13:22.316+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+[2025-10-29T07:13:22.316+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+[2025-10-29T07:13:22.318+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+[2025-10-29T07:13:22.331+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-7c8d636d-1043-48c9-90a6-83a74b3e3409
+[2025-10-29T07:13:22.340+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+[2025-10-29T07:13:22.350+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkEnv: Registering OutputCommitCoordinator
+[2025-10-29T07:13:22.422+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+[2025-10-29T07:13:22.454+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+[2025-10-29T07:13:22.476+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar at spark://6f0586100d56:39415/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.477+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar at spark://6f0586100d56:39415/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.477+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar at spark://6f0586100d56:39415/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.477+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar at spark://6f0586100d56:39415/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.477+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at spark://6f0586100d56:39415/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.477+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at spark://6f0586100d56:39415/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.478+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar at spark://6f0586100d56:39415/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.478+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at spark://6f0586100d56:39415/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.478+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar at spark://6f0586100d56:39415/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.478+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar at spark://6f0586100d56:39415/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.478+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar at spark://6f0586100d56:39415/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.478+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at spark://6f0586100d56:39415/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.478+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar at spark://6f0586100d56:39415/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.479+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar at file:///home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.480+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar
+[2025-10-29T07:13:22.486+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar at file:///home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.487+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.postgresql_postgresql-42.6.0.jar
+[2025-10-29T07:13:22.490+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar at file:///home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.490+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar
+[2025-10-29T07:13:22.492+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar at file:///home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.493+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.kafka_kafka-clients-3.4.1.jar
+[2025-10-29T07:13:22.497+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at file:///home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.497+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/com.google.code.findbugs_jsr305-3.0.0.jar
+[2025-10-29T07:13:22.500+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at file:///home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.500+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.commons_commons-pool2-2.11.1.jar
+[2025-10-29T07:13:22.503+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar at file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.503+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar
+[2025-10-29T07:13:22.517+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at file:///home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.518+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.lz4_lz4-java-1.8.0.jar
+[2025-10-29T07:13:22.520+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar at file:///home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.521+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.xerial.snappy_snappy-java-1.1.10.3.jar
+[2025-10-29T07:13:22.524+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar at file:///home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.524+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.slf4j_slf4j-api-2.0.7.jar
+[2025-10-29T07:13:22.527+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar at file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.527+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.hadoop_hadoop-client-api-3.3.4.jar
+[2025-10-29T07:13:22.538+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at file:///home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.538+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/commons-logging_commons-logging-1.1.3.jar
+[2025-10-29T07:13:22.540+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar at file:///home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.540+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Copying /home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.checkerframework_checker-qual-3.31.0.jar
+[2025-10-29T07:13:22.574+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Starting executor ID driver on host 6f0586100d56
+[2025-10-29T07:13:22.574+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: OS info Linux, 6.14.0-33-generic, amd64
+[2025-10-29T07:13:22.574+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Java version 17.0.17
+[2025-10-29T07:13:22.577+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+[2025-10-29T07:13:22.578+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@4d9914b for default.
+[2025-10-29T07:13:22.584+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.598+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar
+[2025-10-29T07:13:22.600+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.618+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar
+[2025-10-29T07:13:22.620+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.630+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.hadoop_hadoop-client-api-3.3.4.jar
+[2025-10-29T07:13:22.633+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.633+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar
+[2025-10-29T07:13:22.635+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.635+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/com.google.code.findbugs_jsr305-3.0.0.jar
+[2025-10-29T07:13:22.638+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.638+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.lz4_lz4-java-1.8.0.jar
+[2025-10-29T07:13:22.640+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.640+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.slf4j_slf4j-api-2.0.7.jar
+[2025-10-29T07:13:22.643+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.643+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.checkerframework_checker-qual-3.31.0.jar
+[2025-10-29T07:13:22.645+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.645+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.commons_commons-pool2-2.11.1.jar
+[2025-10-29T07:13:22.647+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.647+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/commons-logging_commons-logging-1.1.3.jar
+[2025-10-29T07:13:22.649+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.650+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.xerial.snappy_snappy-java-1.1.10.3.jar
+[2025-10-29T07:13:22.652+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.653+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.postgresql_postgresql-42.6.0.jar
+[2025-10-29T07:13:22.655+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.658+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.kafka_kafka-clients-3.4.1.jar
+[2025-10-29T07:13:22.661+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.678+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO TransportClientFactory: Successfully created connection to 6f0586100d56/172.18.0.9:39415 after 12 ms (0 ms spent in bootstraps)
+[2025-10-29T07:13:22.684+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.slf4j_slf4j-api-2.0.7.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp3253900114708425958.tmp
+[2025-10-29T07:13:22.694+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp3253900114708425958.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.slf4j_slf4j-api-2.0.7.jar
+[2025-10-29T07:13:22.697+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.slf4j_slf4j-api-2.0.7.jar to class loader default
+[2025-10-29T07:13:22.697+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.698+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp13009266265378212185.tmp
+[2025-10-29T07:13:22.699+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp13009266265378212185.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar
+[2025-10-29T07:13:22.701+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar to class loader default
+[2025-10-29T07:13:22.701+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.701+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/com.google.code.findbugs_jsr305-3.0.0.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp14122525226605793214.tmp
+[2025-10-29T07:13:22.702+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp14122525226605793214.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/com.google.code.findbugs_jsr305-3.0.0.jar
+[2025-10-29T07:13:22.704+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/com.google.code.findbugs_jsr305-3.0.0.jar to class loader default
+[2025-10-29T07:13:22.704+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.704+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp10338990233822250217.tmp
+[2025-10-29T07:13:22.706+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp10338990233822250217.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar
+[2025-10-29T07:13:22.708+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar to class loader default
+[2025-10-29T07:13:22.708+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.709+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.postgresql_postgresql-42.6.0.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp7006494418649011816.tmp
+[2025-10-29T07:13:22.711+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp7006494418649011816.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.postgresql_postgresql-42.6.0.jar
+[2025-10-29T07:13:22.715+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.postgresql_postgresql-42.6.0.jar to class loader default
+[2025-10-29T07:13:22.715+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.715+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp5872913307655092326.tmp
+[2025-10-29T07:13:22.840+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp5872913307655092326.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.hadoop_hadoop-client-api-3.3.4.jar
+[2025-10-29T07:13:22.844+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.hadoop_hadoop-client-api-3.3.4.jar to class loader default
+[2025-10-29T07:13:22.844+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.844+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.lz4_lz4-java-1.8.0.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp15185589681022080919.tmp
+[2025-10-29T07:13:22.846+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp15185589681022080919.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.lz4_lz4-java-1.8.0.jar
+[2025-10-29T07:13:22.849+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.lz4_lz4-java-1.8.0.jar to class loader default
+[2025-10-29T07:13:22.849+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.850+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.apache.kafka_kafka-clients-3.4.1.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp17859633523602466078.tmp
+[2025-10-29T07:13:22.857+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp17859633523602466078.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.kafka_kafka-clients-3.4.1.jar
+[2025-10-29T07:13:22.867+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.kafka_kafka-clients-3.4.1.jar to class loader default
+[2025-10-29T07:13:22.867+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.868+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp12966711405288368210.tmp
+[2025-10-29T07:13:22.945+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp12966711405288368210.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar
+[2025-10-29T07:13:22.966+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar to class loader default
+[2025-10-29T07:13:22.966+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.967+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/commons-logging_commons-logging-1.1.3.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp13470705128645633466.tmp
+[2025-10-29T07:13:22.968+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp13470705128645633466.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/commons-logging_commons-logging-1.1.3.jar
+[2025-10-29T07:13:22.971+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/commons-logging_commons-logging-1.1.3.jar to class loader default
+[2025-10-29T07:13:22.971+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.971+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.apache.commons_commons-pool2-2.11.1.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp8925273949345761518.tmp
+[2025-10-29T07:13:22.972+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp8925273949345761518.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.commons_commons-pool2-2.11.1.jar
+[2025-10-29T07:13:22.975+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.apache.commons_commons-pool2-2.11.1.jar to class loader default
+[2025-10-29T07:13:22.976+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.976+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.checkerframework_checker-qual-3.31.0.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp11049403552509848913.tmp
+[2025-10-29T07:13:22.976+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp11049403552509848913.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.checkerframework_checker-qual-3.31.0.jar
+[2025-10-29T07:13:22.979+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.checkerframework_checker-qual-3.31.0.jar to class loader default
+[2025-10-29T07:13:22.979+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Fetching spark://6f0586100d56:39415/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar with timestamp 1761696802086
+[2025-10-29T07:13:22.979+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Fetching spark://6f0586100d56:39415/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp12522672488398829860.tmp
+[2025-10-29T07:13:22.982+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/fetchFileTemp12522672488398829860.tmp has been previously copied to /tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.xerial.snappy_snappy-java-1.1.10.3.jar
+[2025-10-29T07:13:22.987+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Executor: Adding file:/tmp/spark-f475bb85-0786-4074-9dc9-29ed8da7cf42/userFiles-68882927-f483-44b6-9f3b-eae2218df235/org.xerial.snappy_snappy-java-1.1.10.3.jar to class loader default
+[2025-10-29T07:13:22.992+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 46051.
+[2025-10-29T07:13:22.992+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO NettyBlockTransferService: Server created on 6f0586100d56:46051
+[2025-10-29T07:13:22.993+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+[2025-10-29T07:13:22.996+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 6f0586100d56, 46051, None)
+[2025-10-29T07:13:22.997+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO BlockManagerMasterEndpoint: Registering block manager 6f0586100d56:46051 with 434.4 MiB RAM, BlockManagerId(driver, 6f0586100d56, 46051, None)
+[2025-10-29T07:13:22.998+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 6f0586100d56, 46051, None)
+[2025-10-29T07:13:22.999+0700] {subprocess.py:93} INFO - 25/10/29 07:13:22 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 6f0586100d56, 46051, None)
+[2025-10-29T07:13:24.714+0700] {subprocess.py:93} INFO - 25/10/29 07:13:24 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+[2025-10-29T07:13:24.798+0700] {subprocess.py:93} INFO - 🚀 Streaming job started — đang lắng nghe dữ liệu từ Kafka...
+[2025-10-29T07:13:24.876+0700] {subprocess.py:93} INFO - 25/10/29 07:13:24 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+[2025-10-29T07:13:26.001+0700] {subprocess.py:93} INFO - [Batch 0] ⚠️ Không có dữ liệu mới.
+[2025-10-29T07:13:27.203+0700] {subprocess.py:93} INFO - 25/10/29 07:13:27 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:36.569+0700] {subprocess.py:93} INFO - 25/10/29 07:13:36 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:42.196+0700] {subprocess.py:93} INFO - 
+[2025-10-29T07:13:42.196+0700] {subprocess.py:93} INFO - [Batch 1] Nhận 1 dòng, hiển thị 5 dòng đầu:
+[2025-10-29T07:13:42.196+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:13:42.196+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:13:42.196+0700] {subprocess.py:93} INFO -     "ReviewText": "chúc em một đời an nhiên. có chồng tử tế, có con ngoan hiền. chúc em kiếm thật nhiều tiền. sóng êm biển lặng, cả đời ấm no",
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:13:42.197+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:13:42.388+0700] {subprocess.py:93} INFO - 25/10/29 07:13:42 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:48.219+0700] {subprocess.py:93} INFO - [Batch 1] ✅ Ghi PostgreSQL thành công (1 dòng).
+[2025-10-29T07:13:48.259+0700] {subprocess.py:93} INFO - 25/10/29 07:13:48 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.134+0700] {subprocess.py:93} INFO - [Batch 1] Dữ liệu đã ghi (mẫu):
+[2025-10-29T07:13:54.135+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:13:54.135+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:13:54.135+0700] {subprocess.py:93} INFO -     "ReviewText": "chúc em một đời an nhiên. có chồng tử tế, có con ngoan hiền. chúc em kiếm thật nhiều tiền. sóng êm biển lặng, cả đời ấm no",
+[2025-10-29T07:13:54.135+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:13:54.135+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:13:54.135+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:13:54.135+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:13:54.135+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:13:54.136+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:13:54.136+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:13:54.136+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:13:54.136+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:13:54.136+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:13:54.159+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN ProcessingTimeExecutor: Current batch is falling behind. The trigger interval is 5000 milliseconds, but spent 28119 milliseconds
+[2025-10-29T07:13:54.257+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.260+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.261+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.770+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.771+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.772+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.773+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.774+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.774+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:13:54.775+0700] {subprocess.py:93} INFO - 25/10/29 07:13:54 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.071+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.072+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.072+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.072+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.072+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.072+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.073+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.073+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.073+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:00.073+0700] {subprocess.py:93} INFO - 25/10/29 07:14:00 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.262+0700] {subprocess.py:93} INFO - 
+[2025-10-29T07:14:06.262+0700] {subprocess.py:93} INFO - [Batch 2] Nhận 10 dòng, hiển thị 5 dòng đầu:
+[2025-10-29T07:14:06.262+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "ReviewText": "Các bạn nên mua nha vì giá cả rất phải chăng, vừa túi tiền mà lại xinh, phối đồ cũng rất là dễ lun ấy....mình rất ưng 🤭🤭🤭🤭",
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "Quality": "NEU",
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:06.263+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp nhoa mn tuy hết màu nhưng shop có hỏi mình rồi mới đổi màu khác",
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:06.264+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "ReviewText": "Đồ rẻ tiền k cx đòi hỏi nhiều mua tạm chơi tết chống cháy :v",
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "Quality": "NEU",
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:06.265+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "ReviewText": "Em nó xinh lắm mn giâ cả phỉ chăng nói chung cũng ổn",
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "Quality": "POS",
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "Size": "NEU",
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:06.266+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "ReviewText": "Giầy xinh xỉu shop đóng gói rất cẩn thận giầy ko bị bóp méo mn nên ủng hộ shop nha",
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "Quality": "POS",
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "Size": "NEU",
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "General": "POS",
+[2025-10-29T07:14:06.267+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:06.268+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:14:06.268+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:14:06.324+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.324+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.324+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.324+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.324+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.325+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.325+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.325+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.325+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:06.325+0700] {subprocess.py:93} INFO - 25/10/29 07:14:06 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.160+0700] {subprocess.py:93} INFO - [Batch 2] ✅ Ghi PostgreSQL thành công (10 dòng).
+[2025-10-29T07:14:15.200+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.200+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.201+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.201+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.201+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.201+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.201+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.201+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.202+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:15.202+0700] {subprocess.py:93} INFO - 25/10/29 07:14:15 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.881+0700] {subprocess.py:93} INFO - [Batch 2] Dữ liệu đã ghi (mẫu):
+[2025-10-29T07:14:20.881+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:14:20.881+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "ReviewText": "Các bạn nên mua nha vì giá cả rất phải chăng, vừa túi tiền mà lại xinh, phối đồ cũng rất là dễ lun ấy....mình rất ưng 🤭🤭🤭🤭",
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "Quality": "NEU",
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:20.882+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp nhoa mn tuy hết màu nhưng shop có hỏi mình rồi mới đổi màu khác",
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:20.883+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "ReviewText": "Đồ rẻ tiền k cx đòi hỏi nhiều mua tạm chơi tết chống cháy :v",
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "Quality": "NEU",
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:20.884+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:14:20.885+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:14:20.905+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN ProcessingTimeExecutor: Current batch is falling behind. The trigger interval is 5000 milliseconds, but spent 26746 milliseconds
+[2025-10-29T07:14:20.996+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.996+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.997+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.997+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.997+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.997+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.998+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.998+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.998+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:20.998+0700] {subprocess.py:93} INFO - 25/10/29 07:14:20 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:29.970+0700] {subprocess.py:93} INFO - 25/10/29 07:14:29 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:29.971+0700] {subprocess.py:93} INFO - 25/10/29 07:14:29 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:30.269+0700] {subprocess.py:93} INFO - 25/10/29 07:14:30 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:30.271+0700] {subprocess.py:93} INFO - 25/10/29 07:14:30 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:30.272+0700] {subprocess.py:93} INFO - 25/10/29 07:14:30 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:30.273+0700] {subprocess.py:93} INFO - 25/10/29 07:14:30 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:30.273+0700] {subprocess.py:93} INFO - 25/10/29 07:14:30 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:30.274+0700] {subprocess.py:93} INFO - 25/10/29 07:14:30 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:30.274+0700] {subprocess.py:93} INFO - 25/10/29 07:14:30 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:30.275+0700] {subprocess.py:93} INFO - 25/10/29 07:14:30 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.433+0700] {subprocess.py:93} INFO - 
+[2025-10-29T07:14:35.433+0700] {subprocess.py:93} INFO - [Batch 3] Nhận 10 dòng, hiển thị 5 dòng đầu:
+[2025-10-29T07:14:35.434+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:14:35.434+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:35.434+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp . Chắc chắn ko ọp ẹp. Hi vọng đế bền chút qua mùa mưa. Size hơi rộng chút",
+[2025-10-29T07:14:35.434+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:35.434+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:35.434+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:35.434+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:35.434+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "ReviewText": "Hàng đẹp, k bị hư hỏng",
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:35.435+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "ReviewText": "Đóng gói chắc chắn cẩn thận và shiper thân thiện với khách hàng",
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:35.436+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày xinhhh , mà tui nghĩ nên mua to hơn 1size mn hay đi nha",
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:35.437+0700] {subprocess.py:93} INFO -     "Quality": "POS",
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -     "Size": "NEU",
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -     "Shop_Service": "POS",
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -     "General": "POS",
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày bên ngoài nhìn khác ok nma của mình nó sao sao á k đc như trên hình",
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:35.438+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:35.439+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:35.439+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:35.439+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:35.439+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:35.439+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:35.439+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:35.439+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:14:35.439+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:14:35.487+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.487+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.487+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.487+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.488+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.488+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.488+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.488+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.993+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:35.993+0700] {subprocess.py:93} INFO - 25/10/29 07:14:35 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.483+0700] {subprocess.py:93} INFO - [Batch 3] ✅ Ghi PostgreSQL thành công (10 dòng).
+[2025-10-29T07:14:44.520+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.520+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.520+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.520+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.521+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.521+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.521+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.521+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.521+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:44.521+0700] {subprocess.py:93} INFO - 25/10/29 07:14:44 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.807+0700] {subprocess.py:93} INFO - [Batch 3] Dữ liệu đã ghi (mẫu):
+[2025-10-29T07:14:49.807+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:14:49.807+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:49.807+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp . Chắc chắn ko ọp ẹp. Hi vọng đế bền chút qua mùa mưa. Size hơi rộng chút",
+[2025-10-29T07:14:49.807+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:49.807+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -     "ReviewText": "Hàng đẹp, k bị hư hỏng",
+[2025-10-29T07:14:49.808+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:14:49.809+0700] {subprocess.py:93} INFO -     "ReviewText": "Đóng gói chắc chắn cẩn thận và shiper thân thiện với khách hàng",
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:14:49.810+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:14:49.830+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN ProcessingTimeExecutor: Current batch is falling behind. The trigger interval is 5000 milliseconds, but spent 28925 milliseconds
+[2025-10-29T07:14:49.910+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.910+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.911+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.911+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.911+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.911+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.911+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.912+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.912+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:49.912+0700] {subprocess.py:93} INFO - 25/10/29 07:14:49 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.049+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.049+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.049+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.049+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.049+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.049+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.050+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.050+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.050+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:14:59.050+0700] {subprocess.py:93} INFO - 25/10/29 07:14:59 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.340+0700] {subprocess.py:93} INFO - 
+[2025-10-29T07:15:04.340+0700] {subprocess.py:93} INFO - [Batch 4] Nhận 10 dòng, hiển thị 5 dòng đầu:
+[2025-10-29T07:15:04.340+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:15:04.340+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:04.341+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp lắm nha mọi người mang êm chân lắm vì ở xa nên ship hoi lâu",
+[2025-10-29T07:15:04.341+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:04.341+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:04.341+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:15:04.341+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:04.341+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:04.341+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:04.342+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:04.342+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:04.342+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:04.342+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:04.342+0700] {subprocess.py:93} INFO -     "ReviewText": "Xinh lắm nha mọi người, đóng gói kĩ càng với giá này mà giày như vậy là quá tốt có điều mình mua nhầm size nên rộng nhưng mà 10đ kh nói nhiều",
+[2025-10-29T07:15:04.342+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:04.342+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:04.343+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:15:04.343+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:04.343+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:04.343+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:04.343+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:04.343+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:04.343+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:04.344+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:04.344+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp, êm",
+[2025-10-29T07:15:04.344+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:04.344+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:04.344+0700] {subprocess.py:93} INFO -     "Outlook": "NEU",
+[2025-10-29T07:15:04.344+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:04.344+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:04.345+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:04.345+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:04.345+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:04.345+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:04.345+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:04.346+0700] {subprocess.py:93} INFO -     "ReviewText": "Đúng sp đúng kích cỡ hàng rất đẹp mn nên mua nhé mình để tạm ảnh lấy xu",
+[2025-10-29T07:15:04.346+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:04.346+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:04.346+0700] {subprocess.py:93} INFO -     "Outlook": "NEU",
+[2025-10-29T07:15:04.346+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:04.346+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:04.346+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:04.347+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:04.347+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:04.347+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:04.347+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:04.347+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp lắm mn, chất lượng tốt so với giá, mn nên mua nhaaaaaaaaaaaa",
+[2025-10-29T07:15:04.347+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:04.347+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:04.347+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:15:04.348+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:04.348+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:04.348+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:04.348+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:04.348+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:04.348+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:15:04.348+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:15:04.403+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.404+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.404+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.404+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.405+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.405+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.405+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.406+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.406+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:04.406+0700] {subprocess.py:93} INFO - 25/10/29 07:15:04 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.285+0700] {subprocess.py:93} INFO - [Batch 4] ✅ Ghi PostgreSQL thành công (10 dòng).
+[2025-10-29T07:15:13.317+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.317+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.317+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.317+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.828+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.829+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.830+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.830+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.830+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:13.830+0700] {subprocess.py:93} INFO - 25/10/29 07:15:13 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.346+0700] {subprocess.py:93} INFO - [Batch 4] Dữ liệu đã ghi (mẫu):
+[2025-10-29T07:15:19.346+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:15:19.346+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:19.346+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp lắm nha mọi người mang êm chân lắm vì ở xa nên ship hoi lâu",
+[2025-10-29T07:15:19.346+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:19.346+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "ReviewText": "Xinh lắm nha mọi người, đóng gói kĩ càng với giá này mà giày như vậy là quá tốt có điều mình mua nhầm size nên rộng nhưng mà 10đ kh nói nhiều",
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:19.347+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp, êm",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:19.348+0700] {subprocess.py:93} INFO -     "Outlook": "NEU",
+[2025-10-29T07:15:19.349+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:19.349+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:19.349+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:19.349+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:19.349+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:19.349+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:15:19.349+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:15:19.371+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN ProcessingTimeExecutor: Current batch is falling behind. The trigger interval is 5000 milliseconds, but spent 29541 milliseconds
+[2025-10-29T07:15:19.450+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.450+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.450+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.451+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.451+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.451+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.451+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.451+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.451+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:19.451+0700] {subprocess.py:93} INFO - 25/10/29 07:15:19 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.309+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.310+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.310+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.310+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.310+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.310+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.310+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.311+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.311+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:28.311+0700] {subprocess.py:93} INFO - 25/10/29 07:15:28 WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThread. It may hang when KafkaDataConsumer's methods are interrupted because of KAFKA-1894
+[2025-10-29T07:15:33.677+0700] {subprocess.py:93} INFO - 
+[2025-10-29T07:15:33.677+0700] {subprocess.py:93} INFO - [Batch 5] Nhận 10 dòng, hiển thị 5 dòng đầu:
+[2025-10-29T07:15:33.677+0700] {subprocess.py:93} INFO - [
+[2025-10-29T07:15:33.677+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:33.677+0700] {subprocess.py:93} INFO -     "ReviewText": "Hàng rẻ nên mình không đòi hỏi chất lượng cao mình thấy cái phần để buộc dây giày hơi xấu nếu lần sau có nhu cầu mua giày nữa mình sẽ ủng hộ shop tiếp vì hàng vừa rẻ vừa đẹp nữa",
+[2025-10-29T07:15:33.677+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:33.677+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -     "ReviewText": "Giao hàng nhanh đóng gói sản phẩm đẹp và chắc chắn.......",
+[2025-10-29T07:15:33.678+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "Shipping": "POS",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "Quality": "POS",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đẹp  Hợp với giá tiền",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:33.679+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "Outlook": "POS",
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "Quality": "NEU",
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "ReviewText": "Nói chung là ko có j để chê",
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:33.680+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -     "Outlook": "NEU",
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -   },
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -   {
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -     "ReviewText": "Chất liệu quá ok tuy ko có hộp nhưng vẫn rất ok ilove you pặc pặc chu cà mo",
+[2025-10-29T07:15:33.681+0700] {subprocess.py:93} INFO -     "Price": "NEU",
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO -     "Outlook": "NEU",
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO -     "General": "NEU",
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO -     "Others": "NEU"
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO -   }
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO - ]
+[2025-10-29T07:15:33.682+0700] {subprocess.py:93} INFO - [Batch 5] 💥 Giả lập sự cố: crash mô phỏng.
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO - 25/10/29 07:15:33 ERROR MicroBatchExecution: Query [id = 08760c48-2402-4ea4-96f9-a23cf968a794, runId = d971ad48-ee43-4184-b97a-0bd40b349379] terminated with error
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO - py4j.Py4JException: An exception was raised by the Python Proxy. Return Message: Traceback (most recent call last):
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip/py4j/clientserver.py", line 617, in _call_proxy
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -     return_value = getattr(self.pool[obj_id], method)(*params)
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/utils.py", line 120, in call
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -     raise e
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/utils.py", line 117, in call
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -     self.func(DataFrame(jdf, wrapped_session_jdf), batch_id)
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -   File "/opt/***/projects/absa_streaming/scripts/consumer_postgres_streaming.py", line 138, in write_to_postgres
+[2025-10-29T07:15:33.683+0700] {subprocess.py:93} INFO -     raise Exception(f"Simulated crash at batch {batch_id}")
+[2025-10-29T07:15:33.684+0700] {subprocess.py:93} INFO - Exception: Simulated crash at batch 5
+[2025-10-29T07:15:33.684+0700] {subprocess.py:93} INFO - 
+[2025-10-29T07:15:33.684+0700] {subprocess.py:93} INFO - 	at py4j.Protocol.getReturnValue(Protocol.java:476)
+[2025-10-29T07:15:33.684+0700] {subprocess.py:93} INFO - 	at py4j.reflection.PythonProxyHandler.invoke(PythonProxyHandler.java:108)
+[2025-10-29T07:15:33.684+0700] {subprocess.py:93} INFO - 	at jdk.proxy3/jdk.proxy3.$Proxy32.call(Unknown Source)
+[2025-10-29T07:15:33.684+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.sources.PythonForeachBatchHelper$.$anonfun$callForeachBatch$1(ForeachBatchSink.scala:53)
+[2025-10-29T07:15:33.684+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.sources.PythonForeachBatchHelper$.$anonfun$callForeachBatch$1$adapted(ForeachBatchSink.scala:53)
+[2025-10-29T07:15:33.684+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.sources.ForeachBatchSink.addBatch(ForeachBatchSink.scala:34)
+[2025-10-29T07:15:33.685+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.$anonfun$runBatch$17(MicroBatchExecution.scala:732)
+[2025-10-29T07:15:33.685+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:125)
+[2025-10-29T07:15:33.685+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:201)
+[2025-10-29T07:15:33.685+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:108)
+[2025-10-29T07:15:33.685+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:900)
+[2025-10-29T07:15:33.685+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:66)
+[2025-10-29T07:15:33.685+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.$anonfun$runBatch$16(MicroBatchExecution.scala:729)
+[2025-10-29T07:15:33.685+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProgressReporter.reportTimeTaken(ProgressReporter.scala:427)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProgressReporter.reportTimeTaken$(ProgressReporter.scala:425)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution.reportTimeTaken(StreamExecution.scala:67)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.runBatch(MicroBatchExecution.scala:729)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.$anonfun$runActivatedStream$2(MicroBatchExecution.scala:286)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProgressReporter.reportTimeTaken(ProgressReporter.scala:427)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProgressReporter.reportTimeTaken$(ProgressReporter.scala:425)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution.reportTimeTaken(StreamExecution.scala:67)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.$anonfun$runActivatedStream$1(MicroBatchExecution.scala:249)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProcessingTimeExecutor.execute(TriggerExecutor.scala:67)
+[2025-10-29T07:15:33.686+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.runActivatedStream(MicroBatchExecution.scala:239)
+[2025-10-29T07:15:33.687+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution.$anonfun$runStream$1(StreamExecution.scala:311)
+[2025-10-29T07:15:33.687+0700] {subprocess.py:93} INFO - 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[2025-10-29T07:15:33.687+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:900)
+[2025-10-29T07:15:33.687+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution.org$apache$spark$sql$execution$streaming$StreamExecution$$runStream(StreamExecution.scala:289)
+[2025-10-29T07:15:33.687+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution$$anon$1.$anonfun$run$1(StreamExecution.scala:211)
+[2025-10-29T07:15:33.687+0700] {subprocess.py:93} INFO - 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[2025-10-29T07:15:33.687+0700] {subprocess.py:93} INFO - 	at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
+[2025-10-29T07:15:33.687+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution$$anon$1.run(StreamExecution.scala:211)
+[2025-10-29T07:15:33.703+0700] {subprocess.py:93} INFO - Traceback (most recent call last):
+[2025-10-29T07:15:33.704+0700] {subprocess.py:93} INFO -   File "/opt/***/projects/absa_streaming/scripts/consumer_postgres_streaming.py", line 175, in <module>
+[2025-10-29T07:15:33.704+0700] {subprocess.py:93} INFO -     query.awaitTermination()
+[2025-10-29T07:15:33.704+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/streaming/query.py", line 221, in awaitTermination
+[2025-10-29T07:15:33.704+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
+[2025-10-29T07:15:33.704+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/errors/exceptions/captured.py", line 185, in deco
+[2025-10-29T07:15:33.707+0700] {subprocess.py:93} INFO - pyspark.errors.exceptions.captured.StreamingQueryException: [STREAM_FAILED] Query [id = 08760c48-2402-4ea4-96f9-a23cf968a794, runId = d971ad48-ee43-4184-b97a-0bd40b349379] terminated with exception: An exception was raised by the Python Proxy. Return Message: Traceback (most recent call last):
+[2025-10-29T07:15:33.707+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip/py4j/clientserver.py", line 617, in _call_proxy
+[2025-10-29T07:15:33.707+0700] {subprocess.py:93} INFO -     return_value = getattr(self.pool[obj_id], method)(*params)
+[2025-10-29T07:15:33.707+0700] {subprocess.py:93} INFO -                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2025-10-29T07:15:33.707+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/utils.py", line 120, in call
+[2025-10-29T07:15:33.708+0700] {subprocess.py:93} INFO -     raise e
+[2025-10-29T07:15:33.708+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/utils.py", line 117, in call
+[2025-10-29T07:15:33.708+0700] {subprocess.py:93} INFO -     self.func(DataFrame(jdf, wrapped_session_jdf), batch_id)
+[2025-10-29T07:15:33.708+0700] {subprocess.py:93} INFO -   File "/opt/***/projects/absa_streaming/scripts/consumer_postgres_streaming.py", line 138, in write_to_postgres
+[2025-10-29T07:15:33.708+0700] {subprocess.py:93} INFO -     raise Exception(f"Simulated crash at batch {batch_id}")
+[2025-10-29T07:15:33.708+0700] {subprocess.py:93} INFO - Exception: Simulated crash at batch 5
+[2025-10-29T07:15:33.708+0700] {subprocess.py:93} INFO - 
+[2025-10-29T07:15:34.176+0700] {subprocess.py:97} INFO - Command exited with return code 1
+[2025-10-29T07:15:34.177+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-29T07:15:34.183+0700] {taskinstance.py:2890} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 460, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 243, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2025-10-29T07:15:34.185+0700] {taskinstance.py:1205} INFO - Marking task as UP_FOR_RETRY. dag_id=absa_streaming_lifecycle_demo1, task_id=deploy_consumer, execution_date=20251028T230000, start_date=20251029T001317, end_date=20251029T001534
+[2025-10-29T07:15:34.193+0700] {standard_task_runner.py:110} ERROR - Failed to execute job 26 for task deploy_consumer (Bash command failed. The command returned a non-zero exit code 1.; 19290)
+[2025-10-29T07:15:34.236+0700] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2025-10-29T07:15:34.277+0700] {taskinstance.py:3482} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-10-29T07:15:34.279+0700] {local_task_job_runner.py:222} INFO - ::endgroup::

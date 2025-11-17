@@ -1,0 +1,765 @@
+[2025-10-31T06:53:48.076+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-31T06:53:48.090+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.deploy_consumer scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:53:48.094+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo11.deploy_consumer scheduled__2025-10-30T22:00:00+00:00 [queued]>
+[2025-10-31T06:53:48.094+0700] {taskinstance.py:2303} INFO - Starting attempt 3 of 6
+[2025-10-31T06:53:48.100+0700] {taskinstance.py:2327} INFO - Executing <Task(BashOperator): deploy_consumer> on 2025-10-30 22:00:00+00:00
+[2025-10-31T06:53:48.107+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=6415) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-31T06:53:48.107+0700] {standard_task_runner.py:63} INFO - Started process 6417 to run task
+[2025-10-31T06:53:48.107+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo11', 'deploy_consumer', 'scheduled__2025-10-30T22:00:00+00:00', '--job-id', '15', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmpwmxhdchz']
+[2025-10-31T06:53:48.109+0700] {standard_task_runner.py:91} INFO - Job 15: Subtask deploy_consumer
+[2025-10-31T06:53:48.134+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo11.deploy_consumer scheduled__2025-10-30T22:00:00+00:00 [running]> on host b701d4cdc1cf
+[2025-10-31T06:53:48.175+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo11' AIRFLOW_CTX_TASK_ID='deploy_consumer' AIRFLOW_CTX_EXECUTION_DATE='2025-10-30T22:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-30T22:00:00+00:00'
+[2025-10-31T06:53:48.176+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-31T06:53:48.176+0700] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-10-31T06:53:48.177+0700] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash -c "timeout 45m /opt/***/projects/absa_streaming/scripts/run_consumer.sh"']
+[2025-10-31T06:53:48.187+0700] {subprocess.py:86} INFO - Output:
+[2025-10-31T06:53:48.192+0700] {subprocess.py:93} INFO - [Consumer] Starting Spark Structured Streaming job...
+[2025-10-31T06:53:48.223+0700] {subprocess.py:93} INFO - /home/***/.local/lib/python3.12/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2025-10-31T06:53:49.504+0700] {subprocess.py:93} INFO - :: loading settings :: url = jar:file:/home/***/.local/lib/python3.12/site-packages/pyspark/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+[2025-10-31T06:53:49.572+0700] {subprocess.py:93} INFO - Ivy Default Cache set to: /home/***/.ivy2/cache
+[2025-10-31T06:53:49.573+0700] {subprocess.py:93} INFO - The jars for the packages stored in: /home/***/.ivy2/jars
+[2025-10-31T06:53:49.576+0700] {subprocess.py:93} INFO - org.apache.spark#spark-sql-kafka-0-10_2.12 added as a dependency
+[2025-10-31T06:53:49.576+0700] {subprocess.py:93} INFO - org.postgresql#postgresql added as a dependency
+[2025-10-31T06:53:49.576+0700] {subprocess.py:93} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-ab84be27-68d7-4276-96d1-b931520e0e92;1.0
+[2025-10-31T06:53:49.577+0700] {subprocess.py:93} INFO - 	confs: [default]
+[2025-10-31T06:53:49.726+0700] {subprocess.py:93} INFO - 	found org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1 in central
+[2025-10-31T06:53:49.764+0700] {subprocess.py:93} INFO - 	found org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1 in central
+[2025-10-31T06:53:49.781+0700] {subprocess.py:93} INFO - 	found org.apache.kafka#kafka-clients;3.4.1 in central
+[2025-10-31T06:53:49.799+0700] {subprocess.py:93} INFO - 	found org.lz4#lz4-java;1.8.0 in central
+[2025-10-31T06:53:49.816+0700] {subprocess.py:93} INFO - 	found org.xerial.snappy#snappy-java;1.1.10.3 in central
+[2025-10-31T06:53:49.831+0700] {subprocess.py:93} INFO - 	found org.slf4j#slf4j-api;2.0.7 in central
+[2025-10-31T06:53:49.851+0700] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-client-runtime;3.3.4 in central
+[2025-10-31T06:53:49.879+0700] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-client-api;3.3.4 in central
+[2025-10-31T06:53:49.900+0700] {subprocess.py:93} INFO - 	found commons-logging#commons-logging;1.1.3 in central
+[2025-10-31T06:53:49.915+0700] {subprocess.py:93} INFO - 	found com.google.code.findbugs#jsr305;3.0.0 in central
+[2025-10-31T06:53:49.930+0700] {subprocess.py:93} INFO - 	found org.apache.commons#commons-pool2;2.11.1 in central
+[2025-10-31T06:53:49.941+0700] {subprocess.py:93} INFO - 	found org.postgresql#postgresql;42.6.0 in central
+[2025-10-31T06:53:49.950+0700] {subprocess.py:93} INFO - 	found org.checkerframework#checker-qual;3.31.0 in central
+[2025-10-31T06:53:49.971+0700] {subprocess.py:93} INFO - :: resolution report :: resolve 382ms :: artifacts dl 13ms
+[2025-10-31T06:53:49.971+0700] {subprocess.py:93} INFO - 	:: modules in use:
+[2025-10-31T06:53:49.972+0700] {subprocess.py:93} INFO - 	com.google.code.findbugs#jsr305;3.0.0 from central in [default]
+[2025-10-31T06:53:49.972+0700] {subprocess.py:93} INFO - 	commons-logging#commons-logging;1.1.3 from central in [default]
+[2025-10-31T06:53:49.972+0700] {subprocess.py:93} INFO - 	org.apache.commons#commons-pool2;2.11.1 from central in [default]
+[2025-10-31T06:53:49.973+0700] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-client-api;3.3.4 from central in [default]
+[2025-10-31T06:53:49.973+0700] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-client-runtime;3.3.4 from central in [default]
+[2025-10-31T06:53:49.973+0700] {subprocess.py:93} INFO - 	org.apache.kafka#kafka-clients;3.4.1 from central in [default]
+[2025-10-31T06:53:49.973+0700] {subprocess.py:93} INFO - 	org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1 from central in [default]
+[2025-10-31T06:53:49.974+0700] {subprocess.py:93} INFO - 	org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1 from central in [default]
+[2025-10-31T06:53:49.974+0700] {subprocess.py:93} INFO - 	org.checkerframework#checker-qual;3.31.0 from central in [default]
+[2025-10-31T06:53:49.974+0700] {subprocess.py:93} INFO - 	org.lz4#lz4-java;1.8.0 from central in [default]
+[2025-10-31T06:53:49.975+0700] {subprocess.py:93} INFO - 	org.postgresql#postgresql;42.6.0 from central in [default]
+[2025-10-31T06:53:49.975+0700] {subprocess.py:93} INFO - 	org.slf4j#slf4j-api;2.0.7 from central in [default]
+[2025-10-31T06:53:49.975+0700] {subprocess.py:93} INFO - 	org.xerial.snappy#snappy-java;1.1.10.3 from central in [default]
+[2025-10-31T06:53:49.975+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-31T06:53:49.976+0700] {subprocess.py:93} INFO - 	|                  |            modules            ||   artifacts   |
+[2025-10-31T06:53:49.976+0700] {subprocess.py:93} INFO - 	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+[2025-10-31T06:53:49.976+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-31T06:53:49.977+0700] {subprocess.py:93} INFO - 	|      default     |   13  |   0   |   0   |   0   ||   13  |   0   |
+[2025-10-31T06:53:49.977+0700] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2025-10-31T06:53:49.977+0700] {subprocess.py:93} INFO - :: retrieving :: org.apache.spark#spark-submit-parent-ab84be27-68d7-4276-96d1-b931520e0e92
+[2025-10-31T06:53:49.978+0700] {subprocess.py:93} INFO - 	confs: [default]
+[2025-10-31T06:53:49.986+0700] {subprocess.py:93} INFO - 	0 artifacts copied, 13 already retrieved (0kB/8ms)
+[2025-10-31T06:53:50.173+0700] {subprocess.py:93} INFO - 25/10/31 06:53:50 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2025-10-31T06:53:53.856+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SparkContext: Running Spark version 3.5.1
+[2025-10-31T06:53:53.857+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SparkContext: OS info Linux, 6.14.0-33-generic, amd64
+[2025-10-31T06:53:53.857+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SparkContext: Java version 17.0.17
+[2025-10-31T06:53:53.873+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO ResourceUtils: ==============================================================
+[2025-10-31T06:53:53.873+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO ResourceUtils: No custom resources configured for spark.driver.
+[2025-10-31T06:53:53.874+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO ResourceUtils: ==============================================================
+[2025-10-31T06:53:53.874+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SparkContext: Submitted application: Kafka_ABSA_Postgres
+[2025-10-31T06:53:53.888+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+[2025-10-31T06:53:53.894+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO ResourceProfile: Limiting resource is cpu
+[2025-10-31T06:53:53.894+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO ResourceProfileManager: Added ResourceProfile id: 0
+[2025-10-31T06:53:53.937+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SecurityManager: Changing view acls to: default
+[2025-10-31T06:53:53.937+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SecurityManager: Changing modify acls to: default
+[2025-10-31T06:53:53.938+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SecurityManager: Changing view acls groups to:
+[2025-10-31T06:53:53.938+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SecurityManager: Changing modify acls groups to:
+[2025-10-31T06:53:53.938+0700] {subprocess.py:93} INFO - 25/10/31 06:53:53 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: default; groups with view permissions: EMPTY; users with modify permissions: default; groups with modify permissions: EMPTY
+[2025-10-31T06:53:54.103+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Successfully started service 'sparkDriver' on port 39687.
+[2025-10-31T06:53:54.130+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkEnv: Registering MapOutputTracker
+[2025-10-31T06:53:54.161+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkEnv: Registering BlockManagerMaster
+[2025-10-31T06:53:54.174+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+[2025-10-31T06:53:54.174+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+[2025-10-31T06:53:54.177+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+[2025-10-31T06:53:54.195+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-0c2df539-214f-4ea3-9e2f-351bea764634
+[2025-10-31T06:53:54.205+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+[2025-10-31T06:53:54.214+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkEnv: Registering OutputCommitCoordinator
+[2025-10-31T06:53:54.311+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+[2025-10-31T06:53:54.355+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+[2025-10-31T06:53:54.381+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar at spark://b701d4cdc1cf:39687/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.381+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar at spark://b701d4cdc1cf:39687/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.381+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar at spark://b701d4cdc1cf:39687/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.381+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar at spark://b701d4cdc1cf:39687/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.382+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at spark://b701d4cdc1cf:39687/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.382+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at spark://b701d4cdc1cf:39687/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.382+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar at spark://b701d4cdc1cf:39687/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.382+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at spark://b701d4cdc1cf:39687/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.382+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar at spark://b701d4cdc1cf:39687/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.382+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar at spark://b701d4cdc1cf:39687/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.382+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar at spark://b701d4cdc1cf:39687/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.382+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at spark://b701d4cdc1cf:39687/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.383+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added JAR file:///home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar at spark://b701d4cdc1cf:39687/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.384+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar at file:///home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.385+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar
+[2025-10-31T06:53:54.394+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar at file:///home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.394+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.postgresql_postgresql-42.6.0.jar
+[2025-10-31T06:53:54.398+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar at file:///home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.398+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar
+[2025-10-31T06:53:54.402+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar at file:///home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.402+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.kafka_kafka-clients-3.4.1.jar
+[2025-10-31T06:53:54.407+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at file:///home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.408+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/com.google.code.findbugs_jsr305-3.0.0.jar
+[2025-10-31T06:53:54.412+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at file:///home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.412+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.commons_commons-pool2-2.11.1.jar
+[2025-10-31T06:53:54.415+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar at file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.415+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar
+[2025-10-31T06:53:54.433+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at file:///home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.434+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.lz4_lz4-java-1.8.0.jar
+[2025-10-31T06:53:54.436+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar at file:///home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.436+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.xerial.snappy_snappy-java-1.1.10.3.jar
+[2025-10-31T06:53:54.439+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar at file:///home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.440+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.slf4j_slf4j-api-2.0.7.jar
+[2025-10-31T06:53:54.442+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar at file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.442+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.hadoop_hadoop-client-api-3.3.4.jar
+[2025-10-31T06:53:54.452+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at file:///home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.452+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/commons-logging_commons-logging-1.1.3.jar
+[2025-10-31T06:53:54.454+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO SparkContext: Added file file:///home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar at file:///home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.454+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Copying /home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.checkerframework_checker-qual-3.31.0.jar
+[2025-10-31T06:53:54.496+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Starting executor ID driver on host b701d4cdc1cf
+[2025-10-31T06:53:54.497+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: OS info Linux, 6.14.0-33-generic, amd64
+[2025-10-31T06:53:54.497+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Java version 17.0.17
+[2025-10-31T06:53:54.500+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+[2025-10-31T06:53:54.500+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@200c19a2 for default.
+[2025-10-31T06:53:54.507+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.526+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar
+[2025-10-31T06:53:54.529+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.545+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar
+[2025-10-31T06:53:54.547+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.557+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.hadoop_hadoop-client-api-3.3.4.jar
+[2025-10-31T06:53:54.560+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.560+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar
+[2025-10-31T06:53:54.562+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.562+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/com.google.code.findbugs_jsr305-3.0.0.jar
+[2025-10-31T06:53:54.564+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.565+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.lz4_lz4-java-1.8.0.jar
+[2025-10-31T06:53:54.567+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.567+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.slf4j_slf4j-api-2.0.7.jar
+[2025-10-31T06:53:54.569+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.570+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.checkerframework_checker-qual-3.31.0.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.checkerframework_checker-qual-3.31.0.jar
+[2025-10-31T06:53:54.572+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.572+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.commons_commons-pool2-2.11.1.jar
+[2025-10-31T06:53:54.574+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.574+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/commons-logging_commons-logging-1.1.3.jar
+[2025-10-31T06:53:54.577+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.578+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.xerial.snappy_snappy-java-1.1.10.3.jar
+[2025-10-31T06:53:54.580+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.581+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.postgresql_postgresql-42.6.0.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.postgresql_postgresql-42.6.0.jar
+[2025-10-31T06:53:54.583+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching file:///home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.585+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /home/***/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.kafka_kafka-clients-3.4.1.jar
+[2025-10-31T06:53:54.588+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.610+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO TransportClientFactory: Successfully created connection to b701d4cdc1cf/172.18.0.8:39687 after 15 ms (0 ms spent in bootstraps)
+[2025-10-31T06:53:54.613+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp16980529070707893473.tmp
+[2025-10-31T06:53:54.694+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp16980529070707893473.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.hadoop_hadoop-client-api-3.3.4.jar
+[2025-10-31T06:53:54.700+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.hadoop_hadoop-client-api-3.3.4.jar to class loader default
+[2025-10-31T06:53:54.700+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.700+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.lz4_lz4-java-1.8.0.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp15885249162774292095.tmp
+[2025-10-31T06:53:54.702+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp15885249162774292095.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.lz4_lz4-java-1.8.0.jar
+[2025-10-31T06:53:54.768+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.lz4_lz4-java-1.8.0.jar to class loader default
+[2025-10-31T06:53:54.770+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.770+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/commons-logging_commons-logging-1.1.3.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp13589910151507087046.tmp
+[2025-10-31T06:53:54.772+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp13589910151507087046.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/commons-logging_commons-logging-1.1.3.jar
+[2025-10-31T06:53:54.775+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/commons-logging_commons-logging-1.1.3.jar to class loader default
+[2025-10-31T06:53:54.776+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.776+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.kafka_kafka-clients-3.4.1.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp14076954774333961081.tmp
+[2025-10-31T06:53:54.783+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp14076954774333961081.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.kafka_kafka-clients-3.4.1.jar
+[2025-10-31T06:53:54.793+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.kafka_kafka-clients-3.4.1.jar to class loader default
+[2025-10-31T06:53:54.793+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.794+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp16697233694546734361.tmp
+[2025-10-31T06:53:54.795+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp16697233694546734361.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar
+[2025-10-31T06:53:54.798+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.1.jar to class loader default
+[2025-10-31T06:53:54.798+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.798+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp822829032441753342.tmp
+[2025-10-31T06:53:54.799+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp822829032441753342.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar
+[2025-10-31T06:53:54.801+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.1.jar to class loader default
+[2025-10-31T06:53:54.801+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.801+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp10718115529286146441.tmp
+[2025-10-31T06:53:54.886+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp10718115529286146441.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar
+[2025-10-31T06:53:54.891+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar to class loader default
+[2025-10-31T06:53:54.892+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.postgresql_postgresql-42.6.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.892+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.postgresql_postgresql-42.6.0.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp433303818558811769.tmp
+[2025-10-31T06:53:54.894+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp433303818558811769.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.postgresql_postgresql-42.6.0.jar
+[2025-10-31T06:53:54.898+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.postgresql_postgresql-42.6.0.jar to class loader default
+[2025-10-31T06:53:54.898+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.898+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.apache.commons_commons-pool2-2.11.1.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp12832581822253308596.tmp
+[2025-10-31T06:53:54.899+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp12832581822253308596.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.commons_commons-pool2-2.11.1.jar
+[2025-10-31T06:53:54.901+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.apache.commons_commons-pool2-2.11.1.jar to class loader default
+[2025-10-31T06:53:54.901+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.902+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.slf4j_slf4j-api-2.0.7.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp16439042487196302359.tmp
+[2025-10-31T06:53:54.902+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp16439042487196302359.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.slf4j_slf4j-api-2.0.7.jar
+[2025-10-31T06:53:54.904+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.slf4j_slf4j-api-2.0.7.jar to class loader default
+[2025-10-31T06:53:54.905+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.905+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.xerial.snappy_snappy-java-1.1.10.3.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp2573759762580725873.tmp
+[2025-10-31T06:53:54.908+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp2573759762580725873.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.xerial.snappy_snappy-java-1.1.10.3.jar
+[2025-10-31T06:53:54.913+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.xerial.snappy_snappy-java-1.1.10.3.jar to class loader default
+[2025-10-31T06:53:54.913+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/org.checkerframework_checker-qual-3.31.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.914+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/org.checkerframework_checker-qual-3.31.0.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp11009013614234574709.tmp
+[2025-10-31T06:53:54.914+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp11009013614234574709.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.checkerframework_checker-qual-3.31.0.jar
+[2025-10-31T06:53:54.917+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/org.checkerframework_checker-qual-3.31.0.jar to class loader default
+[2025-10-31T06:53:54.917+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Fetching spark://b701d4cdc1cf:39687/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1761868433851
+[2025-10-31T06:53:54.917+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Fetching spark://b701d4cdc1cf:39687/jars/com.google.code.findbugs_jsr305-3.0.0.jar to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp9909879500498465098.tmp
+[2025-10-31T06:53:54.918+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/fetchFileTemp9909879500498465098.tmp has been previously copied to /tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/com.google.code.findbugs_jsr305-3.0.0.jar
+[2025-10-31T06:53:54.920+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Executor: Adding file:/tmp/spark-cd1a2755-9932-4794-9d6b-1ae0b92897c1/userFiles-c43c7526-c041-4ae3-9194-addc304cc9cb/com.google.code.findbugs_jsr305-3.0.0.jar to class loader default
+[2025-10-31T06:53:54.925+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 35001.
+[2025-10-31T06:53:54.926+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO NettyBlockTransferService: Server created on b701d4cdc1cf:35001
+[2025-10-31T06:53:54.927+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+[2025-10-31T06:53:54.931+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, b701d4cdc1cf, 35001, None)
+[2025-10-31T06:53:54.933+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO BlockManagerMasterEndpoint: Registering block manager b701d4cdc1cf:35001 with 434.4 MiB RAM, BlockManagerId(driver, b701d4cdc1cf, 35001, None)
+[2025-10-31T06:53:54.934+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, b701d4cdc1cf, 35001, None)
+[2025-10-31T06:53:54.935+0700] {subprocess.py:93} INFO - 25/10/31 06:53:54 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, b701d4cdc1cf, 35001, None)
+[2025-10-31T06:53:57.372+0700] {subprocess.py:93} INFO - 🚀 Streaming job started — đang lắng nghe dữ liệu từ Kafka...
+[2025-10-31T06:53:58.934+0700] {subprocess.py:93} INFO - [Batch 0] ⚠️ Không có dữ liệu mới.
+[2025-10-31T06:54:06.956+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:10.350+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:13.554+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:16.345+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:17.921+0700] {subprocess.py:93} INFO - 
+[2025-10-31T06:54:17.922+0700] {subprocess.py:93} INFO - [Batch 1] Nhận 3 dòng, hiển thị 5 dòng đầu:
+[2025-10-31T06:54:17.922+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:54:17.922+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:17.922+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày bị hở mũi giày và đế giày rất nhiều",
+[2025-10-31T06:54:17.922+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:17.923+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:17.923+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:17.923+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:17.923+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:17.923+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:17.923+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:17.923+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:17.924+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:54:17.924+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:17.924+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày như ảnh nhé ko bị hư hại hay méo mó gì Giày đi hơi cứng lần đầu ấy 😅 Có tem đầy đủ nha thời gian giao khoảng 6 ngày  Giày ok lắm mọi người nên mua ko thất vọng đâu Nhắn shop trả lời giúp mình nhiệt tình ♥️",
+[2025-10-31T06:54:17.924+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:17.924+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:17.924+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:17.924+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:17.925+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:17.925+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:17.925+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:17.925+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:17.925+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:54:17.925+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:17.925+0700] {subprocess.py:93} INFO -     "ReviewText": "Sp đúng vs hình Đúng size Giao nhanh, đúng hạn Đóng gói khá cẩn thận Hàng rấc chy là chất lượng nên mua nhaa mn 😍 (Hình ảnh vs vid chỉ mang t/c nhận xu)",
+[2025-10-31T06:54:17.926+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:17.926+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:17.926+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:17.926+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:17.926+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:17.926+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:17.926+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:17.927+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:17.927+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:54:17.927+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:54:20.493+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:23.144+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:24.676+0700] {subprocess.py:93} INFO - [Batch 1] ✅ Ghi PostgreSQL thành công (3 dòng).
+[2025-10-31T06:54:26.812+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:29.664+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:31.052+0700] {subprocess.py:93} INFO - [Batch 1] Dữ liệu đã ghi (mẫu):
+[2025-10-31T06:54:31.052+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày bị hở mũi giày và đế giày rất nhiều",
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:31.053+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày như ảnh nhé ko bị hư hại hay méo mó gì Giày đi hơi cứng lần đầu ấy 😅 Có tem đầy đủ nha thời gian giao khoảng 6 ngày  Giày ok lắm mọi người nên mua ko thất vọng đâu Nhắn shop trả lời giúp mình nhiệt tình ♥️",
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:31.054+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "ReviewText": "Sp đúng vs hình Đúng size Giao nhanh, đúng hạn Đóng gói khá cẩn thận Hàng rấc chy là chất lượng nên mua nhaa mn 😍 (Hình ảnh vs vid chỉ mang t/c nhận xu)",
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:31.055+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:31.056+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:54:31.056+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:54:36.800+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:41.280+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:45.017+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:49.322+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:54:51.236+0700] {subprocess.py:93} INFO - 
+[2025-10-31T06:54:51.237+0700] {subprocess.py:93} INFO - [Batch 2] Nhận 10 dòng, hiển thị 5 dòng đầu:
+[2025-10-31T06:54:51.237+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:54:51.237+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:51.237+0700] {subprocess.py:93} INFO -     "ReviewText": "giao hàng nhanh cho shop 10 điểm đóng gói chắc chắn không có gì để chê",
+[2025-10-31T06:54:51.237+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:51.238+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:51.238+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:51.238+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:51.238+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:51.238+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:51.238+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:51.239+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:51.239+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:54:51.239+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:51.239+0700] {subprocess.py:93} INFO -     "ReviewText": "Shop đóng gói cẩn thận, giao hàng nhanh ❤❤ Giày xinh lắm ạ",
+[2025-10-31T06:54:51.239+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:51.239+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:51.240+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:51.240+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:51.240+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:51.240+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:51.240+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:51.240+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:51.240+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:54:51.241+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:51.241+0700] {subprocess.py:93} INFO -     "ReviewText": "Hình ảnh mtc nhận xu thôi. Giao hàng hơi châm.  Giày đẹp . Đóng gói kỹ",
+[2025-10-31T06:54:51.241+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:51.241+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:51.241+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:51.241+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:51.242+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:51.242+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:51.242+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:51.242+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:51.242+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:54:51.242+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:51.242+0700] {subprocess.py:93} INFO -     "ReviewText": "10 ĐIỂM NHÁ, giày đóng gói giá ok lun cái hộp gì mà bự chà bá, mang thấy nhẹ nữa 🥰🥰",
+[2025-10-31T06:54:51.243+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:51.243+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:51.243+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:51.243+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:51.243+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:51.243+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:51.243+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:51.244+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:51.244+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:54:51.244+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:54:51.244+0700] {subprocess.py:93} INFO -     "ReviewText": "Với giá thành này sp cũng đc cho là ổn",
+[2025-10-31T06:54:51.244+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:54:51.244+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:54:51.245+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:54:51.245+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:54:51.245+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:54:51.245+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:54:51.245+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:54:51.245+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:54:51.246+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:54:51.246+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:54:57.022+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:01.651+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:03.130+0700] {subprocess.py:93} INFO - [Batch 2] ✅ Ghi PostgreSQL thành công (10 dòng).
+[2025-10-31T06:55:05.288+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:08.738+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:10.531+0700] {subprocess.py:93} INFO - [Batch 2] Dữ liệu đã ghi (mẫu):
+[2025-10-31T06:55:10.531+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:55:10.532+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:10.532+0700] {subprocess.py:93} INFO -     "ReviewText": "giao hàng nhanh cho shop 10 điểm đóng gói chắc chắn không có gì để chê",
+[2025-10-31T06:55:10.532+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:10.532+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:10.532+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:10.532+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:10.532+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:10.532+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -     "ReviewText": "Shop đóng gói cẩn thận, giao hàng nhanh ❤❤ Giày xinh lắm ạ",
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:10.533+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -     "ReviewText": "Hình ảnh mtc nhận xu thôi. Giao hàng hơi châm.  Giày đẹp . Đóng gói kỹ",
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:10.534+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:10.535+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:10.535+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:10.535+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:10.535+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:10.535+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:55:10.535+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:55:16.407+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:20.307+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:23.776+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:26.717+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:28.238+0700] {subprocess.py:93} INFO - 
+[2025-10-31T06:55:28.238+0700] {subprocess.py:93} INFO - [Batch 3] Nhận 10 dòng, hiển thị 5 dòng đầu:
+[2025-10-31T06:55:28.239+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:55:28.239+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:28.239+0700] {subprocess.py:93} INFO -     "ReviewText": "Sản phẩm quá là chất lượng. Size hợp, chất liệu thoải mái, mang vào rất là thích🥰",
+[2025-10-31T06:55:28.239+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:28.239+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:28.239+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:28.239+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày chiều dài của hai size như nhau nhưng from size 39 nhỏ hơn",
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:28.240+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:28.241+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:28.241+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:28.241+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:28.241+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:28.241+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:28.241+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:28.241+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:55:28.241+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "ReviewText": "Giao hàng nhanh sản phẩm tốt shiper nhiệt tình Hình ảnh chỉ mang tính chất nhận xu",
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:28.242+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "ReviewText": "Giao hàng nhanh,giày đẹp nhưng nếu như dày thêm tí nữa sẽ êm chân hơn",
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:28.243+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "ReviewText": "Chất lượng sản phẩm tuyệt vời. Đóng gói sản phẩm rất đẹp và chắc chắn",
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:28.244+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:28.245+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:55:28.245+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:55:33.860+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:37.497+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:38.836+0700] {subprocess.py:93} INFO - [Batch 3] ✅ Ghi PostgreSQL thành công (10 dòng).
+[2025-10-31T06:55:41.019+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:44.035+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:45.480+0700] {subprocess.py:93} INFO - [Batch 3] Dữ liệu đã ghi (mẫu):
+[2025-10-31T06:55:45.480+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:55:45.480+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:45.480+0700] {subprocess.py:93} INFO -     "ReviewText": "Sản phẩm quá là chất lượng. Size hợp, chất liệu thoải mái, mang vào rất là thích🥰",
+[2025-10-31T06:55:45.480+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:45.481+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày chiều dài của hai size như nhau nhưng from size 39 nhỏ hơn",
+[2025-10-31T06:55:45.482+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:45.482+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:45.482+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:45.482+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:45.482+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:45.482+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:45.482+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:45.482+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:45.483+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:55:45.483+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:55:45.483+0700] {subprocess.py:93} INFO -     "ReviewText": "Giao hàng nhanh sản phẩm tốt shiper nhiệt tình Hình ảnh chỉ mang tính chất nhận xu",
+[2025-10-31T06:55:45.483+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:55:45.483+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:55:45.483+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:55:45.483+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:55:45.484+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:55:45.484+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:55:45.484+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:55:45.484+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:55:45.484+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:55:45.484+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:55:50.759+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:54.281+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:55:57.556+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:00.625+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:02.056+0700] {subprocess.py:93} INFO - 
+[2025-10-31T06:56:02.056+0700] {subprocess.py:93} INFO - [Batch 4] Nhận 10 dòng, hiển thị 5 dòng đầu:
+[2025-10-31T06:56:02.056+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:56:02.056+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:02.056+0700] {subprocess.py:93} INFO -     "ReviewText": "Nhìn giống trg hình nhưng form nó lạ lắm mũi giày hơi xấu:))",
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:02.057+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "ReviewText": "Lọ hoa thủy tinh màu hổ phách 18cm bình hoa phong cách vintage. Cắm hoa trang trí bao  đẹp Giá chỉ 49k",
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:02.058+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -     "ReviewText": "Sản Phẩm giá tốt chất lượng và ok phù hợp với giá tiền nên mua ok",
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:02.059+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày cực đẹp nha Lên from khỏi chê Shop gói hàng cẩn thận phải khui 7749 lớp",
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:02.060+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -     "ReviewText": "Giao hàng hơi lâu, đóng gói hơi sơ sài, giày lên from cũng ổn , có vài lỗi nhỏ nhưng với giá này thì cũng ok",
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:02.061+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:02.062+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:02.062+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:02.062+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:02.062+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:56:02.062+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:56:07.224+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:10.745+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:12.002+0700] {subprocess.py:93} INFO - [Batch 4] ✅ Ghi PostgreSQL thành công (10 dòng).
+[2025-10-31T06:56:14.266+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:17.794+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:19.212+0700] {subprocess.py:93} INFO - [Batch 4] Dữ liệu đã ghi (mẫu):
+[2025-10-31T06:56:19.212+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:56:19.212+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "ReviewText": "Nhìn giống trg hình nhưng form nó lạ lắm mũi giày hơi xấu:))",
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:19.213+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -     "ReviewText": "Lọ hoa thủy tinh màu hổ phách 18cm bình hoa phong cách vintage. Cắm hoa trang trí bao  đẹp Giá chỉ 49k",
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:19.214+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -     "ReviewText": "Sản Phẩm giá tốt chất lượng và ok phù hợp với giá tiền nên mua ok",
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:19.215+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:19.216+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:19.216+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:19.216+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:19.216+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:19.216+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:56:19.216+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:56:24.822+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:28.376+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:31.608+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:34.514+0700] {subprocess.py:93} INFO - [INFO] ✅ Dùng model mới nhất: /opt/***/models/newer_models/best_absa_1/model.pt
+[2025-10-31T06:56:36.033+0700] {subprocess.py:93} INFO - 
+[2025-10-31T06:56:36.034+0700] {subprocess.py:93} INFO - [Batch 5] Nhận 10 dòng, hiển thị 5 dòng đầu:
+[2025-10-31T06:56:36.034+0700] {subprocess.py:93} INFO - [
+[2025-10-31T06:56:36.034+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:36.034+0700] {subprocess.py:93} INFO -     "ReviewText": "Hàng đẹp mang cũn vừa vặn lém lun ó Giá này quá okela lun á❤ sẽ ủng hộ shop lần sau😘",
+[2025-10-31T06:56:36.034+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:36.034+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:36.034+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:36.034+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -     "ReviewText": "关于成功这个问题，每个人对成功都有自己的理解。有人说“真正的成功，不是赚了多少钱或者做了多高的官，而是有一天你除去这一切身份的时候，还有人愿意在你身边对你微笑。” 此外，也有意见认为“只要不触碰法律底线、不啃老，不给社会添麻烦，只要精神富足就是成功，人生最大的成功，是用自己喜欢的方式过一生，不讨好别人” 但对我就说： 人生最大的成功在我的眼里分为4个点， 第一，找个好伴侣你就成功一半。 第二，培养好不危害社会的好孩子。 第三，经济一定要够用最好还能帮助到别人。 第四，让生自己养自己的父母老年生活幸福指数高高的。 在我心里这四点做到了就一个成功人士。",
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:36.035+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -     "ReviewText": "giay dep hon nhieu so voi gia tien, chat luong 5 sao mng nen mua nha",
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:36.036+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -     "ReviewText": "Giày đi nhẹ..giá tiền phù hợp",
+[2025-10-31T06:56:36.037+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -   },
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -   {
+[2025-10-31T06:56:36.038+0700] {subprocess.py:93} INFO -     "ReviewText": "Hàng ngon xịn mịn giá rẻ nhé🐧",
+[2025-10-31T06:56:36.039+0700] {subprocess.py:93} INFO -     "Price": "NEG",
+[2025-10-31T06:56:36.039+0700] {subprocess.py:93} INFO -     "Shipping": "NEG",
+[2025-10-31T06:56:36.039+0700] {subprocess.py:93} INFO -     "Outlook": "NEG",
+[2025-10-31T06:56:36.039+0700] {subprocess.py:93} INFO -     "Quality": "NEG",
+[2025-10-31T06:56:36.039+0700] {subprocess.py:93} INFO -     "Size": "NEG",
+[2025-10-31T06:56:36.039+0700] {subprocess.py:93} INFO -     "Shop_Service": "NEG",
+[2025-10-31T06:56:36.039+0700] {subprocess.py:93} INFO -     "General": "NEG",
+[2025-10-31T06:56:36.039+0700] {subprocess.py:93} INFO -     "Others": "NEG"
+[2025-10-31T06:56:36.040+0700] {subprocess.py:93} INFO -   }
+[2025-10-31T06:56:36.040+0700] {subprocess.py:93} INFO - ]
+[2025-10-31T06:56:36.040+0700] {subprocess.py:93} INFO - [Batch 5] 💥 Giả lập sự cố: crash mô phỏng.
+[2025-10-31T06:56:36.040+0700] {subprocess.py:93} INFO - 25/10/31 06:56:36 ERROR MicroBatchExecution: Query [id = 10e26114-b753-48f7-b800-d99ea0de4d4f, runId = 1b80143e-f674-483d-b81d-371ac54286f9] terminated with error
+[2025-10-31T06:56:36.040+0700] {subprocess.py:93} INFO - py4j.Py4JException: An exception was raised by the Python Proxy. Return Message: Traceback (most recent call last):
+[2025-10-31T06:56:36.040+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip/py4j/clientserver.py", line 617, in _call_proxy
+[2025-10-31T06:56:36.040+0700] {subprocess.py:93} INFO -     return_value = getattr(self.pool[obj_id], method)(*params)
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO -                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/utils.py", line 120, in call
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO -     raise e
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/utils.py", line 117, in call
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO -     self.func(DataFrame(jdf, wrapped_session_jdf), batch_id)
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO -   File "/opt/***/projects/absa_streaming/scripts/consumer_postgres_streaming.py", line 161, in write_to_postgres
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO -     raise Exception(f"Simulated crash at batch {batch_id}")
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO - Exception: Simulated crash at batch 5
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO - 
+[2025-10-31T06:56:36.041+0700] {subprocess.py:93} INFO - 	at py4j.Protocol.getReturnValue(Protocol.java:476)
+[2025-10-31T06:56:36.042+0700] {subprocess.py:93} INFO - 	at py4j.reflection.PythonProxyHandler.invoke(PythonProxyHandler.java:108)
+[2025-10-31T06:56:36.042+0700] {subprocess.py:93} INFO - 	at jdk.proxy3/jdk.proxy3.$Proxy32.call(Unknown Source)
+[2025-10-31T06:56:36.042+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.sources.PythonForeachBatchHelper$.$anonfun$callForeachBatch$1(ForeachBatchSink.scala:53)
+[2025-10-31T06:56:36.042+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.sources.PythonForeachBatchHelper$.$anonfun$callForeachBatch$1$adapted(ForeachBatchSink.scala:53)
+[2025-10-31T06:56:36.042+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.sources.ForeachBatchSink.addBatch(ForeachBatchSink.scala:34)
+[2025-10-31T06:56:36.042+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.$anonfun$runBatch$17(MicroBatchExecution.scala:732)
+[2025-10-31T06:56:36.042+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:125)
+[2025-10-31T06:56:36.042+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:201)
+[2025-10-31T06:56:36.043+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:108)
+[2025-10-31T06:56:36.043+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:900)
+[2025-10-31T06:56:36.043+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:66)
+[2025-10-31T06:56:36.043+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.$anonfun$runBatch$16(MicroBatchExecution.scala:729)
+[2025-10-31T06:56:36.043+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProgressReporter.reportTimeTaken(ProgressReporter.scala:427)
+[2025-10-31T06:56:36.043+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProgressReporter.reportTimeTaken$(ProgressReporter.scala:425)
+[2025-10-31T06:56:36.044+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution.reportTimeTaken(StreamExecution.scala:67)
+[2025-10-31T06:56:36.044+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.runBatch(MicroBatchExecution.scala:729)
+[2025-10-31T06:56:36.044+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.$anonfun$runActivatedStream$2(MicroBatchExecution.scala:286)
+[2025-10-31T06:56:36.044+0700] {subprocess.py:93} INFO - 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[2025-10-31T06:56:36.044+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProgressReporter.reportTimeTaken(ProgressReporter.scala:427)
+[2025-10-31T06:56:36.044+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProgressReporter.reportTimeTaken$(ProgressReporter.scala:425)
+[2025-10-31T06:56:36.044+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution.reportTimeTaken(StreamExecution.scala:67)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.$anonfun$runActivatedStream$1(MicroBatchExecution.scala:249)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.ProcessingTimeExecutor.execute(TriggerExecutor.scala:67)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.MicroBatchExecution.runActivatedStream(MicroBatchExecution.scala:239)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution.$anonfun$runStream$1(StreamExecution.scala:311)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:900)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution.org$apache$spark$sql$execution$streaming$StreamExecution$$runStream(StreamExecution.scala:289)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution$$anon$1.$anonfun$run$1(StreamExecution.scala:211)
+[2025-10-31T06:56:36.045+0700] {subprocess.py:93} INFO - 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[2025-10-31T06:56:36.046+0700] {subprocess.py:93} INFO - 	at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
+[2025-10-31T06:56:36.046+0700] {subprocess.py:93} INFO - 	at org.apache.spark.sql.execution.streaming.StreamExecution$$anon$1.run(StreamExecution.scala:211)
+[2025-10-31T06:56:36.062+0700] {subprocess.py:93} INFO - Traceback (most recent call last):
+[2025-10-31T06:56:36.063+0700] {subprocess.py:93} INFO -   File "/opt/***/projects/absa_streaming/scripts/consumer_postgres_streaming.py", line 198, in <module>
+[2025-10-31T06:56:36.063+0700] {subprocess.py:93} INFO -     query.awaitTermination()
+[2025-10-31T06:56:36.063+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/streaming/query.py", line 221, in awaitTermination
+[2025-10-31T06:56:36.063+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
+[2025-10-31T06:56:36.063+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/errors/exceptions/captured.py", line 185, in deco
+[2025-10-31T06:56:36.066+0700] {subprocess.py:93} INFO - pyspark.errors.exceptions.captured.StreamingQueryException: [STREAM_FAILED] Query [id = 10e26114-b753-48f7-b800-d99ea0de4d4f, runId = 1b80143e-f674-483d-b81d-371ac54286f9] terminated with exception: An exception was raised by the Python Proxy. Return Message: Traceback (most recent call last):
+[2025-10-31T06:56:36.066+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip/py4j/clientserver.py", line 617, in _call_proxy
+[2025-10-31T06:56:36.066+0700] {subprocess.py:93} INFO -     return_value = getattr(self.pool[obj_id], method)(*params)
+[2025-10-31T06:56:36.066+0700] {subprocess.py:93} INFO -                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2025-10-31T06:56:36.067+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/utils.py", line 120, in call
+[2025-10-31T06:56:36.067+0700] {subprocess.py:93} INFO -     raise e
+[2025-10-31T06:56:36.067+0700] {subprocess.py:93} INFO -   File "/home/***/.local/lib/python3.12/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/utils.py", line 117, in call
+[2025-10-31T06:56:36.067+0700] {subprocess.py:93} INFO -     self.func(DataFrame(jdf, wrapped_session_jdf), batch_id)
+[2025-10-31T06:56:36.067+0700] {subprocess.py:93} INFO -   File "/opt/***/projects/absa_streaming/scripts/consumer_postgres_streaming.py", line 161, in write_to_postgres
+[2025-10-31T06:56:36.068+0700] {subprocess.py:93} INFO -     raise Exception(f"Simulated crash at batch {batch_id}")
+[2025-10-31T06:56:36.068+0700] {subprocess.py:93} INFO - Exception: Simulated crash at batch 5
+[2025-10-31T06:56:36.068+0700] {subprocess.py:93} INFO - 
+[2025-10-31T06:56:36.574+0700] {subprocess.py:97} INFO - Command exited with return code 1
+[2025-10-31T06:56:36.575+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-31T06:56:36.581+0700] {taskinstance.py:2890} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 460, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 243, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2025-10-31T06:56:36.584+0700] {taskinstance.py:1205} INFO - Marking task as UP_FOR_RETRY. dag_id=absa_streaming_lifecycle_demo11, task_id=deploy_consumer, execution_date=20251030T220000, start_date=20251030T235348, end_date=20251030T235636
+[2025-10-31T06:56:36.592+0700] {standard_task_runner.py:110} ERROR - Failed to execute job 15 for task deploy_consumer (Bash command failed. The command returned a non-zero exit code 1.; 6417)
+[2025-10-31T06:56:36.637+0700] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2025-10-31T06:56:36.649+0700] {taskinstance.py:3482} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-10-31T06:56:36.650+0700] {local_task_job_runner.py:222} INFO - ::endgroup::

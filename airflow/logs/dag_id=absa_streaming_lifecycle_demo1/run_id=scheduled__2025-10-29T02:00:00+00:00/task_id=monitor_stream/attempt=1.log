@@ -1,0 +1,22 @@
+[2025-10-29T10:39:05.436+0700] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-10-29T10:39:05.448+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo1.monitor_stream scheduled__2025-10-29T02:00:00+00:00 [queued]>
+[2025-10-29T10:39:05.452+0700] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: absa_streaming_lifecycle_demo1.monitor_stream scheduled__2025-10-29T02:00:00+00:00 [queued]>
+[2025-10-29T10:39:05.452+0700] {taskinstance.py:2303} INFO - Starting attempt 1 of 3
+[2025-10-29T10:39:05.458+0700] {taskinstance.py:2327} INFO - Executing <Task(PythonOperator): monitor_stream> on 2025-10-29 02:00:00+00:00
+[2025-10-29T10:39:05.465+0700] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=48617) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-10-29T10:39:05.465+0700] {standard_task_runner.py:63} INFO - Started process 48619 to run task
+[2025-10-29T10:39:05.466+0700] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'absa_streaming_lifecycle_demo1', 'monitor_stream', 'scheduled__2025-10-29T02:00:00+00:00', '--job-id', '56', '--raw', '--subdir', 'DAGS_FOLDER/absa_streaming_lifecycle_dag1.py', '--cfg-path', '/tmp/tmpf8w60srw']
+[2025-10-29T10:39:05.467+0700] {standard_task_runner.py:91} INFO - Job 56: Subtask monitor_stream
+[2025-10-29T10:39:05.490+0700] {task_command.py:426} INFO - Running <TaskInstance: absa_streaming_lifecycle_demo1.monitor_stream scheduled__2025-10-29T02:00:00+00:00 [running]> on host 6f0586100d56
+[2025-10-29T10:39:05.534+0700] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='absa_streaming_lifecycle_demo1' AIRFLOW_CTX_TASK_ID='monitor_stream' AIRFLOW_CTX_EXECUTION_DATE='2025-10-29T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-29T02:00:00+00:00'
+[2025-10-29T10:39:05.536+0700] {taskinstance.py:430} INFO - ::endgroup::
+[2025-10-29T10:39:05.536+0700] {logging_mixin.py:188} INFO - [Monitor] Checking streaming job checkpoint...
+[2025-10-29T10:39:05.538+0700] {logging_mixin.py:188} INFO - [Monitor] Checkpoint exists (748K) → job running normally.
+[2025-10-29T10:39:05.538+0700] {python.py:237} INFO - Done. Returned value was: None
+[2025-10-29T10:39:05.539+0700] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-10-29T10:39:05.543+0700] {taskinstance.py:1205} INFO - Marking task as SUCCESS. dag_id=absa_streaming_lifecycle_demo1, task_id=monitor_stream, execution_date=20251029T020000, start_date=20251029T033905, end_date=20251029T033905
+[2025-10-29T10:39:05.558+0700] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-10-29T10:39:05.570+0700] {taskinstance.py:3482} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-10-29T10:39:05.571+0700] {local_task_job_runner.py:222} INFO - ::endgroup::
