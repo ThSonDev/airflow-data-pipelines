@@ -20,7 +20,7 @@ default_args = {
 
 # === DAG definition ===
 with DAG(
-        dag_id="absa_streaming_lifecycle_demo11",
+        dag_id="absa_streaming_lifecycle_demo",
         default_args=default_args,
         description="Orchestrate Kafka–Spark–PostgreSQL streaming lifecycle (1-Hour Demo)",
         schedule_interval=timedelta(hours=1),            # Chu kỳ 1 giờ

@@ -8,13 +8,14 @@ x-airflow-common:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
-    HF_HOME: /opt/airflow/hf_cache
+    #HF_HOME: /opt/airflow/hf_cache
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
     TZ: Asia/Ho_Chi_Minh
     AIRFLOW__CORE__DEFAULT_TIMEZONE: Asia/Ho_Chi_Minh
@@ -235,7 +236,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
-    restart: always
+    restart: unless-stopped
 
 volumes:
   postgres-db-volume:
