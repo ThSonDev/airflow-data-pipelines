@@ -1,56 +1,43 @@
-# SE363 – Phát triển ứng dụng trên nền tảng dữ liệu lớn
-# Khoa Công nghệ Phần mềm – Trường Đại học Công nghệ Thông tin, ĐHQG-HCM
-# HopDT – Faculty of Software Engineering, University of Information Technology (FSE-UIT)
+from confluent_kafka import Producer
+import pandas as pd
+import json
+import time
 
-# producer.py
-# ======================================
-# Producer đọc dữ liệu từ file "test_data.csv"
-# và gửi từng dòng dữ liệu lên Kafka topic "absa-reviews".
-
-from kafka import KafkaProducer
-from kafka.admin import KafkaAdminClient, NewTopic
-from kafka.errors import TopicAlreadyExistsError
-import json, time, pandas as pd
-
-# --- Cấu hình ---
-KAFKA_SERVER = "kafka:9092"  # dùng hostname trong docker network
+# Config
+conf = {"bootstrap.servers": "kafka:9092"}
 TOPIC = "absa-reviews"
-CSV_PATH = "/opt/airflow/projects/absa_streaming/data/test_data.csv"
-DELAY = 1.0  # giây giữa mỗi message
+CSV_PATH = "/opt/airflow/projects/absa_streaming/data/test_data.csv" 
+DELAY = 1.0 
 
-# --- Đảm bảo topic tồn tại ---
-try:
-    admin = KafkaAdminClient(bootstrap_servers=KAFKA_SERVER, client_id="absa_admin")
-    topic = NewTopic(name=TOPIC, num_partitions=1, replication_factor=1)
-    admin.create_topics([topic])
-    print(f"✅ Created topic: {TOPIC}")
-except TopicAlreadyExistsError:
-    print(f"ℹ️ Topic {TOPIC} already exists")
-except Exception as e:
-    print(f"⚠️ Skipped topic creation: {e}")
-finally:
-    try:
-        admin.close()
-    except:
-        pass
+producer = Producer(conf)
 
-# --- Khởi tạo Producer ---
-producer = KafkaProducer(
-    bootstrap_servers=KAFKA_SERVER,
-    value_serializer=lambda v: json.dumps(v).encode("utf-8")
-)
+def delivery_report(err, msg):
+    if err is not None:
+        print(f"Message delivery failed: {err}")
 
-# --- Đọc dữ liệu ---
+# Load CSV (Assumes text is in the first column)
+print(f"Loading data from {CSV_PATH}...")
 df = pd.read_csv(CSV_PATH)
-print(f"Loaded {len(df)} rows from {CSV_PATH}")
+print(f"Loaded {len(df)} rows.")
 
-# --- Gửi từng dòng ---
+print(f"Starting production to topic '{TOPIC}'...")
+
 for i, row in df.iterrows():
-    text = row["text"] if "text" in row else row.iloc[0]
-    msg = {"id": int(i), "review": text}
-    producer.send(TOPIC, msg)
-    print(f"[{i+1}/{len(df)}] Sent → {msg}")
+    # Take text from the first column only
+    text = str(row.iloc[0])
+
+    # Create simple message without ID
+    message = {"review": text}
+
+    producer.produce(
+        TOPIC,
+        value=json.dumps(message).encode("utf-8"),
+        callback=delivery_report
+    )
+    
+    producer.poll(0)
+    print(f"[{i+1}/{len(df)}] Sent: {message}")
     time.sleep(DELAY)
 
 producer.flush()
-print("✅ All messages sent successfully.")
+print("All messages sent successfully.")
