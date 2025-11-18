@@ -4,3 +4,6 @@
 .env
 airflow/dags/__pycache__
 *.html
+*TEST*
+/airflow/static/*
+/airflow/projects/vehicle_counting/data/*
