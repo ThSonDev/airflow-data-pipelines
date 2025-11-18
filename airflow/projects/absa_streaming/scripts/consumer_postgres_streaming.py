@@ -1,205 +1,224 @@
-# SE363 – Phát triển ứng dụng trên nền tảng dữ liệu lớn
-# Khoa Công nghệ Phần mềm – Trường Đại học Công nghệ Thông tin, ĐHQG-HCM
-# HopDT – Faculty of Software Engineering, University of Information Technology (FSE-UIT)
-
-# consumer_postgres_streaming.py
+# cnn_consumer_postgres.py
 # ======================================
-# Consumer đọc dữ liệu từ Kafka topic "absa-reviews"
-# → chạy inference mô hình ABSA (.pt)
-# → ghi kết quả vào PostgreSQL
-# → Airflow sẽ giám sát và khởi động lại khi job bị dừng.
+# Consumer reading from Kafka "absa-reviews"
+# → Reconstructs TextCNN from notebook
+# → Preprocesses and Inferences using PySpark UDF
+# → Decodes labels (NONE, NEG, POS, NEU)
+# → Writes to PostgreSQL with specific logging
+# ======================================
 
+import torch
+import sys
 from pyspark.sql import SparkSession, functions as F, types as T
 from pyspark.sql.functions import pandas_udf, from_json, col
-import pandas as pd, torch, torch.nn as nn, torch.nn.functional as tF
-from transformers import AutoTokenizer, AutoModel
-import random, time, os, sys, json
+import pandas as pd
+import torch.nn as nn
+import numpy as np
+import json
+import re
+import unicodedata
+import os
+import psycopg2
 
-# === 1. Spark session với Kafka connector ===
-scala_version = "2.12"
-spark_version = "3.5.1"
+# === 1. Configuration & Constants ===
+SCALA_VERSION = "2.12"
+SPARK_VERSION = "3.5.1"
 
-spark = (
-    SparkSession.builder
-    .appName("Kafka_ABSA_Postgres")
-    .config("spark.jars.packages",
-            f"org.apache.spark:spark-sql-kafka-0-10_{scala_version}:{spark_version},"
-            "org.postgresql:postgresql:42.6.0,"
-            "org.apache.kafka:kafka-clients:3.6.1")
-    .config("spark.sql.streaming.checkpointLocation", "/opt/airflow/checkpoints/absa_streaming_checkpoint")
-    .getOrCreate()
-)
-spark.sparkContext.setLogLevel("ERROR")
+# Architecture Constants (from Notebook)
+EMBED_DIM = 128
+NUM_FILTERS = 192
+WORD_WINDOW = 5
+NUM_CLASSES = 4
+ASPECT_COLUMNS = ['Price', 'Shipping', 'Outlook', 'Quality', 'Size', 'Shop_Service', 'General', 'Others']
 
-# === 2. Đọc dữ liệu streaming từ Kafka ===
-df_stream = (
-    spark.readStream
-    .format("kafka")
-    .option("kafka.bootstrap.servers", "kafka:9092")
-    .option("subscribe", "absa-reviews")
-    .option("startingOffsets", "latest")
-    .option("maxOffsetsPerTrigger", 10)
-    .load()
-)
+# Paths - Updated to cnn_best.pth
+# Assuming /opt/airflow/models/ based on your previous file structure
+MODEL_PATH = "/opt/airflow/models/cnn_best.pth"
+NEWER_MODELS_DIR = "/opt/airflow/models/newer_models"
+VOCAB_PATH = "/opt/airflow/models/vocab.json"
 
-df_text = df_stream.selectExpr("CAST(value AS STRING) as Review")
+# Label Mapping
+PREDICTION_MAP = {
+    0: "NONE",
+    1: "NEG",
+    2: "POS",
+    3: "NEU"
+}
 
-# === 3. Định nghĩa mô hình ABSA ===
-ASPECTS = ["Price","Shipping","Outlook","Quality","Size","Shop_Service","General","Others"]
-MODEL_NAME = "xlm-roberta-base"
-MODEL_PATH = "/opt/airflow/models/best_absa_hardshare.pt"
-MAX_LEN = 48
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+# Globals for UDF optimization
+_model = None
+_vocab = None
+_device = None
 
-_model, _tokenizer = None, None
+# === 2. Preprocessing Logic (Strictly from Notebook) ===
+REMOVE_TONE = False
+REMOVE_NOISE = True
 
-class ABSAModel(nn.Module):
-    def __init__(self, model_name=MODEL_NAME, num_aspects=len(ASPECTS)):
+def remove_vietnamese_tone(text):
+    text = unicodedata.normalize('NFD', text)
+    text = re.sub(r'[\u0300-\u036f]', '', text)
+    text = unicodedata.normalize('NFC', text)
+    return text
+
+def remove_non_vietnamese_chars(text):
+    return re.sub(
+        r"[^a-zàáạảãăắằặẳẵâầấậẩẫèéẹẻẽêềếệểễ"
+        r"ìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữ"
+        r"ỳýỵỷỹđ0-9\s]",
+        " ",
+        text
+    )
+
+def clean(text):
+    text = str(text).lower().strip()
+    if REMOVE_TONE:
+        text = remove_vietnamese_tone(text)
+    if REMOVE_NOISE:
+        text = remove_non_vietnamese_chars(text)
+    text = re.sub(r"\s+", " ", text)
+    return text
+
+# === 3. Model Architecture (Strictly from Notebook) ===
+class TextCNN(nn.Module):
+    def __init__(self, vocab_size, embed_dim, num_labels):
         super().__init__()
-        self.backbone = AutoModel.from_pretrained(model_name)
-        H = self.backbone.config.hidden_size
-        self.dropout = nn.Dropout(0.1)
-        self.head_m = nn.Linear(H, num_aspects)
-        self.head_s = nn.Linear(H, num_aspects * 3)
-    def forward(self, input_ids, attention_mask):
-        out = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
-        h_cls = self.dropout(out.last_hidden_state[:, 0, :])
-        return self.head_m(h_cls), self.head_s(h_cls).view(-1, len(ASPECTS), 3)
-
-@pandas_udf(T.ArrayType(T.FloatType()))
-def absa_infer_udf(texts: pd.Series) -> pd.Series:
-    global _model, _tokenizer
-    if _model is None:
-        _tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=True)
-        _model = ABSAModel()
-
-
-        NEWER_ROOT = "/opt/airflow/models/newer_models"
-        # if os.path.exists(NEWER_ROOT):
-        #     valid_models = []
-        #     for d in os.listdir(NEWER_ROOT):
-        #         sub = os.path.join(NEWER_ROOT, d)
-        #         model_file = os.path.join(sub, "model.pt")
-        #         if d.startswith("best_absa_") and os.path.isdir(sub) and os.path.isfile(model_file) and os.path.getsize(model_file) > 1024:
-        #             valid_models.append(d)
-        #     if valid_models:
-        #         latest = max(valid_models, key=lambda x: int(x.split("_")[-1]))
-        #         candidate = os.path.join(NEWER_ROOT, latest, "model.pt")
-        #         print(f"[INFO] ✅ Dùng model mới nhất: {candidate}")
-        #         _model.load_state_dict(torch.load(candidate, map_location=DEVICE))
-        #     else:
-        #         print("[INFO] ⚠️ newer_models trống — dùng model mặc định.")
-        #         _model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
-        # else:
-        #     print("[INFO] ⚠️ Không có thư mục newer_models — dùng model mặc định.")
-        #     _model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
-
-        from sqlalchemy import create_engine, text
-        latest_model_name = None
-        try:
-            engine = create_engine("postgresql+psycopg2://airflow:airflow@postgres:5432/airflow")
-            with engine.connect() as conn:
-                q = text("""
-                    SELECT model_name FROM retrain_results
-                    ORDER BY f1_macro DESC NULLS LAST, created_at DESC
-                    LIMIT 1
-                """)
-                result = conn.execute(q).fetchone()
-                if result and result[0]:
-                    latest_model_name = result[0]
-                    print(f"[INFO] Model tốt nhất trong PostgreSQL: {latest_model_name}")
-                else:
-                    print("[INFO] PostgreSQL rỗng — chưa có model retrain nào, dùng model mặc định.")
-        except Exception as e:
-            print(f"[WARN] Không thể đọc PostgreSQL: {e}")
-            latest_model_name = None
-
-        # -----------------------------
-        # 🧠 Chọn model để load
-        # -----------------------------
-        candidate = None
-        if latest_model_name:
-            candidate_dir = os.path.join(NEWER_ROOT, latest_model_name)
-            candidate_file = os.path.join(candidate_dir, "model.pt")
-            if os.path.isfile(candidate_file) and os.path.getsize(candidate_file) > 1024:
-                candidate = candidate_file
-                print(f"[INFO] ✅ Dùng model mới nhất từ PostgreSQL: {candidate}")
-            else:
-                print(f"[WARN] Model {latest_model_name} trong PostgreSQL không tồn tại hoặc rỗng — dùng model mặc định.")
+        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
+        self.conv = nn.Conv1d(embed_dim, NUM_FILTERS, kernel_size=WORD_WINDOW, padding=int(WORD_WINDOW // 2))
+        self.pool = nn.AdaptiveMaxPool1d(1)
+        self.shared_dense = nn.Linear(NUM_FILTERS, 128)
+        self.dropout = nn.Dropout(0.5)
         
-        if candidate:
-            _model.load_state_dict(torch.load(candidate, map_location=DEVICE))
+        self.output_heads = nn.ModuleList([ 
+            nn.Linear(128, NUM_CLASSES) for _ in range(num_labels)
+        ])
+
+    def forward(self, x):
+        x = self.embedding(x).permute(0, 2, 1)
+        x = torch.relu(self.conv(x))
+        x = self.pool(x).squeeze(2)
+        x = torch.relu(self.shared_dense(x)) 
+        x = self.dropout(x)
+
+        outputs = []
+        for head in self.output_heads:
+            outputs.append(head(x))
+            
+        return torch.stack(outputs, dim=1)
+
+# === 4. Helper Functions ===
+def load_resources():
+    """Loads model and vocab once per executor."""
+    global _model, _vocab, _device
+    
+    if _vocab is None:
+        if os.path.exists(VOCAB_PATH):
+            with open(VOCAB_PATH, "r", encoding="utf-8") as f:
+                _vocab = json.load(f)
         else:
-            print(f"[INFO] 🔁 Dùng model mặc định: {MODEL_PATH}")
-            _model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
+            print(f"[WARN] Vocab file not found at {VOCAB_PATH}. Using empty vocab.")
+            _vocab = {"<PAD>": 0, "<UNK>": 1}
+
+    if _model is None:
+        # Re-check device inside executor
+        _device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
-        _model.half()
-        _model.to(DEVICE).eval()
+        vocab_size = len(_vocab)
+        _model = TextCNN(vocab_size=vocab_size, embed_dim=EMBED_DIM, num_labels=len(ASPECT_COLUMNS))
+        
+        # --- NEW LOGIC: Check DB for better model ---
+        target_model_path = MODEL_PATH # Default
+        
+        try:
+            # Connect to DB to find best model
+            conn = psycopg2.connect(host="postgres", port=5432, database="airflow", user="airflow", password="airflow")
+            cur = conn.cursor()
+            # Get model with highest F1 score
+            cur.execute("SELECT model_name FROM retrain_results ORDER BY macro_f1 DESC, id DESC LIMIT 1")
+            row = cur.fetchone()
+            
+            if row:
+                best_model_name = row[0]
+                candidate_path = os.path.join(NEWER_MODELS_DIR, best_model_name)
+                if os.path.exists(candidate_path):
+                    target_model_path = candidate_path
+                    print(f"[INFO] 🚀 Found better model in DB. Switching to: {target_model_path}")
+                else:
+                    print(f"[WARN] Best model {best_model_name} listed in DB but file missing. Using default.")
+            
+            cur.close()
+            conn.close()
+        except Exception as e:
+            print(f"[WARN] Could not check retrain_results (Error: {e}). Using default model.")
 
-    results = []
-    for t in texts:
-        enc = _tokenizer(t, truncation=True, padding="max_length", max_length=MAX_LEN, return_tensors="pt").to(DEVICE)
-        with torch.no_grad():
-            logits_m, logits_s = _model(enc["input_ids"], enc["attention_mask"])
-            p_m = torch.sigmoid(logits_m)[0].cpu().numpy().tolist()
-            p_s = tF.softmax(logits_s, dim=-1)[0].cpu().numpy().flatten().tolist()
-        results.append(p_m + p_s)
-    torch.cuda.empty_cache()
-    return pd.Series(results)
+        # --- Load the selected model ---
+        if os.path.exists(target_model_path):
+            _model.load_state_dict(torch.load(target_model_path, map_location=_device))
+            print(f"[INFO] Model loaded from {target_model_path} on {_device}")
+        else:
+            print(f"[WARN] Model file not found at {target_model_path}. Inference will be random/garbage.")
+            
+        _model.to(_device)
+        _model.eval()
 
-df_pred = df_text.withColumn("predictions", absa_infer_udf(F.col("Review")))
+def encode_text(text, vocab):
+    return [vocab.get(t, 1) for t in text.split()]
 
-# === 4. Giải mã kết quả ra nhãn POS/NEG/NEU ===
-@pandas_udf("string")
-def decode_sentiment(preds: pd.Series) -> pd.Series:
-    SENTIMENTS = ["NEG", "POS", "NEU"]
-    res = []
-    for p in preds:
-        if not p:
-            res.append("?")
-            continue
-        p = list(p)
-        p_m, p_s = p[:len(ASPECTS)], p[len(ASPECTS):]
-        decoded = []
-        for i, asp in enumerate(ASPECTS):
-            triplet = p_s[i*3:(i+1)*3]
-            s = SENTIMENTS[int(max(range(3), key=lambda j: triplet[j]))]
-            decoded.append(f"{asp}:{s}")
-        res.append(", ".join(decoded))
-    return pd.Series(res)
+# === 5. PySpark UDF for Inference ===
+@pandas_udf(T.ArrayType(T.StringType()))
+def cnn_inference_udf(texts: pd.Series) -> pd.Series:
+    load_resources()
+    
+    batch_results = []
+    processed_indices = []
+    
+    # Preprocess & Encode
+    for text in texts:
+        cleaned = clean(text)
+        encoded = encode_text(cleaned, _vocab)
+        processed_indices.append(torch.tensor(encoded, dtype=torch.long))
+    
+    if not processed_indices:
+        return pd.Series([[] for _ in texts])
+        
+    from torch.nn.utils.rnn import pad_sequence
+    padded_batch = pad_sequence(processed_indices, batch_first=True, padding_value=0).to(_device)
+    
+    # Inference
+    with torch.no_grad():
+        outputs = _model(padded_batch) # Shape: [batch, 8, 4]
+        predictions = outputs.argmax(dim=2).cpu().numpy() # Shape: [batch, 8]
+        
+    # Decode to labels
+    for row_preds in predictions:
+        row_labels = []
+        for pred_idx in row_preds:
+            label = PREDICTION_MAP.get(pred_idx, "NONE")
+            row_labels.append(label)
+        batch_results.append(row_labels)
+        
+    return pd.Series(batch_results)
 
-df_final = df_pred.withColumn("decoded", decode_sentiment(F.col("predictions")))
-for asp in ASPECTS:
-    df_final = df_final.withColumn(asp, F.regexp_extract("decoded", f"{asp}:(\\w+)", 1))
-
-# === Giải mã Review JSON thành text tiếng Việt trước khi stream ===
-review_schema = T.StructType([
-    T.StructField("id", T.StringType()),
-    T.StructField("review", T.StringType())
-])
-df_final = df_final.withColumn("ReviewText", from_json(col("Review"), review_schema).getField("review"))
-
-# === 5. Ghi kết quả vào PostgreSQL (chuẩn UTF-8, log đầy đủ, xử lý lỗi an toàn) ===
+# === 6. Writer & Logging ===
 def write_to_postgres(batch_df, batch_id):
     sys.stdout.reconfigure(encoding='utf-8')
     total_rows = batch_df.count()
+    
+    print(f"[Batch {batch_id}] Received {total_rows} rows — preview 5:")
+    
+    # FIX: Changed ASPECTS to ASPECT_COLUMNS here
+    if total_rows > 0:
+        preview_data = batch_df.select("ReviewText", *ASPECT_COLUMNS).limit(5).toPandas().to_dict(orient="records")
+        print(json.dumps(preview_data, ensure_ascii=False, indent=2))
+    else:
+        print("[]")
 
-    if total_rows == 0:
-        print(f"[Batch {batch_id}] ⚠️ Không có dữ liệu mới.")
-        return
-
-    preview = batch_df.select("ReviewText", *ASPECTS).limit(5).toPandas().to_dict(orient="records")
-    print(f"\n[Batch {batch_id}] Nhận {total_rows} dòng, hiển thị 5 dòng đầu:")
-    print(json.dumps(preview, ensure_ascii=False, indent=2))
-
-    # Giả lập lỗi mô phỏng để test Airflow restart
-    if batch_id % 5 == 0:
-        print(f"[Batch {batch_id}] 💥 Giả lập sự cố: crash mô phỏng.")
+    if batch_id == 7:
+        print(f"[Batch {batch_id}] 💥 Simulated crash at batch 7.")
         raise Exception(f"Simulated crash at batch {batch_id}")
 
     try:
         (batch_df
-            .select("ReviewText", *ASPECTS)
+            .select("ReviewText", *ASPECT_COLUMNS)  # FIX: Changed ASPECTS to ASPECT_COLUMNS here
             .write
             .format("jdbc")
             .option("url", "jdbc:postgresql://postgres:5432/airflow")
@@ -212,24 +231,69 @@ def write_to_postgres(batch_df, batch_id):
             .save()
         )
         print(f"[Batch {batch_id}] ✅ Ghi PostgreSQL thành công ({total_rows} dòng).")
-        subset = batch_df.select("ReviewText", *ASPECTS).limit(3).toPandas().to_dict(orient="records")
-        print(f"[Batch {batch_id}] Dữ liệu đã ghi (mẫu):")
-        print(json.dumps(subset, ensure_ascii=False, indent=2))
-
+        
     except Exception as e:
-        print(f"[Batch {batch_id}] ⚠️ Không thể ghi vào PostgreSQL, ghi log ra console thay thế.")
-        print(f"Lỗi: {str(e)}")
-        subset = batch_df.select("ReviewText", *ASPECTS).limit(5).toPandas().to_dict(orient="records")
-        print(json.dumps(subset, ensure_ascii=False, indent=2))
+        print(f"[Batch {batch_id}] ⚠️ Error writing to Postgres: {e}")
+        # Optional: print data on error if needed, using ASPECT_COLUMNS
+        # preview_error = batch_df.select("ReviewText", *ASPECT_COLUMNS).limit(5).toPandas().to_dict(orient="records")
+        # print(json.dumps(preview_error, ensure_ascii=False, indent=2))
 
-# === 6. Bắt đầu stream ===
-query = (
-    df_final.writeStream
-    .foreachBatch(write_to_postgres)
-    .outputMode("append")
-    .trigger(processingTime="5 seconds")
-    .start()
-)
+# === 7. Main Execution ===
+def main():
+    spark = (
+        SparkSession.builder
+        .appName("CNN_Kafka_ABSA_Postgres")
+        .config("spark.jars.packages",
+                f"org.apache.spark:spark-sql-kafka-0-10_{SCALA_VERSION}:{SPARK_VERSION},"
+                "org.postgresql:postgresql:42.6.0,"
+                "org.apache.kafka:kafka-clients:3.6.1")
+        .config("spark.sql.streaming.checkpointLocation", "/opt/airflow/checkpoints/absa_streaming_checkpoint")
+        .getOrCreate()
+    )
+    spark.sparkContext.setLogLevel("ERROR")
 
-print("🚀 Streaming job started — đang lắng nghe dữ liệu từ Kafka...")
-query.awaitTermination()
+    df_stream = (
+        spark.readStream
+        .format("kafka")
+        .option("kafka.bootstrap.servers", "kafka:9092")
+        .option("subscribe", "absa-reviews")
+        .option("startingOffsets", "latest")
+        .option("maxOffsetsPerTrigger", 10)
+        .load()
+    )
+    
+    review_schema = T.StructType([
+        T.StructField("id", T.StringType()),
+        T.StructField("review", T.StringType())
+    ])
+    
+    df_text = df_stream.selectExpr("CAST(value AS STRING) as json_str")
+    df_parsed = df_text.withColumn("data", from_json(col("json_str"), review_schema))
+    df_input = df_parsed.withColumn("ReviewText", col("data.review")).filter(col("ReviewText").isNotNull())
+
+    # Apply Inference
+    df_preds = df_input.withColumn("predictions_array", cnn_inference_udf(col("ReviewText")))
+    
+    df_final = df_preds
+    for i, aspect in enumerate(ASPECT_COLUMNS):
+        df_final = df_final.withColumn(aspect, col("predictions_array")[i])
+
+    query = (
+        df_final.writeStream
+        .foreachBatch(write_to_postgres)
+        .outputMode("append")
+        .trigger(processingTime="5 seconds")
+        .start()
+    )
+
+    print("🚀 CNN Streaming job started — listening to Kafka...")
+    query.awaitTermination()
+
+if __name__ == "__main__":
+    print("="*40)
+    print(f"Checking Compute Resources...")
+    print(f"GPU Available: {torch.cuda.is_available()}")
+    DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {DEVICE}")
+    print("="*40)
+    main()

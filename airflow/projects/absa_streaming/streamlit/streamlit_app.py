@@ -114,31 +114,44 @@ else:
                 f"postgresql+psycopg2://{DB_CONFIG['user']}:{DB_CONFIG['password']}@"
                 f"{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
             )
+            
+            # FIX: Use raw_connection() instead of connect()
             conn = engine.raw_connection()
             try:
                 q = """
-                SELECT model_name, epoch, acc, f1_macro, precision_macro, recall_macro, loss, created_at
+                SELECT id, model_name, macro_f1, balanced_acc, created_at
                 FROM retrain_results
-                ORDER BY f1_macro DESC NULLS LAST, created_at DESC
+                ORDER BY macro_f1 DESC NULLS LAST, created_at DESC
                 LIMIT %s
                 """
                 dfm = pd.read_sql(q, conn, params=(topk,))
             finally:
-                conn.close()
+                conn.close() # Ensure we close the raw connection manually
+            
             return dfm
         except Exception as e:
             st.warning(f"⚠️ Không đọc được bảng retrain_results: {e}")
             return pd.DataFrame()
 
-top_models = load_retrain_results(topk=30)
+    top_models = load_retrain_results(topk=30)
 
-if top_models.empty:
-    st.info("Chưa có log retrain nào trong bảng `retrain_results`.")
-else:
-    # Hiển thị bảng gọn gàng, làm tròn các số
-    num_cols = ["acc", "f1_macro", "precision_macro", "recall_macro", "loss"]
-    for c in num_cols:
-        if c in top_models.columns:
-            top_models[c] = top_models[c].astype(float).round(4)
+    if top_models.empty:
+        st.info("Chưa có log retrain nào trong bảng `retrain_results`.")
+    else:
+        # Rename columns for cleaner display
+        top_models = top_models.rename(columns={
+            "macro_f1": "Macro F1",
+            "balanced_acc": "Balanced Acc",
+            "model_name": "Model Name",
+            "created_at": "Created At",
+            "id": "ID"
+        })
 
-    st.dataframe(top_models, use_container_width=True)
+        # Round numerical columns
+        num_cols = ["Macro F1", "Balanced Acc"]
+        for c in num_cols:
+            if c in top_models.columns:
+                top_models[c] = top_models[c].astype(float).round(4)
+
+        # Display the dataframe
+        st.dataframe(top_models, use_container_width=True, hide_index=True)

@@ -47,11 +47,13 @@ docker exec -it airflow-airflow-scheduler-1 python /opt/airflow/projects/absa_st
 SELECT * FROM absa_results LIMIT 10;
 \q
 
+docker exec -it airflow-airflow-scheduler-1 bash -c "airflow dags delete absa_retrain_pipeline --yes"
+docker exec -it airflow-airflow-scheduler-1 bash -c "rm -rf /opt/airflow/logs/*absa_retrain_pipeline*"
 
-
-
-docker exec -it airflow-airflow-scheduler-1 bash -c "airflow dags delete absa_streaming_lifecycle_demo11 --yes"
-
+docker exec -it airflow-airflow-scheduler-1 bash -c "airflow dags delete absa_streaming_lifecycle_demo --yes"
+docker exec -it airflow-airflow-scheduler-1 bash -c "rm -rf /opt/airflow/logs/*absa_streaming_lifecycle_demo*"
+docker exec -it airflow-airflow-scheduler-1 bash -c "rm -rf /opt/airflow/logs/scheduler/*"
+docker exec -it airflow-postgres-1 psql -U airflow -d airflow
 
 TRUNCATE TABLE absa_results;
 
