@@ -30,20 +30,7 @@ with DAG(
         tags=["absa", "streaming", "kafka", "spark"],
 ) as dag:
 
-    retrain_model = BashOperator(
-        task_id="retrain_model",
-        bash_command=(
-            'bash -c "set -euo pipefail; '
-            'python /opt/airflow/projects/absa_streaming/scripts/retrain.py"'
-        ),
-        retries=1,
-        retry_delay=timedelta(minutes=2),
-        execution_timeout=timedelta(minutes=30),
-        trigger_rule="all_done",
-    )
-
-
-    # === 1️⃣ Khởi động Producer ===
+    # === Khởi động Producer ===
     deploy_producer = BashOperator(
         task_id="deploy_producer",
         bash_command='bash -c "timeout 45m /opt/airflow/projects/absa_streaming/scripts/run_producer.sh"',
@@ -53,7 +40,7 @@ with DAG(
         trigger_rule="all_done",
     )
 
-    # === 2️⃣ Khởi động Consumer ===
+    # === Khởi động Consumer ===
     deploy_consumer = BashOperator(
         task_id="deploy_consumer",
         bash_command='bash -c "timeout 45m /opt/airflow/projects/absa_streaming/scripts/run_consumer.sh"',
@@ -63,7 +50,7 @@ with DAG(
         trigger_rule="all_done",
     )
 
-    # === 3️⃣ Giám sát checkpoint ===
+    # === Giám sát checkpoint ===
     def monitor_job():
         print("[Monitor] Checking streaming job checkpoint...")
         path = "/opt/airflow/checkpoints/absa_streaming_checkpoint"
@@ -79,7 +66,7 @@ with DAG(
         trigger_rule="all_done",
     )
 
-    # === 4️⃣ Dọn dẹp checkpoint ===
+    # === Dọn dẹp checkpoint ===
     cleanup_checkpoints = BashOperator(
         task_id="cleanup_checkpoints",
         bash_command=(
@@ -91,4 +78,4 @@ with DAG(
     )
 
     # === Task dependency ===
-    [deploy_producer, deploy_consumer, retrain_model] >> monitor_stream >> cleanup_checkpoints
+    [deploy_producer, deploy_consumer] >> monitor_stream >> cleanup_checkpoints
