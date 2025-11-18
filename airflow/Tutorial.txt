@@ -60,6 +60,10 @@ TRUNCATE TABLE absa_results;
 TRUNCATE TABLE retrain_results;
 TRUNCATE retrain_results RESTART IDENTITY;
 
+
+docker exec -it airflow-airflow-scheduler-1 bash -c "airflow dags delete yolo_pipeline_video1 --yes; rm -rf /opt/airflow/logs/*yolo_pipeline_video1*; rm -rf /opt/airflow/logs/scheduler/*"
+
+
 swapon --show
 free -h
 sudo swapoff -a
@@ -76,18 +80,17 @@ docker compose up -d
 
 
 
+docker rmi airflow-base:2.9.0-custom \
+  confluentinc/cp-kafka:7.5.0 \
+  postgres:13 \
+  redis:8.2.2 \
+  zookeeper:3.8
+
+docker builder prune -a -f
 
 
-curl -s -X POST "https://models.github.ai/inference/chat/completions" \
-  -H "Authorization: Bearer $GITHUB_MODELS_PAT" \
-  -H "Accept: application/vnd.github+json" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "meta/meta-llama-3.1-8b-instruct",
-    "messages": [
-      {"role": "system", "content": "You are a friendly AI assistant."},
-      {"role": "user", "content": "Hello! Say hi from GitHub Models on Ubuntu."}
-    ],
-    "max_tokens": 256
-  }' | jq -r '.choices[0].message.content'
+docker build -t airflow-base:2.9.0-custom -f base/Dockerfile .
 
+
+
+docker exec --user 0 -it airflow-airflow-worker-1 bash -c "apt-get update && apt-get install -y libgl1-mesa-glx libglib2.0-0"

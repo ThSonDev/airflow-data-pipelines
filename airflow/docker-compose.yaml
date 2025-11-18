@@ -1,5 +1,4 @@
-x-airflow-common:
-  &airflow-common
+x-airflow-common: &airflow-common
   build:
     context: ./
     dockerfile: base/Dockerfile
@@ -24,10 +23,9 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
-    - ${AIRFLOW_PROJ_DIR:-.}/projects/absa_streaming/scripts:/opt/airflow/projects/absa_streaming/scripts
-    - ${AIRFLOW_PROJ_DIR:-.}/projects/absa_streaming/data:/opt/airflow/projects/absa_streaming/data
-    - ${AIRFLOW_PROJ_DIR:-.}/projects/absa_streaming:/opt/airflow/projects/absa_streaming
+    - ${AIRFLOW_PROJ_DIR:-.}/projects:/opt/airflow/projects
     - ${AIRFLOW_PROJ_DIR:-.}/models:/opt/airflow/models
+    - ${AIRFLOW_PROJ_DIR:-.}/static:/opt/airflow/static
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -50,8 +48,7 @@ services:
       interval: 10s
       retries: 5
       start_period: 5s
-    restart: unless-stopped
-
+    restart: no
   redis:
     image: redis:8.2.2
     expose:
@@ -62,7 +59,7 @@ services:
       timeout: 30s
       retries: 50
       start_period: 30s
-    restart: unless-stopped
+    restart: no
 
   airflow-webserver:
     <<: *airflow-common
@@ -198,14 +195,14 @@ services:
       airflow-init:
         condition: service_completed_successfully
   
-  streamlit:
+  streamlit-absa:
     image: airflow-base:2.9.0-custom
-    container_name: streamlit
+    container_name: streamlit-absa
     entrypoint: ["bash", "-c", "streamlit run /opt/airflow/projects/absa_streaming/streamlit/streamlit_app.py --server.port 8501 --server.address 0.0.0.0"]
     ports:
       - "8501:8501"
     volumes:
-      - ${AIRFLOW_PROJ_DIR:-.}/projects/absa_streaming:/opt/airflow/projects/absa_streaming
+      - ${AIRFLOW_PROJ_DIR:-.}/projects:/opt/airflow/projects
       - ${AIRFLOW_PROJ_DIR:-.}/models:/opt/airflow/models
     depends_on:
       airflow-webserver:
@@ -217,12 +214,26 @@ services:
       airflow-triggerer:
         condition: service_healthy
 
+  streamlit-yolo:
+    image: airflow-base:2.9.0-custom
+    container_name: streamlit-yolo
+    entrypoint: ["bash", "-c", "streamlit run /opt/airflow/projects/vehicle_counting/streamlit/app.py --server.port 8501 --server.address 0.0.0.0"]
+    ports:
+      - "8502:8501"  # <--- MAP TO PORT 8502 on your host
+    volumes:
+      - ${AIRFLOW_PROJ_DIR:-.}/projects:/opt/airflow/projects
+      - ${AIRFLOW_PROJ_DIR:-.}/models:/opt/airflow/models
+      - ${AIRFLOW_PROJ_DIR:-.}/static:/opt/airflow/static
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   zookeeper:
     image: zookeeper:3.8
     container_name: zookeeper
     ports:
       - "2181:2181"
-    restart: unless-stopped
+    restart: no
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -236,7 +247,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
-    restart: unless-stopped
+    restart: no
 
 volumes:
   postgres-db-volume:
