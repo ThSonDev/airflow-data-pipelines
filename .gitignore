@@ -1,4 +1,6 @@
 /airflow/logs/*
+/airflow/models/newer_models/*
+/airflow/models/tmp/*
 .env
 airflow/dags/__pycache__
 *.html
