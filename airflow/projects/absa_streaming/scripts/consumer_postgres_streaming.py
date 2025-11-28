@@ -1,12 +1,3 @@
-# cnn_consumer_postgres.py
-# ======================================
-# Consumer reading from Kafka "absa-reviews"
-# → Reconstructs TextCNN from notebook
-# → Preprocesses and Inferences using PySpark UDF
-# → Decodes labels (NONE, NEG, POS, NEU)
-# → Writes to PostgreSQL with specific logging
-# ======================================
-
 import torch
 import sys
 from pyspark.sql import SparkSession, functions as F, types as T
@@ -20,11 +11,11 @@ import unicodedata
 import os
 import psycopg2
 
-# === 1. Configuration & Constants ===
+# Configuration & Constants
 SCALA_VERSION = "2.12"
 SPARK_VERSION = "3.5.1"
 
-# Architecture Constants (from Notebook)
+# Architecture Constants
 EMBED_DIM = 128
 NUM_FILTERS = 192
 WORD_WINDOW = 5
@@ -32,7 +23,6 @@ NUM_CLASSES = 4
 ASPECT_COLUMNS = ['Price', 'Shipping', 'Outlook', 'Quality', 'Size', 'Shop_Service', 'General', 'Others']
 
 # Paths - Updated to cnn_best.pth
-# Assuming /opt/airflow/models/ based on your previous file structure
 MODEL_PATH = "/opt/airflow/models/cnn_best.pth"
 NEWER_MODELS_DIR = "/opt/airflow/models/newer_models"
 VOCAB_PATH = "/opt/airflow/models/vocab.json"
@@ -50,7 +40,7 @@ _model = None
 _vocab = None
 _device = None
 
-# === 2. Preprocessing Logic (Strictly from Notebook) ===
+# Preprocessing Logic
 REMOVE_TONE = False
 REMOVE_NOISE = True
 
@@ -78,7 +68,7 @@ def clean(text):
     text = re.sub(r"\s+", " ", text)
     return text
 
-# === 3. Model Architecture (Strictly from Notebook) ===
+# Model Architecture
 class TextCNN(nn.Module):
     def __init__(self, vocab_size, embed_dim, num_labels):
         super().__init__()
@@ -105,7 +95,7 @@ class TextCNN(nn.Module):
             
         return torch.stack(outputs, dim=1)
 
-# === 4. Helper Functions ===
+# Helper Functions
 def load_resources():
     """Loads model and vocab once per executor."""
     global _model, _vocab, _device
@@ -125,7 +115,7 @@ def load_resources():
         vocab_size = len(_vocab)
         _model = TextCNN(vocab_size=vocab_size, embed_dim=EMBED_DIM, num_labels=len(ASPECT_COLUMNS))
         
-        # --- NEW LOGIC: Check DB for better model ---
+        # Check DB for better model
         target_model_path = MODEL_PATH # Default
         
         try:
@@ -141,7 +131,7 @@ def load_resources():
                 candidate_path = os.path.join(NEWER_MODELS_DIR, best_model_name)
                 if os.path.exists(candidate_path):
                     target_model_path = candidate_path
-                    print(f"[INFO] 🚀 Found better model in DB. Switching to: {target_model_path}")
+                    print(f"[INFO] Found better model in DB. Switching to: {target_model_path}")
                 else:
                     print(f"[WARN] Best model {best_model_name} listed in DB but file missing. Using default.")
             
@@ -150,7 +140,7 @@ def load_resources():
         except Exception as e:
             print(f"[WARN] Could not check retrain_results (Error: {e}). Using default model.")
 
-        # --- Load the selected model ---
+        # Load the selected model
         if os.path.exists(target_model_path):
             _model.load_state_dict(torch.load(target_model_path, map_location=_device))
             print(f"[INFO] Model loaded from {target_model_path} on {_device}")
@@ -198,14 +188,13 @@ def cnn_inference_udf(texts: pd.Series) -> pd.Series:
         
     return pd.Series(batch_results)
 
-# === 6. Writer & Logging ===
+# Writer & Logging
 def write_to_postgres(batch_df, batch_id):
     sys.stdout.reconfigure(encoding='utf-8')
     total_rows = batch_df.count()
     
     print(f"[Batch {batch_id}] Received {total_rows} rows — preview 5:")
     
-    # FIX: Changed ASPECTS to ASPECT_COLUMNS here
     if total_rows > 0:
         preview_data = batch_df.select("ReviewText", *ASPECT_COLUMNS).limit(5).toPandas().to_dict(orient="records")
         print(json.dumps(preview_data, ensure_ascii=False, indent=2))
@@ -213,12 +202,12 @@ def write_to_postgres(batch_df, batch_id):
         print("[]")
 
     if batch_id == 7:
-        print(f"[Batch {batch_id}] 💥 Simulated crash at batch 7.")
+        print(f"[Batch {batch_id}] Simulated crash at batch 7.")
         raise Exception(f"Simulated crash at batch {batch_id}")
 
     try:
         (batch_df
-            .select("ReviewText", *ASPECT_COLUMNS)  # FIX: Changed ASPECTS to ASPECT_COLUMNS here
+            .select("ReviewText", *ASPECT_COLUMNS)
             .write
             .format("jdbc")
             .option("url", "jdbc:postgresql://postgres:5432/airflow")
@@ -230,15 +219,12 @@ def write_to_postgres(batch_df, batch_id):
             .mode("append")
             .save()
         )
-        print(f"[Batch {batch_id}] ✅ Ghi PostgreSQL thành công ({total_rows} dòng).")
+        print(f"[Batch {batch_id}] Write into PostgreSQL sucessfully ({total_rows} rows).")
         
     except Exception as e:
-        print(f"[Batch {batch_id}] ⚠️ Error writing to Postgres: {e}")
-        # Optional: print data on error if needed, using ASPECT_COLUMNS
-        # preview_error = batch_df.select("ReviewText", *ASPECT_COLUMNS).limit(5).toPandas().to_dict(orient="records")
-        # print(json.dumps(preview_error, ensure_ascii=False, indent=2))
+        print(f"[Batch {batch_id}] !!! Error writing to Postgres: {e}")
 
-# === 7. Main Execution ===
+# Main Execution
 def main():
     spark = (
         SparkSession.builder
@@ -286,7 +272,7 @@ def main():
         .start()
     )
 
-    print("🚀 CNN Streaming job started — listening to Kafka...")
+    print("CNN Streaming job started — listening to Kafka...")
     query.awaitTermination()
 
 if __name__ == "__main__":
