@@ -1,6 +1,3 @@
-# ===========================================
-# DAG: ABSA Streaming Lifecycle Orchestration (1-Hour Demo)
-# ===========================================
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
@@ -8,7 +5,7 @@ from airflow.utils.dates import days_ago
 from datetime import timedelta
 import os, subprocess
 
-# === Default parameters ===
+# Default parameters
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
@@ -18,7 +15,7 @@ default_args = {
     "retry_delay": timedelta(minutes=2),   # Mỗi lần retry cách nhau 2 phút
 }
 
-# === DAG definition ===
+# DAG definition
 with DAG(
         dag_id="absa_streaming_lifecycle_demo",
         default_args=default_args,
@@ -30,27 +27,31 @@ with DAG(
         tags=["absa", "streaming", "kafka", "spark"],
 ) as dag:
 
-    # === Khởi động Producer ===
+    # Producer
     deploy_producer = BashOperator(
         task_id="deploy_producer",
-        bash_command='bash -c "timeout 45m /opt/airflow/projects/absa_streaming/scripts/run_producer.sh"',
+        bash_command="timeout 45m python /opt/airflow/projects/absa_streaming/scripts/producer.py",
         retries=3,
         retry_delay=timedelta(minutes=2),
         execution_timeout=timedelta(minutes=50),         # Task-level timeout
         trigger_rule="all_done",
     )
 
-    # === Khởi động Consumer ===
+    # Consumer
     deploy_consumer = BashOperator(
         task_id="deploy_consumer",
-        bash_command='bash -c "timeout 45m /opt/airflow/projects/absa_streaming/scripts/run_consumer.sh"',
+        bash_command=(
+        "timeout 45m spark-submit "
+        "--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.postgresql:postgresql:42.6.0 "
+        "/opt/airflow/projects/absa_streaming/scripts/consumer_postgres_streaming.py"
+        ),
         retries=5,
         retry_delay=timedelta(minutes=2),
         execution_timeout=timedelta(minutes=50),         # Task-level timeout
         trigger_rule="all_done",
     )
 
-    # === Giám sát checkpoint ===
+    # Checkpoint monitor
     def monitor_job():
         print("[Monitor] Checking streaming job checkpoint...")
         path = "/opt/airflow/checkpoints/absa_streaming_checkpoint"
@@ -66,7 +67,7 @@ with DAG(
         trigger_rule="all_done",
     )
 
-    # === Dọn dẹp checkpoint ===
+    # Cleanup checkpoint
     cleanup_checkpoints = BashOperator(
         task_id="cleanup_checkpoints",
         bash_command=(
@@ -77,5 +78,4 @@ with DAG(
         trigger_rule="all_done",
     )
 
-    # === Task dependency ===
     [deploy_producer, deploy_consumer] >> monitor_stream >> cleanup_checkpoints
