@@ -2,9 +2,6 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 
-# =============================================================================
-# AIRFLOW DAG CONFIGURATION
-# =============================================================================
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -27,39 +24,35 @@ with DAG(
     # Paths
     SCRIPTS_DIR = "/opt/airflow/projects/absa_streaming/scripts"
     
-    # 1. Preprocess: CSV -> Tensors/Vocab in tmp
-    # FIX: "timeout" goes first, then "python3", then the script path (no inner quotes)
+    # Preprocess
     preprocess_task = BashOperator(
         task_id="preprocess_data",
         bash_command=f'timeout 45m python3 {SCRIPTS_DIR}/preprocess.py',
         execution_timeout=timedelta(minutes=50),
     )
 
-    # 2. Train: Tensors -> model_temp.pth in tmp
-    # FIX: "timeout" goes first
+    # Train
     train_task = BashOperator(
         task_id="train_model",
         bash_command=f'timeout 120m python3 {SCRIPTS_DIR}/train.py',
         execution_timeout=timedelta(minutes=130),
     )
 
-    # 3. Evaluate: model_temp.pth -> metrics.json in tmp
-    # FIX: "timeout" goes first
+    # Evaluate:
     eval_task = BashOperator(
         task_id="evaluate_model",
         bash_command=f'timeout 20m python3 {SCRIPTS_DIR}/eval.py',
         execution_timeout=timedelta(minutes=25),
     )
 
-    # 4. Compare & Save: metrics.json vs DB -> Move file or Ignore
-    # FIX: "timeout" goes first
+    # Compare & Save
     save_task = BashOperator(
         task_id="check_and_deploy",
         bash_command=f'timeout 10m python3 {SCRIPTS_DIR}/save_postgres.py',
         execution_timeout=timedelta(minutes=15),
     )
 
-    # 5. Cleanup: Delete tmp folder
+    # Cleanup: Delete tmp folder
     cleanup_task = BashOperator(
         task_id="cleanup_tmp",
         bash_command='rm -rf /opt/airflow/models/tmp/*',
