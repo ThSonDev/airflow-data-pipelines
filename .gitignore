@@ -7,3 +7,4 @@ airflow/dags/__pycache__
 *TEST*
 /airflow/static/*
 /airflow/projects/vehicle_counting/data/*
+/notebooks/cnn_training.html
