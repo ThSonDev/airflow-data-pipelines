@@ -231,8 +231,7 @@ def main():
         .appName("CNN_Kafka_ABSA_Postgres")
         .config("spark.jars.packages",
                 f"org.apache.spark:spark-sql-kafka-0-10_{SCALA_VERSION}:{SPARK_VERSION},"
-                "org.postgresql:postgresql:42.6.0,"
-                "org.apache.kafka:kafka-clients:3.6.1")
+                "org.postgresql:postgresql:42.6.0")
         .config("spark.sql.streaming.checkpointLocation", "/opt/airflow/checkpoints/absa_streaming_checkpoint")
         .getOrCreate()
     )
