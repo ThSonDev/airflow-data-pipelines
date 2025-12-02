@@ -23,6 +23,20 @@ Video → Kafka → Spark Structured Streaming → PostgreSQL → Streamlit Dash
 
 Three DAGs are provided: `video1`, `video2`, and `video3`.
 
+### Source Code
+
+- **Producer**  
+  Handles video frame extraction and pushes messages to Kafka.  
+  [`producer.py`](airflow/projects/vehicle_counting/scripts/producer.py)
+
+- **Consumer (YOLO Inference)**  
+  Consumes frames, performs object detection, saves results to Postgres.  
+  [`consumer_yolo.py`](airflow/projects/vehicle_counting/scripts/consumer_yolo.py)
+
+- **Streamlit Dashboard**  
+  Real-time vehicle counting visualization.  
+  [`app.py`](airflow/projects/vehicle_counting/streamlit/app.py)
+
 ## 3. Features
 
 ### Real-Time Frame Streaming
@@ -65,6 +79,8 @@ Dashboard features:
 * Annotated metadata viewer
 * Auto-refresh (1–5 seconds configurable)
 
+![Streamlit Dashboard](images/dashboard.gif)
+
 ## 4. Airflow Management
 
 ### Main DAGs (per video)
@@ -86,6 +102,7 @@ After each run:
 * Remove annotated frame files
 * Reset or clear PostgreSQL table
 * Prevent leftover worker files from filling storage
+* (Database cleanup code exists but is commented out in the DAG.)
 
 ## 5. Project Structure
 

@@ -27,6 +27,38 @@ DAG 1: CSV → Kafka → Spark Structured Streaming → PostgreSQL → Streamlit
 
 DAG 2: Preprocess → Train CNN → Evaluate → Promote Model → PostgreSQL → Streamlit Dashboard
 
+### Source Code
+
+- **Main Streaming DAG**
+  [`absa_streaming_lifecycle_dag.py`](airflow/dags/absa_streaming_lifecycle_dag.py)
+
+  Producer
+  [`producer.py`](airflow/projects/absa_streaming/scripts/producer.py)
+
+  Consumer
+  [`consumer_postgres_streaming.py`](airflow/projects/absa_streaming/scripts/consumer_postgres_streaming.py)
+
+- **Retraining DAG**
+  [`retrain_dag.py`](airflow/dags/retrain_dag.py)
+
+  Preprocessing
+  [`preprocess.py`](airflow/projects/absa_streaming/scripts/preprocess.py)
+
+  Training
+  [`train.py`](airflow/projects/absa_streaming/scripts/train.py)
+
+  Evaluation
+  [`eval.py`](airflow/projects/absa_streaming/scripts/eval.py)
+
+  Save to Postgres
+  [`save_postgres.py`](airflow/projects/absa_streaming/scripts/save_postgres.py)
+
+* **Streamlit Dashboard**
+  [`streamlit_app.py`](airflow/projects/absa_streaming/streamlit/streamlit_app.py)
+
+* **CNN Training Notebook**
+  [`cnn_training.ipynb`](notebooks/cnn_training.ipynb)
+
 ## 3. Features
 
 ### Real-Time Processing
@@ -46,8 +78,6 @@ DAG 2: Preprocess → Train CNN → Evaluate → Promote Model → PostgreSQL �
 * TextCNN built manually (no external sentiment libraries)
 * Multi-head architecture: one head per aspect
 * Early stopping, best model saving
-
-[Training Notebook](https://github.com/ThSonDev/airflow-data-pipelines/blob/main/notebooks/cnn_training.ipynb)
 
 ### Automated Model Retraining
 
@@ -72,7 +102,7 @@ DAG 2: Preprocess → Train CNN → Evaluate → Promote Model → PostgreSQL �
 
 ### Live Dashboard
 
-The dashboard (Streamlit):
+[The dashboard (Streamlit):](https://github.com/ThSonDev/airflow-data-pipelines/blob/main/airflow/projects/absa_streaming/streamlit/streamlit_app.py)
 
 * Shows predictions
 * Displays aspect-level sentiment charts
@@ -80,6 +110,7 @@ The dashboard (Streamlit):
 * Lists retraining results sorted by Macro-F1
 * Auto-refreshes every 5 seconds
 
+![Streamlit Dashboard](images/dashboard.jpg)
 
 ## 4. Project Structure
 
