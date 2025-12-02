@@ -30,34 +30,34 @@ DAG 2: Preprocess → Train CNN → Evaluate → Promote Model → PostgreSQL �
 ### Source Code
 
 - **Main Streaming DAG**
-  [`absa_streaming_lifecycle_dag.py`](airflow/dags/absa_streaming_lifecycle_dag.py)
+  [`absa_streaming_lifecycle_dag.py`](../../dags/absa_streaming_lifecycle_dag.py)
 
   Producer
-  [`producer.py`](airflow/projects/absa_streaming/scripts/producer.py)
+  [`producer.py`](scripts/producer.py)
 
   Consumer
-  [`consumer_postgres_streaming.py`](airflow/projects/absa_streaming/scripts/consumer_postgres_streaming.py)
+  [`consumer_postgres_streaming.py`](scripts/consumer_postgres_streaming.py)
 
 - **Retraining DAG**
-  [`retrain_dag.py`](airflow/dags/retrain_dag.py)
+  [`retrain_dag.py`](../../dags/retrain_dag.py)
 
   Preprocessing
-  [`preprocess.py`](airflow/projects/absa_streaming/scripts/preprocess.py)
+  [`preprocess.py`](scripts/preprocess.py)
 
   Training
-  [`train.py`](airflow/projects/absa_streaming/scripts/train.py)
+  [`train.py`](scripts/train.py)
 
   Evaluation
-  [`eval.py`](airflow/projects/absa_streaming/scripts/eval.py)
+  [`eval.py`](scripts/eval.py)
 
   Save to Postgres
-  [`save_postgres.py`](airflow/projects/absa_streaming/scripts/save_postgres.py)
+  [`save_postgres.py`](scripts/save_postgres.py)
 
 * **Streamlit Dashboard**
-  [`streamlit_app.py`](airflow/projects/absa_streaming/streamlit/streamlit_app.py)
+  [`streamlit_app.py`](streamlit/streamlit_app.py)
 
 * **CNN Training Notebook**
-  [`cnn_training.ipynb`](notebooks/cnn_training.ipynb)
+  [`cnn_training.ipynb`](../../../notebooks/cnn_training.ipynb)
 
 ## 3. Features
 

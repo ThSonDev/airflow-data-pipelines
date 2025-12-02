@@ -27,15 +27,15 @@ Three DAGs are provided: `video1`, `video2`, and `video3`.
 
 - **Producer**  
   Handles video frame extraction and pushes messages to Kafka.  
-  [`producer.py`](airflow/projects/vehicle_counting/scripts/producer.py)
+  [`producer.py`](scripts/producer.py)
 
 - **Consumer (YOLO Inference)**  
   Consumes frames, performs object detection, saves results to Postgres.  
-  [`consumer_yolo.py`](airflow/projects/vehicle_counting/scripts/consumer_yolo.py)
+  [`consumer_yolo.py`](scripts/consumer_yolo.py)
 
 - **Streamlit Dashboard**  
   Real-time vehicle counting visualization.  
-  [`app.py`](airflow/projects/vehicle_counting/streamlit/app.py)
+  [`app.py`](streamlit/app.py)
 
 ## 3. Features
 
