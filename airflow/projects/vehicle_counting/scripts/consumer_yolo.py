@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 import pandas as pd
 import torch
-import psycopg2  # <--- ADDED: To handle table creation
+import psycopg2
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, pandas_udf, from_json, struct
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
@@ -22,7 +22,7 @@ POSTGRES_PROPS = {
 OUTPUT_IMAGE_DIR = "/opt/airflow/static/processed_frames" 
 os.makedirs(OUTPUT_IMAGE_DIR, exist_ok=True)
 
-# --- NEW: Database Initialization Logic ---
+# Database Initialization Logic
 def initialize_database():
     """
     Creates the necessary tables with the correct schema (Primary Keys, Timezones)
@@ -30,7 +30,6 @@ def initialize_database():
     """
     print("Checking/Creating PostgreSQL tables...")
     try:
-        # Connect using the same credentials as Spark/Streamlit
         conn = psycopg2.connect(
             host="postgres",
             port=5432,
@@ -40,7 +39,7 @@ def initialize_database():
         )
         cur = conn.cursor()
 
-        # Define the 3 tables (or dynamic based on needs)
+        # Define the 3 tables
         tables = ["yolo_results_video1", "yolo_results_video2", "yolo_results_video3"]
 
         for table in tables:
@@ -63,9 +62,9 @@ def initialize_database():
         conn.close()
         print("Database initialization complete.")
     except Exception as e:
-        print(f"⚠️ Warning: Database initialization failed. Spark might fail if tables don't exist. Error: {e}")
+        print(f"Warning: Database initialization failed. Spark might fail if tables don't exist. Error: {e}")
 
-# --- YOLO Mapping ---
+# YOLO Mapping
 # COCO Class IDs: 2=Car, 3=Motorcycle, 5=Bus, 7=Truck
 CLASS_NAMES = {2: "car", 3: "motorcycle", 5: "bus", 7: "truck"}
 
@@ -188,7 +187,6 @@ def main():
     parser.add_argument('--topics', type=str, required=True)
     args = parser.parse_args()
 
-    # --- NEW: Run DB Init before Spark starts ---
     initialize_database()
 
     spark = SparkSession.builder \
