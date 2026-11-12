@@ -3,97 +3,28 @@ import sys
 from pyspark.sql import SparkSession, functions as F, types as T
 from pyspark.sql.functions import pandas_udf, from_json, col
 import pandas as pd
-import torch.nn as nn
-import numpy as np
 import json
-import re
-import unicodedata
 import os
 import psycopg2
+
+from absa_core import (
+    ASPECTS as ASPECT_COLUMNS, EMBED_DIM, PREDICTION_MAP, TextCNN, clean, encode, get_settings,
+)
 
 # Configuration & Constants
 SCALA_VERSION = "2.12"
 SPARK_VERSION = "3.5.1"
 
-# Architecture Constants
-EMBED_DIM = 128
-NUM_FILTERS = 192
-WORD_WINDOW = 5
-NUM_CLASSES = 4
-ASPECT_COLUMNS = ['Price', 'Shipping', 'Outlook', 'Quality', 'Size', 'Shop_Service', 'General', 'Others']
-
 # Paths - Updated to cnn_best.pth
-MODEL_PATH = "/opt/airflow/models/cnn_best.pth"
-NEWER_MODELS_DIR = "/opt/airflow/models/newer_models"
-VOCAB_PATH = "/opt/airflow/models/vocab.json"
-
-# Label Mapping
-PREDICTION_MAP = {
-    0: "NONE",
-    1: "NEG",
-    2: "POS",
-    3: "NEU"
-}
+cfg = get_settings()
+MODEL_PATH = f"{cfg.models_dir}/cnn_best.pth"
+NEWER_MODELS_DIR = f"{cfg.models_dir}/newer_models"
+VOCAB_PATH = f"{cfg.models_dir}/vocab.json"
 
 # Globals for UDF optimization
 _model = None
 _vocab = None
 _device = None
-
-# Preprocessing Logic
-REMOVE_TONE = False
-REMOVE_NOISE = True
-
-def remove_vietnamese_tone(text):
-    text = unicodedata.normalize('NFD', text)
-    text = re.sub(r'[\u0300-\u036f]', '', text)
-    text = unicodedata.normalize('NFC', text)
-    return text
-
-def remove_non_vietnamese_chars(text):
-    return re.sub(
-        r"[^a-zàáạảãăắằặẳẵâầấậẩẫèéẹẻẽêềếệểễ"
-        r"ìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữ"
-        r"ỳýỵỷỹđ0-9\s]",
-        " ",
-        text
-    )
-
-def clean(text):
-    text = str(text).lower().strip()
-    if REMOVE_TONE:
-        text = remove_vietnamese_tone(text)
-    if REMOVE_NOISE:
-        text = remove_non_vietnamese_chars(text)
-    text = re.sub(r"\s+", " ", text)
-    return text
-
-# Model Architecture
-class TextCNN(nn.Module):
-    def __init__(self, vocab_size, embed_dim, num_labels):
-        super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-        self.conv = nn.Conv1d(embed_dim, NUM_FILTERS, kernel_size=WORD_WINDOW, padding=int(WORD_WINDOW // 2))
-        self.pool = nn.AdaptiveMaxPool1d(1)
-        self.shared_dense = nn.Linear(NUM_FILTERS, 128)
-        self.dropout = nn.Dropout(0.5)
-        
-        self.output_heads = nn.ModuleList([ 
-            nn.Linear(128, NUM_CLASSES) for _ in range(num_labels)
-        ])
-
-    def forward(self, x):
-        x = self.embedding(x).permute(0, 2, 1)
-        x = torch.relu(self.conv(x))
-        x = self.pool(x).squeeze(2)
-        x = torch.relu(self.shared_dense(x)) 
-        x = self.dropout(x)
-
-        outputs = []
-        for head in self.output_heads:
-            outputs.append(head(x))
-            
-        return torch.stack(outputs, dim=1)
 
 # Helper Functions
 def load_resources():
@@ -120,7 +51,10 @@ def load_resources():
         
         try:
             # Connect to DB to find best model
-            conn = psycopg2.connect(host="postgres", port=5432, database="airflow", user="airflow", password="airflow")
+            conn = psycopg2.connect(
+                host=cfg.postgres_host, port=cfg.postgres_port, database=cfg.postgres_db,
+                user=cfg.postgres_user, password=cfg.postgres_password,
+            )
             cur = conn.cursor()
             # Get model with highest F1 score
             cur.execute("SELECT model_name FROM retrain_results ORDER BY macro_f1 DESC, id DESC LIMIT 1")
@@ -150,9 +84,6 @@ def load_resources():
         _model.to(_device)
         _model.eval()
 
-def encode_text(text, vocab):
-    return [vocab.get(t, 1) for t in text.split()]
-
 # === 5. PySpark UDF for Inference ===
 @pandas_udf(T.ArrayType(T.StringType()))
 def cnn_inference_udf(texts: pd.Series) -> pd.Series:
@@ -164,7 +95,7 @@ def cnn_inference_udf(texts: pd.Series) -> pd.Series:
     # Preprocess & Encode
     for text in texts:
         cleaned = clean(text)
-        encoded = encode_text(cleaned, _vocab)
+        encoded = encode(cleaned, _vocab)
         processed_indices.append(torch.tensor(encoded, dtype=torch.long))
     
     if not processed_indices:
@@ -210,10 +141,10 @@ def write_to_postgres(batch_df, batch_id):
             .select("ReviewText", *ASPECT_COLUMNS)
             .write
             .format("jdbc")
-            .option("url", "jdbc:postgresql://postgres:5432/airflow")
+            .option("url", f"jdbc:postgresql://{cfg.postgres_host}:{cfg.postgres_port}/{cfg.postgres_db}")
             .option("dbtable", "absa_results")
-            .option("user", "airflow")
-            .option("password", "airflow")
+            .option("user", cfg.postgres_user)
+            .option("password", cfg.postgres_password)
             .option("driver", "org.postgresql.Driver")
             .option("charset", "utf8")
             .mode("append")
@@ -240,8 +171,8 @@ def main():
     df_stream = (
         spark.readStream
         .format("kafka")
-        .option("kafka.bootstrap.servers", "kafka:9092")
-        .option("subscribe", "absa-reviews")
+        .option("kafka.bootstrap.servers", cfg.kafka_bootstrap)
+        .option("subscribe", cfg.kafka_topic)
         .option("startingOffsets", "latest")
         .option("maxOffsetsPerTrigger", 10)
         .load()

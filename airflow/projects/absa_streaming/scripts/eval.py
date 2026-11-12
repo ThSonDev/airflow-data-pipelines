@@ -1,42 +1,14 @@
 import torch
-import torch.nn as nn
 import json
 import numpy as np
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.metrics import f1_score, balanced_accuracy_score
 
+from absa_core import ASPECTS, EMBED_DIM, TextCNN, get_settings
+
 # CONFIG
-TMP_DIR = "/opt/airflow/models/tmp"
-EMBED_DIM = 128
-NUM_FILTERS = 192
-WORD_WINDOW = 5
-NUM_CLASSES = 4
-ASPECT_COLS_LEN = 8
+TMP_DIR = get_settings().tmp_dir
 BATCH_SIZE = 64
-
-# === MODEL DEFINITION (Must match training) ===
-class TextCNN(nn.Module):
-    def __init__(self, vocab_size, embed_dim, num_labels):
-        super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-        self.conv = nn.Conv1d(embed_dim, NUM_FILTERS, kernel_size=WORD_WINDOW, padding=int(WORD_WINDOW // 2))
-        self.pool = nn.AdaptiveMaxPool1d(1)
-        self.shared_dense = nn.Linear(NUM_FILTERS, 128)
-        self.dropout = nn.Dropout(0.5)
-        self.output_heads = nn.ModuleList([
-            nn.Linear(128, NUM_CLASSES) for _ in range(num_labels)
-        ])
-
-    def forward(self, x):
-        x = self.embedding(x).permute(0, 2, 1)
-        x = torch.relu(self.conv(x))
-        x = self.pool(x).squeeze(2)
-        x = torch.relu(self.shared_dense(x))
-        x = self.dropout(x)
-        outputs = []
-        for head in self.output_heads:
-            outputs.append(head(x))
-        return torch.stack(outputs, dim=1)
 
 # === EVALUATION ===
 print("Loading resources for evaluation...")
@@ -48,7 +20,7 @@ X_val = torch.load(f"{TMP_DIR}/val_tensor_x.pt")
 y_val = torch.load(f"{TMP_DIR}/val_tensor_y.pt") # Shape: (N, 8) labels 0-3
 loader = DataLoader(TensorDataset(X_val, y_val), batch_size=BATCH_SIZE)
 
-model = TextCNN(len(vocab), EMBED_DIM, ASPECT_COLS_LEN).to(device)
+model = TextCNN(len(vocab), EMBED_DIM, len(ASPECTS)).to(device)
 model.load_state_dict(torch.load(f"{TMP_DIR}/model_temp.pth", map_location=device))
 model.eval()
 

@@ -43,6 +43,7 @@ with DAG(
         bash_command=(
         "timeout 45m spark-submit "
         "--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.postgresql:postgresql:42.6.0 "
+        "--py-files /opt/airflow/projects/absa_streaming/scripts/absa_core.py "
         "/opt/airflow/projects/absa_streaming/scripts/consumer_postgres_streaming.py"
         ),
         retries=5,

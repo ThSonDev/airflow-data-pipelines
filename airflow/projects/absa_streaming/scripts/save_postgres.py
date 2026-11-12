@@ -3,18 +3,14 @@ import json
 import shutil
 import os
 
+from absa_core import get_settings
+
 # CONFIG
-TMP_DIR = "/opt/airflow/models/tmp"
-NEWER_MODELS_DIR = "/opt/airflow/models/newer_models"
+cfg = get_settings()
+TMP_DIR = cfg.tmp_dir
+NEWER_MODELS_DIR = f"{cfg.models_dir}/newer_models"
 METRICS_FILE = f"{TMP_DIR}/metrics.json"
 MODEL_FILE = f"{TMP_DIR}/model_temp.pth"
-
-# DB CONFIG (Hardcoded based on previous context)
-DB_HOST = "postgres"
-DB_PORT = 5432
-DB_NAME = "airflow"
-DB_USER = "airflow"
-DB_PASS = "airflow"
 
 # === LOGIC ===
 def main():
@@ -30,7 +26,8 @@ def main():
 
     try:
         conn = psycopg2.connect(
-            host=DB_HOST, port=DB_PORT, dbname=DB_NAME, user=DB_USER, password=DB_PASS
+            host=cfg.postgres_host, port=cfg.postgres_port, dbname=cfg.postgres_db,
+            user=cfg.postgres_user, password=cfg.postgres_password
         )
         cur = conn.cursor()
         

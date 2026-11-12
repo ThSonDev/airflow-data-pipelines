@@ -3,42 +3,14 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 import json
-import os
+
+from absa_core import ASPECTS, EMBED_DIM, NUM_CLASSES, TextCNN, get_settings
 
 # CONFIG
-TMP_DIR = "/opt/airflow/models/tmp"
-EMBED_DIM = 128
-NUM_FILTERS = 192
-WORD_WINDOW = 5
-NUM_CLASSES = 4
+TMP_DIR = get_settings().tmp_dir
 EPOCHS = 50  # Reduced for example, adjust as needed
 PATIENCE = 10
 BATCH_SIZE = 64
-ASPECT_COLS_LEN = 8
-
-# === MODEL DEFINITION (Exact Notebook Replica) ===
-class TextCNN(nn.Module):
-    def __init__(self, vocab_size, embed_dim, num_labels):
-        super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-        self.conv = nn.Conv1d(embed_dim, NUM_FILTERS, kernel_size=WORD_WINDOW, padding=int(WORD_WINDOW // 2))
-        self.pool = nn.AdaptiveMaxPool1d(1)
-        self.shared_dense = nn.Linear(NUM_FILTERS, 128)
-        self.dropout = nn.Dropout(0.5)
-        self.output_heads = nn.ModuleList([
-            nn.Linear(128, NUM_CLASSES) for _ in range(num_labels)
-        ])
-
-    def forward(self, x):
-        x = self.embedding(x).permute(0, 2, 1)
-        x = torch.relu(self.conv(x))
-        x = self.pool(x).squeeze(2)
-        x = torch.relu(self.shared_dense(x))
-        x = self.dropout(x)
-        outputs = []
-        for head in self.output_heads:
-            outputs.append(head(x))
-        return torch.stack(outputs, dim=1)
 
 # === LOAD DATA ===
 print("Loading data...")
@@ -57,7 +29,7 @@ val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=BATCH_SIZE)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
-model = TextCNN(len(vocab), EMBED_DIM, ASPECT_COLS_LEN).to(device)
+model = TextCNN(len(vocab), EMBED_DIM, len(ASPECTS)).to(device)
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
 criterion = nn.CrossEntropyLoss()
 

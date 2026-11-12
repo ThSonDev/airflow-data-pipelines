@@ -7,6 +7,7 @@
 # Dashboard hiển thị kết quả phân tích cảm xúc (ABSA) từ PostgreSQL
 # và tự động cập nhật theo thời gian thực.
 
+import os
 import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
@@ -17,11 +18,11 @@ import plotly.express as px
 # Cấu hình kết nối PostgreSQL
 # ------------------------
 DB_CONFIG = {
-    "user": "airflow",
-    "password": "airflow",
-    "host": "postgres",  # dùng tên service Docker
-    "port": 5432,
-    "database": "airflow"
+    "user": os.environ.get("POSTGRES_USER", "airflow"),
+    "password": os.environ.get("POSTGRES_PASSWORD", "airflow"),
+    "host": os.environ.get("POSTGRES_HOST", "postgres"),  # dùng tên service Docker
+    "port": int(os.environ.get("POSTGRES_PORT", "5432")),
+    "database": os.environ.get("POSTGRES_DB", "airflow"),
 }
 
 ASPECTS = ["Price", "Shipping", "Outlook", "Quality", "Size", "Shop_Service", "General", "Others"]
