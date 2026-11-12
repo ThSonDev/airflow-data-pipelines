@@ -1,4 +1,5 @@
 import json
+import unicodedata
 from pathlib import Path
 
 import pytest
@@ -7,10 +8,12 @@ from absa_core import (
     ASPECTS,
     EMBED_DIM,
     NUM_CLASSES,
+    WORD_WINDOW,
     TextCNN,
     clean,
     encode,
     get_settings,
+    pad_batch,
     remove_vietnamese_tone,
 )
 
@@ -69,3 +72,35 @@ def test_cnn_best_loads_strict():
 
 def test_remove_vietnamese_tone():
     assert remove_vietnamese_tone("đẹp quá") == "đep qua"
+
+
+def test_clean_emoji_and_punctuation_only():
+    assert clean("😍😍😍").split() == []
+    assert clean("!!!").split() == []
+    assert clean("") == ""
+
+
+def test_clean_nfd_equals_nfc():
+    nfc = "đẹp quá"
+    nfd = unicodedata.normalize("NFD", nfc)
+    assert nfd != nfc
+    assert clean(nfd) == clean(nfc) == nfc
+
+
+@pytest.mark.parametrize("text", ["😍😍😍", "!!!", ""])
+def test_encode_empty_gives_unk(text):
+    assert encode(clean(text), {"<PAD>": 0, "<UNK>": 1}) == [1]
+
+
+def test_pad_batch_min_width_and_padding():
+    out = pad_batch([[2, 3], [4]])
+    assert out.shape == (2, WORD_WINDOW)
+    assert out.tolist() == [[2, 3, 0, 0, 0], [4, 0, 0, 0, 0]]
+    assert pad_batch([list(range(2, 10))]).shape == (1, 8)
+
+
+def test_all_empty_batch_runs_through_model():
+    vocab = {"<PAD>": 0, "<UNK>": 1}
+    batch = pad_batch([encode(clean(t), vocab) for t in ["😍😍😍", "!!!", ""]])
+    model = TextCNN(10, EMBED_DIM, len(ASPECTS)).eval()
+    assert model(batch).shape == (3, len(ASPECTS), NUM_CLASSES)

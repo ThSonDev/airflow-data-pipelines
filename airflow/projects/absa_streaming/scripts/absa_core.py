@@ -1,15 +1,15 @@
-"""Shared code for the ABSA pipeline: constants, text cleaning, encoding, model, settings.
+"""Shared code for the ABSA pipeline: constants, settings, logging, padding, model.
 
 Used by preprocess, train, eval, save_postgres and the Spark consumer, so training and
 serving always run the same code.
 """
+import logging
 import os
-import re
-import unicodedata
 from types import SimpleNamespace
 
 import torch
 import torch.nn as nn
+from text_utils import clean, encode, remove_vietnamese_tone  # noqa: F401  (re-exported)
 
 # Architecture constants
 ASPECTS = ['Price', 'Shipping', 'Outlook', 'Quality', 'Size', 'Shop_Service', 'General', 'Others']
@@ -21,9 +21,17 @@ NUM_CLASSES = 4
 # Label mapping (training labels are CSV labels + 1)
 PREDICTION_MAP = {0: "NONE", 1: "NEG", 2: "POS", 3: "NEU"}
 
-# Text cleaning options
-REMOVE_TONE = False
-REMOVE_NOISE = True
+
+def get_logger(name):
+    """One log format for all scripts. Level comes from LOG_LEVEL (default INFO)."""
+    logger = logging.getLogger(name)
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s [%(name)s] %(message)s"))
+        logger.addHandler(handler)
+        logger.propagate = False
+    logger.setLevel(os.environ.get("LOG_LEVEL", "INFO").upper())
+    return logger
 
 
 def get_settings():
@@ -44,36 +52,13 @@ def get_settings():
     )
 
 
-def remove_vietnamese_tone(text):
-    text = unicodedata.normalize('NFD', text)
-    text = re.sub(r'[\u0300-\u036f]', '', text)
-    text = unicodedata.normalize('NFC', text)
-    return text
-
-
-def remove_non_vietnamese_chars(text):
-    return re.sub(
-        r"[^a-zàáạảãăắằặẳẵâầấậẩẫèéẹẻẽêềếệểễ"
-        r"ìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữ"
-        r"ỳýỵỷỹđ0-9\s]",
-        " ",
-        text
-    )
-
-
-def clean(text):
-    text = str(text).lower().strip()
-    if REMOVE_TONE:
-        text = remove_vietnamese_tone(text)
-    if REMOVE_NOISE:
-        text = remove_non_vietnamese_chars(text)
-    text = re.sub(r"\s+", " ", text)
-    return text
-
-
-def encode(text, vocab):
-    """Cleaned text -> list of token ids. Unknown words map to 1 (<UNK>)."""
-    return [vocab.get(t, 1) for t in text.split()]
+def pad_batch(id_lists):
+    """Pad token id lists to the longest one, at least WORD_WINDOW wide (the conv kernel size)."""
+    width = max(WORD_WINDOW, max((len(ids) for ids in id_lists), default=0))
+    out = torch.zeros(len(id_lists), width, dtype=torch.long)
+    for i, ids in enumerate(id_lists):
+        out[i, :len(ids)] = torch.tensor(ids, dtype=torch.long)
+    return out
 
 
 class TextCNN(nn.Module):

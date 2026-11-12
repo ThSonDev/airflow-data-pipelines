@@ -1,11 +1,10 @@
 import torch
+from absa_core import get_logger
 
-print("🧠 PyTorch version:", torch.__version__)
-
+log = get_logger("checkGPU")
+log.info("PyTorch version: %s", torch.__version__)
 if torch.cuda.is_available():
-    print("✅ CUDA is available!")
-    print("🚀 GPU detected:", torch.cuda.get_device_name(0))
-    print("🧮 Total GPUs:", torch.cuda.device_count())
-    print("🔥 Current device:", torch.cuda.current_device())
+    log.info("CUDA is available")
+    log.info("GPU: %s (total %d)", torch.cuda.get_device_name(0), torch.cuda.device_count())
 else:
-    print("❌ CUDA is NOT available — running on CPU.")
+    log.warning("CUDA is not available, running on CPU")

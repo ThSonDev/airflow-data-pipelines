@@ -1,43 +1,31 @@
-from confluent_kafka import Producer
-import pandas as pd
 import json
 import time
 
-# Config
-conf = {"bootstrap.servers": "kafka:9092"}
-TOPIC = "absa-reviews"
-CSV_PATH = "/opt/airflow/projects/absa_streaming/data/test_data.csv" 
-DELAY = 1.0 
+import pandas as pd
+from absa_core import get_logger, get_settings
+from confluent_kafka import Producer
 
-producer = Producer(conf)
+log = get_logger("producer")
+cfg = get_settings()
+CSV_PATH = f"{cfg.data_dir}/test_data.csv"
+DELAY = 1.0
+
 
 def delivery_report(err, msg):
     if err is not None:
-        print(f"Message delivery failed: {err}")
+        log.error("Message delivery failed: %s", err)
 
-# Load CSV (Assumes text is in the first column)
-print(f"Loading data from {CSV_PATH}...")
+
+producer = Producer({"bootstrap.servers": cfg.kafka_bootstrap})
 df = pd.read_csv(CSV_PATH)
-print(f"Loaded {len(df)} rows.")
-
-print(f"Starting production to topic '{TOPIC}'...")
+log.info("Loaded %d rows from %s, sending to topic '%s'", len(df), CSV_PATH, cfg.kafka_topic)
 
 for i, row in df.iterrows():
-    # Take text from the first column only
-    text = str(row.iloc[0])
-
-    # Create simple message without ID
-    message = {"review": text}
-
-    producer.produce(
-        TOPIC,
-        value=json.dumps(message).encode("utf-8"),
-        callback=delivery_report
-    )
-    
+    message = {"review": str(row.iloc[0])}  # text is the first column
+    producer.produce(cfg.kafka_topic, value=json.dumps(message).encode("utf-8"), callback=delivery_report)
     producer.poll(0)
-    print(f"[{i+1}/{len(df)}] Sent: {message}")
+    log.info("[%d/%d] Sent: %s", i + 1, len(df), message)
     time.sleep(DELAY)
 
 producer.flush()
-print("All messages sent successfully.")
+log.info("All messages sent")
