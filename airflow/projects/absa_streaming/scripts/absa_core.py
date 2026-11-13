@@ -3,6 +3,7 @@
 Used by preprocess, train, eval, save_postgres and the Spark consumer, so training and
 serving always run the same code.
 """
+import json
 import logging
 import os
 from types import SimpleNamespace
@@ -61,9 +62,25 @@ def pad_batch(id_lists):
     return out
 
 
+def collate_batch(batch):
+    """DataLoader collate_fn for (token id list, label tensor) pairs."""
+    return pad_batch([ids for ids, _ in batch]), torch.stack([y for _, y in batch])
+
+
+def load_model_config(model_path):
+    """Read config.json next to a model file. No file means a legacy model (no padding mask)."""
+    path = os.path.join(os.path.dirname(model_path), "config.json")
+    config = {"mask_padding": False}
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            config.update(json.load(f))
+    return config
+
+
 class TextCNN(nn.Module):
-    def __init__(self, vocab_size, embed_dim, num_labels):
+    def __init__(self, vocab_size, embed_dim, num_labels, mask_padding=True):
         super().__init__()
+        self.mask_padding = mask_padding
         self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
         self.conv = nn.Conv1d(embed_dim, NUM_FILTERS, kernel_size=WORD_WINDOW, padding=int(WORD_WINDOW // 2))
         self.pool = nn.AdaptiveMaxPool1d(1)
@@ -74,8 +91,12 @@ class TextCNN(nn.Module):
         ])
 
     def forward(self, x):
+        pad = x == 0
         x = self.embedding(x).permute(0, 2, 1)
         x = torch.relu(self.conv(x))
+        if self.mask_padding:
+            # every row has a real token (encode never returns []), so max-pool never sees only -inf
+            x = x.masked_fill(pad.unsqueeze(1), float("-inf"))
         x = self.pool(x).squeeze(2)
         x = torch.relu(self.shared_dense(x))
         x = self.dropout(x)

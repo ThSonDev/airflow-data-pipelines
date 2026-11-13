@@ -3,8 +3,16 @@ import json
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from absa_core import ASPECTS, EMBED_DIM, NUM_CLASSES, TextCNN, get_logger, get_settings
-from torch.utils.data import DataLoader, TensorDataset
+from absa_core import (
+    ASPECTS,
+    EMBED_DIM,
+    NUM_CLASSES,
+    TextCNN,
+    collate_batch,
+    get_logger,
+    get_settings,
+)
+from torch.utils.data import DataLoader
 
 log = get_logger("train")
 TMP_DIR = get_settings().tmp_dir
@@ -19,18 +27,22 @@ y_val = torch.load(f"{TMP_DIR}/val_tensor_y.pt")
 with open(f"{TMP_DIR}/vocab.json", "r") as f:
     vocab = json.load(f)
 
-train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=BATCH_SIZE, shuffle=True)
-val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=BATCH_SIZE)
+train_loader = DataLoader(list(zip(X_train, y_train)), batch_size=BATCH_SIZE, shuffle=True,
+                          collate_fn=collate_batch)
+val_loader = DataLoader(list(zip(X_val, y_val)), batch_size=BATCH_SIZE, collate_fn=collate_batch)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 log.info("Using device: %s", device)
 
-model = TextCNN(len(vocab), EMBED_DIM, len(ASPECTS)).to(device)
+model = TextCNN(len(vocab), EMBED_DIM, len(ASPECTS), mask_padding=True).to(device)
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
 criterion = nn.CrossEntropyLoss()
 
 best_val_loss = float('inf')
 no_improve = 0
+
+with open(f"{TMP_DIR}/config.json", "w") as f:
+    json.dump({"mask_padding": True}, f)
 
 log.info("Starting training")
 for epoch in range(1, EPOCHS + 1):
