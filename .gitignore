@@ -8,3 +8,11 @@ airflow/dags/__pycache__
 /airflow/static/*
 /airflow/projects/vehicle_counting/data/*
 /notebooks/cnn_training.html
+/.venv/
+.ruff_cache/
+.pytest_cache/
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+tmp/
+__pycache__/
