@@ -14,6 +14,7 @@ from absa_core import (
     encode,
     get_logger,
     get_settings,
+    load_model_config,
     pad_batch,
 )
 from pyspark.sql import types as T
@@ -66,8 +67,9 @@ def load_resources():
 
     if _model is None:
         _device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        _model = TextCNN(vocab_size=len(_vocab), embed_dim=EMBED_DIM, num_labels=len(ASPECTS))
         path = _best_model_path()
+        mask = load_model_config(path)["mask_padding"]
+        _model = TextCNN(len(_vocab), EMBED_DIM, len(ASPECTS), mask_padding=mask)
         if os.path.exists(path):
             _model.load_state_dict(torch.load(path, map_location=_device))
             log.info("Model loaded from %s on %s", path, _device)

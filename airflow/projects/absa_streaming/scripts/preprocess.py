@@ -4,7 +4,7 @@ from collections import Counter
 
 import pandas as pd
 import torch
-from absa_core import ASPECTS, clean, encode, get_logger, get_settings, pad_batch
+from absa_core import ASPECTS, clean, encode, get_logger, get_settings
 
 log = get_logger("preprocess")
 cfg = get_settings()
@@ -31,12 +31,9 @@ with open(f"{TMP_DIR}/vocab.json", "w", encoding="utf-8") as f:
 log.info("Vocabulary size: %d", len(vocab))
 
 
-def encode_and_pad(df, vocab):
-    return pad_batch([encode(t, vocab) for t in df["clean_text"]])
-
-
-X_train = encode_and_pad(train_df, vocab)
-X_val = encode_and_pad(val_df, vocab)
+# Unpadded id lists: train and eval pad each batch to its own length
+X_train = [encode(t, vocab) for t in train_df["clean_text"]]
+X_val = [encode(t, vocab) for t in val_df["clean_text"]]
 
 # CSV labels -1..2 become class ids 0..3
 y_train = torch.tensor(train_df[ASPECTS].values, dtype=torch.long) + 1

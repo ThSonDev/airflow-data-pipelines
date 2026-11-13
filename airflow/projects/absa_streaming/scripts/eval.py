@@ -2,9 +2,17 @@ import json
 
 import numpy as np
 import torch
-from absa_core import ASPECTS, EMBED_DIM, TextCNN, get_logger, get_settings
+from absa_core import (
+    ASPECTS,
+    EMBED_DIM,
+    TextCNN,
+    collate_batch,
+    get_logger,
+    get_settings,
+    load_model_config,
+)
 from sklearn.metrics import balanced_accuracy_score, f1_score
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader
 
 log = get_logger("eval")
 TMP_DIR = get_settings().tmp_dir
@@ -16,10 +24,12 @@ with open(f"{TMP_DIR}/vocab.json", "r") as f:
 
 X_val = torch.load(f"{TMP_DIR}/val_tensor_x.pt")
 y_val = torch.load(f"{TMP_DIR}/val_tensor_y.pt")  # (N, 8), class ids 0-3
-loader = DataLoader(TensorDataset(X_val, y_val), batch_size=BATCH_SIZE)
+loader = DataLoader(list(zip(X_val, y_val)), batch_size=BATCH_SIZE, collate_fn=collate_batch)
 
-model = TextCNN(len(vocab), EMBED_DIM, len(ASPECTS)).to(device)
-model.load_state_dict(torch.load(f"{TMP_DIR}/model_temp.pth", map_location=device))
+MODEL_FILE = f"{TMP_DIR}/model_temp.pth"
+mask = load_model_config(MODEL_FILE)["mask_padding"]
+model = TextCNN(len(vocab), EMBED_DIM, len(ASPECTS), mask_padding=mask).to(device)
+model.load_state_dict(torch.load(MODEL_FILE, map_location=device))
 model.eval()
 
 all_preds = []
