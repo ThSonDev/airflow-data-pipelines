@@ -1,33 +1,49 @@
 import json
 import os
 import shutil
+import sys
 
-import psycopg2
 from absa_core import get_logger, get_settings
+from model_registry import connect, should_promote
 
 log = get_logger("save_postgres")
-cfg = get_settings()
-TMP_DIR = cfg.tmp_dir
-NEWER_MODELS_DIR = f"{cfg.models_dir}/newer_models"
-METRICS_FILE = f"{TMP_DIR}/metrics.json"
-MODEL_FILE = f"{TMP_DIR}/model_temp.pth"
+FILES = ["model_temp.pth", "vocab.json", "config.json"]
+
+
+def build_folder(tmp_dir, final_dir, metrics):
+    """Copy the candidate into <final_dir>.tmp, then rename: the folder appears complete or not at all."""
+    staging = final_dir + ".tmp"
+    shutil.rmtree(staging, ignore_errors=True)
+    os.makedirs(staging)
+    try:
+        for name in FILES:
+            shutil.copy(f"{tmp_dir}/{name}", f"{staging}/{'model.pth' if name == 'model_temp.pth' else name}")
+        with open(f"{staging}/metrics.json", "w") as f:
+            json.dump(metrics, f, indent=2)
+        os.rename(staging, final_dir)
+    except Exception:
+        shutil.rmtree(staging, ignore_errors=True)
+        raise
 
 
 def main():
-    if not os.path.exists(METRICS_FILE):
+    cfg = get_settings()
+    metrics_file = f"{cfg.tmp_dir}/metrics.json"
+    if not os.path.exists(metrics_file):
         log.error("metrics.json not found")
-        exit(1)
-
-    with open(METRICS_FILE, "r") as f:
+        sys.exit(1)
+    with open(metrics_file) as f:
         metrics = json.load(f)
-    new_f1 = metrics["macro_f1"]
-    new_acc = metrics["balanced_acc"]
+    cand, prod = metrics["candidate"], metrics["production"]
+    log.info("Candidate macro F1 %.4f, production (%s) macro F1 %.4f", cand["macro_f1"], prod["name"], prod["macro_f1"])
+    if not should_promote(cand["macro_f1"], prod["macro_f1"]):
+        log.info("Candidate is not better, discarding")
+        return
 
+    conn = None
+    final_dir = None
     try:
-        conn = psycopg2.connect(
-            host=cfg.postgres_host, port=cfg.postgres_port, dbname=cfg.postgres_db,
-            user=cfg.postgres_user, password=cfg.postgres_password
-        )
+        conn = connect()
         cur = conn.cursor()
         cur.execute("""
             CREATE TABLE IF NOT EXISTS retrain_results (
@@ -38,36 +54,25 @@ def main():
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
             );
         """)
-
-        cur.execute("SELECT macro_f1 FROM retrain_results ORDER BY macro_f1 DESC LIMIT 1")
-        row = cur.fetchone()
-        current_best_f1 = row[0] if row else 0.0
-        log.info("Current best F1: %s, new candidate F1: %s", current_best_f1, new_f1)
-
-        if new_f1 > current_best_f1:
-            log.info("New model is better, deploying")
-            cur.execute("SELECT nextval('retrain_results_id_seq')")
-            next_id = cur.fetchone()[0]
-
-            new_model_name = f"cnn_v{next_id}.pth"
-            dest_path = f"{NEWER_MODELS_DIR}/{new_model_name}"
-            os.makedirs(NEWER_MODELS_DIR, exist_ok=True)
-            shutil.move(MODEL_FILE, dest_path)
-            log.info("Model moved to %s", dest_path)
-
-            cur.execute("""
-                INSERT INTO retrain_results (id, model_name, macro_f1, balanced_acc)
-                VALUES (%s, %s, %s, %s)
-            """, (next_id, new_model_name, new_f1, new_acc))
-            conn.commit()
-            log.info("Database updated")
-        else:
-            log.info("New model is not better, discarding")
-
-    except Exception as e:
-        log.error("Database error: %s", e)
+        cur.execute("SELECT nextval('retrain_results_id_seq')")
+        next_id = cur.fetchone()[0]
+        name = f"cnn_v{next_id}"
+        target = f"{cfg.models_dir}/newer_models/{name}"
+        build_folder(cfg.tmp_dir, target, metrics)
+        final_dir = target
+        cur.execute(
+            "INSERT INTO retrain_results (id, model_name, macro_f1, balanced_acc) VALUES (%s, %s, %s, %s)",
+            (next_id, name, cand["macro_f1"], cand["balanced_acc"]),
+        )
+        conn.commit()
+        log.info("Promoted %s", name)
+    except Exception:
+        log.exception("Promotion failed")
         if conn:
             conn.rollback()
+        if final_dir:
+            shutil.rmtree(final_dir, ignore_errors=True)
+        sys.exit(1)
     finally:
         if conn:
             conn.close()

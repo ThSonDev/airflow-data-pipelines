@@ -47,6 +47,7 @@ with DAG(
         "--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.postgresql:postgresql:42.6.0 "
         "--py-files /opt/airflow/projects/absa_streaming/scripts/absa_core.py,"
         "/opt/airflow/projects/absa_streaming/scripts/inference.py,"
+        "/opt/airflow/projects/absa_streaming/scripts/model_registry.py,"
         "/opt/airflow/projects/absa_streaming/scripts/sink.py,"
         "/opt/airflow/projects/absa_streaming/scripts/text_utils.py "
         "/opt/airflow/projects/absa_streaming/scripts/consumer_postgres_streaming.py"
