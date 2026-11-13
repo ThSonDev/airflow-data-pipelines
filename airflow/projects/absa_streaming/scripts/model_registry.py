@@ -20,14 +20,20 @@ from absa_core import (
 
 log = get_logger("model_registry")
 # Only names we create ourselves; also blocks "../x" and absolute paths from a bad DB row
-NAME_PATTERN = re.compile(r"^cnn_v\d+$")
+NAME_PATTERN = re.compile(r"cnn_v[0-9]+")
+
+# Old rows like 'cnn_v1.pth' must not hide a valid folder
+BEST_MODEL_QUERY = (
+    "SELECT model_name FROM retrain_results WHERE model_name ~ '^cnn_v[0-9]+$' "
+    "ORDER BY macro_f1 DESC, id DESC LIMIT 1"
+)
 
 
 def connect():
     cfg = get_settings()
     return psycopg2.connect(
         host=cfg.postgres_host, port=cfg.postgres_port, dbname=cfg.postgres_db,
-        user=cfg.postgres_user, password=cfg.postgres_password,
+        user=cfg.postgres_user, password=cfg.postgres_password, connect_timeout=5,
     )
 
 
@@ -35,7 +41,7 @@ def _fetch_best_from_db():
     conn = connect()
     try:
         cur = conn.cursor()
-        cur.execute("SELECT model_name FROM retrain_results ORDER BY macro_f1 DESC, id DESC LIMIT 1")
+        cur.execute(BEST_MODEL_QUERY)
         row = cur.fetchone()
         return row[0] if row else None
     finally:
@@ -58,7 +64,7 @@ def resolve_production_model(fetch_best=None):
         return legacy
     if name is None:
         return legacy
-    if not NAME_PATTERN.match(name):
+    if not NAME_PATTERN.fullmatch(name):
         log.warning("Ignoring DB model name %r (not cnn_v<number>), using cnn_best", name)
         return legacy
     folder = f"{models_dir}/newer_models/{name}"

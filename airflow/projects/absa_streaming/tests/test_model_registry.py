@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import model_registry
 import pytest
 import torch
 from model_registry import load_model, resolve_production_model, should_promote
@@ -37,7 +38,7 @@ def test_valid_folder_is_used(models_dir):
     assert info["config"]["mask_padding"] is True
 
 
-@pytest.mark.parametrize("name", ["../x", "/abs", "cnn_v1.pth", "cnn_v1/../cnn_v2", "cnn_v", None])
+@pytest.mark.parametrize("name", ["../x", "/abs", "cnn_v1.pth", "cnn_v1/../cnn_v2", "cnn_v", "cnn_v1\n", None])
 def test_bad_names_use_legacy(models_dir, name):
     _folder(models_dir, "cnn_v1")
     info = resolve_production_model(lambda: name)
@@ -65,3 +66,11 @@ def test_load_legacy_model_strict(monkeypatch):
     model, vocab = load_model(info, torch.device("cpu"))
     assert model.embedding.num_embeddings == len(vocab)
     assert model.mask_padding is False and not model.training
+
+
+def test_query_filters_names_and_connect_has_timeout(monkeypatch):
+    assert "~ '^cnn_v[0-9]+$'" in model_registry.BEST_MODEL_QUERY
+    seen = {}
+    monkeypatch.setattr(model_registry.psycopg2, "connect", lambda **kw: seen.update(kw))
+    model_registry.connect()
+    assert seen["connect_timeout"] == 5
