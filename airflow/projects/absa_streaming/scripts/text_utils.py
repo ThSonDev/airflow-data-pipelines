@@ -37,3 +37,10 @@ def clean(text):
 def encode(text, vocab):
     """Cleaned text -> token ids. Unknown words map to 1 (<UNK>); empty text gives [1]."""
     return [vocab.get(t, 1) for t in text.split()] or [1]
+
+
+def drop_overlap(train_df, *other_dfs):
+    """Drop train rows whose clean_text also appears in another split. Returns (train_df, dropped count)."""
+    seen = set().union(*(set(d["clean_text"]) for d in other_dfs))
+    keep = ~train_df["clean_text"].isin(seen)
+    return train_df[keep].reset_index(drop=True), int((~keep).sum())

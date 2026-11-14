@@ -6,8 +6,10 @@ serving always run the same code.
 import json
 import logging
 import os
+import random
 from types import SimpleNamespace
 
+import numpy as np
 import torch
 import torch.nn as nn
 from text_utils import clean, encode, remove_vietnamese_tone  # noqa: F401  (re-exported)
@@ -50,7 +52,18 @@ def get_settings():
         models_dir=models_dir,
         data_dir=env("DATA_DIR", "/opt/airflow/projects/absa_streaming/data"),
         tmp_dir=env("TMP_DIR", f"{models_dir}/tmp"),
+        seed=int(env("SEED", "42")),
     )
+
+
+def set_seed(seed):
+    """Seed every RNG and make cuDNN deterministic (slower, but the same data gives the same model)."""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 
 def pad_batch(id_lists):
