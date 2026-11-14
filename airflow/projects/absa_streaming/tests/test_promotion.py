@@ -43,7 +43,13 @@ def tmp_run(models_dir, monkeypatch):
     torch.save(TextCNN(10, EMBED_DIM, len(ASPECTS)).state_dict(), run / "model_temp.pth")
     (run / "vocab.json").write_text("{}")
     (run / "config.json").write_text(json.dumps({"mask_padding": True}))
-    metrics = {"candidate": {"macro_f1": 0.7, "balanced_acc": 0.6}, "production": {"name": "cnn_best", "macro_f1": 0.5}}
+    metrics = {
+        "candidate": {
+            "mean_aspect_f1": 0.7, "val_mean_aspect_f1": 0.7, "macro_f1_flat": 0.8, "balanced_acc": 0.6,
+            "split": "test",
+        },
+        "production": {"name": "cnn_best", "mean_aspect_f1": 0.5, "val_mean_aspect_f1": 0.5},
+    }
     (run / "metrics.json").write_text(json.dumps(metrics))
     monkeypatch.setenv("TMP_DIR", str(run))
     return models_dir
@@ -81,7 +87,17 @@ def test_connect_failure_exits_nonzero(tmp_run, monkeypatch):
 
 def test_worse_candidate_is_not_promoted(tmp_run, monkeypatch):
     metrics = json.loads((tmp_run / "tmp" / "metrics.json").read_text())
-    metrics["production"]["macro_f1"] = 0.9
+    metrics["production"]["val_mean_aspect_f1"] = 0.9
+    (tmp_run / "tmp" / "metrics.json").write_text(json.dumps(metrics))
+    monkeypatch.setattr(save_postgres, "connect", lambda: pytest.fail("DB must not be touched"))
+    save_postgres.main()
+    assert not (tmp_run / "newer_models").exists()
+
+
+def test_decision_uses_val_not_test(tmp_run, monkeypatch):
+    # candidate is better on test (0.7 vs 0.5) but worse on val: must not be promoted
+    metrics = json.loads((tmp_run / "tmp" / "metrics.json").read_text())
+    metrics["candidate"]["val_mean_aspect_f1"] = 0.4
     (tmp_run / "tmp" / "metrics.json").write_text(json.dumps(metrics))
     monkeypatch.setattr(save_postgres, "connect", lambda: pytest.fail("DB must not be touched"))
     save_postgres.main()

@@ -60,7 +60,7 @@ else:
         st.plotly_chart(fig_pie, use_container_width=True, key="pie_chart")
 
     st.markdown("---")
-    st.subheader("Danh sách model retrain tốt (theo Macro-F1)")
+    st.subheader("Danh sách model retrain tốt (theo Mean Aspect F1)")
 
     top_models = load_retrain_results(topk=30)
 
@@ -68,13 +68,14 @@ else:
         st.info("Chưa có log retrain nào trong bảng `retrain_results`.")
     else:
         top_models = top_models.rename(columns={
-            "macro_f1": "Macro F1",
+            "macro_f1": "Macro F1 (flat)",
+            "mean_aspect_f1": "Mean Aspect F1",
             "balanced_acc": "Balanced Acc",
             "model_name": "Model Name",
             "created_at": "Created At",
             "id": "ID"
         })
-        for c in ["Macro F1", "Balanced Acc"]:
+        for c in ["Macro F1 (flat)", "Mean Aspect F1", "Balanced Acc"]:
             if c in top_models.columns:
                 top_models[c] = top_models[c].astype(float).round(4)
         st.dataframe(top_models, use_container_width=True, hide_index=True)

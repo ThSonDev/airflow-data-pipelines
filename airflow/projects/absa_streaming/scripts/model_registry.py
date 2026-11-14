@@ -22,10 +22,12 @@ log = get_logger("model_registry")
 # Only names we create ourselves; also blocks "../x" and absolute paths from a bad DB row
 NAME_PATTERN = re.compile(r"cnn_v[0-9]+")
 
-# Old rows like 'cnn_v1.pth' must not hide a valid folder
+# Old names like 'cnn_v1.pth' must not hide a valid folder. Rows scored on another split
+# (or before eval_split existed) are not comparable, so they are ignored. The latest promoted
+# model is production: each promotion had to beat the production model of its time (on val).
 BEST_MODEL_QUERY = (
-    "SELECT model_name FROM retrain_results WHERE model_name ~ '^cnn_v[0-9]+$' "
-    "ORDER BY macro_f1 DESC, id DESC LIMIT 1"
+    "SELECT model_name FROM retrain_results WHERE model_name ~ '^cnn_v[0-9]+$' AND eval_split = 'test' "
+    "ORDER BY id DESC LIMIT 1"
 )
 
 
