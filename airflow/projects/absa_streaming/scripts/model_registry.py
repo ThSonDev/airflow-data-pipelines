@@ -3,12 +3,12 @@ import json
 import os
 import re
 
-import numpy as np
 import psycopg2
 import torch
 from absa_core import (
     ASPECTS,
     EMBED_DIM,
+    NUM_CLASSES,
     TextCNN,
     clean,
     encode,
@@ -87,16 +87,18 @@ def load_model(info, device):
     return model.to(device).eval(), vocab
 
 
-def predict_classes(model, vocab, texts, device, batch_size=None):
-    """Class ids (N, 8) for raw texts. batch_size None means one batch."""
-    texts = list(texts)
-    step = batch_size or max(len(texts), 1)
-    out = []
+def predict_logits(model, id_lists, device, batch_size=None):
+    """Logits (N, 8, 4) on CPU for token id lists. batch_size None means one batch."""
+    step = batch_size or max(len(id_lists), 1)
     with torch.no_grad():
-        for i in range(0, len(texts), step):
-            ids = pad_batch([encode(clean(t), vocab) for t in texts[i:i + step]]).to(device)
-            out.append(model(ids).argmax(dim=2).cpu().numpy())
-    return np.concatenate(out) if out else np.zeros((0, len(ASPECTS)), dtype=int)
+        out = [model(pad_batch(id_lists[i:i + step]).to(device)).cpu() for i in range(0, len(id_lists), step)]
+    return torch.cat(out) if out else torch.zeros(0, len(ASPECTS), NUM_CLASSES)
+
+
+def predict_classes(model, vocab, texts, device, batch_size=None):
+    """Class ids (N, 8) for raw texts."""
+    ids = [encode(clean(t), vocab) for t in texts]
+    return predict_logits(model, ids, device, batch_size).argmax(dim=2).numpy()
 
 
 def should_promote(new_score, prod_score):
