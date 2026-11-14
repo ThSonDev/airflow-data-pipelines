@@ -69,7 +69,9 @@ def test_load_legacy_model_strict(monkeypatch):
 
 
 def test_query_filters_names_and_connect_has_timeout(monkeypatch):
-    assert "~ '^cnn_v[0-9]+$'" in model_registry.BEST_MODEL_QUERY
+    query = model_registry.BEST_MODEL_QUERY
+    assert "~ '^cnn_v[0-9]+$'" in query
+    assert "eval_split = 'test'" in query and "ORDER BY id DESC" in query
     seen = {}
     monkeypatch.setattr(model_registry.psycopg2, "connect", lambda **kw: seen.update(kw))
     model_registry.connect()

@@ -37,14 +37,12 @@ def load_data():
 
 @st.cache_data(ttl=5)
 def load_retrain_results(topk=20):
-    query = """
-        SELECT id, model_name, macro_f1, balanced_acc, created_at
-        FROM retrain_results
-        ORDER BY macro_f1 DESC NULLS LAST, created_at DESC
-        LIMIT %s
-    """
+    query = "SELECT * FROM retrain_results ORDER BY created_at DESC LIMIT %s"
     try:
-        return _read_sql(query, params=(topk,))
+        df = _read_sql(query, params=(topk,))
+        if "mean_aspect_f1" in df.columns:  # best first; old rows have no value and go last
+            df = df.sort_values("mean_aspect_f1", ascending=False, na_position="last")
+        return df
     except Exception as e:
         st.warning(f"Không đọc được bảng retrain_results: {e}")
         return pd.DataFrame()

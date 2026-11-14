@@ -3,33 +3,37 @@ import json
 import pandas as pd
 import torch
 from absa_core import ASPECTS, get_logger, get_settings
+from metrics import compute_metrics
 from model_registry import load_model, predict_classes, resolve_production_model
-from sklearn.metrics import balanced_accuracy_score, f1_score
 
 log = get_logger("eval")
 cfg = get_settings()
 TMP_DIR = cfg.tmp_dir
-SPLIT = "val"  # T4 moves this to the test set
+REPORT_SPLIT = "test"  # reported numbers only
+SELECT_SPLIT = "val"  # promotion decision: never select models on the test set
 BATCH_SIZE = 64
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-df = pd.read_csv(f"{cfg.data_dir}/{SPLIT}_data.csv")
-y_true = (df[ASPECTS].values + 1).flatten()  # CSV labels -1..2 become class ids 0..3
+data = {}
+for split in (REPORT_SPLIT, SELECT_SPLIT):
+    df = pd.read_csv(f"{cfg.data_dir}/{split}_data.csv")
+    data[split] = (df["Review"], df[ASPECTS].values + 1)  # CSV labels -1..2 become class ids 0..3
 
 
 def score(info):
     # Each model encodes the raw text with its own vocab
     model, vocab = load_model(info, device)
-    y_pred = predict_classes(model, vocab, df["Review"], device, BATCH_SIZE).flatten()
+    preds = {s: predict_classes(model, vocab, texts, device, BATCH_SIZE) for s, (texts, _) in data.items()}
     return {
-        "macro_f1": float(f1_score(y_true, y_pred, average="macro", labels=[0, 1, 2, 3], zero_division=0)),
-        "balanced_acc": float(balanced_accuracy_score(y_true, y_pred)),
+        **compute_metrics(data[REPORT_SPLIT][1], preds[REPORT_SPLIT]),
+        "split": REPORT_SPLIT,
+        "val_mean_aspect_f1": compute_metrics(data[SELECT_SPLIT][1], preds[SELECT_SPLIT])["mean_aspect_f1"],
     }
 
 
 candidate = {"model_path": f"{TMP_DIR}/model_temp.pth", "vocab_path": f"{TMP_DIR}/vocab.json"}
 production = resolve_production_model()
-log.info("Scoring candidate and production model (%s) on the %s set", production["name"], SPLIT)
+log.info("Scoring candidate and production model (%s) on %s and %s", production["name"], REPORT_SPLIT, SELECT_SPLIT)
 metrics = {"candidate": score(candidate), "production": {"name": production["name"], **score(production)}}
 log.info("Evaluation results: %s", metrics)
 

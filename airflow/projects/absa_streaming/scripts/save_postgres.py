@@ -35,8 +35,10 @@ def main():
     with open(metrics_file) as f:
         metrics = json.load(f)
     cand, prod = metrics["candidate"], metrics["production"]
-    log.info("Candidate macro F1 %.4f, production (%s) macro F1 %.4f", cand["macro_f1"], prod["name"], prod["macro_f1"])
-    if not should_promote(cand["macro_f1"], prod["macro_f1"]):
+    for label, m in (("candidate", cand), ("production " + prod["name"], prod)):
+        log.info("%s: val mean aspect F1 %.4f (decision), test mean aspect F1 %.4f (reported)",
+                 label, m["val_mean_aspect_f1"], m["mean_aspect_f1"])
+    if not should_promote(cand["val_mean_aspect_f1"], prod["val_mean_aspect_f1"]):
         log.info("Candidate is not better, discarding")
         return
 
@@ -54,6 +56,9 @@ def main():
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
             );
         """)
+        # Old rows were scored on val with flattened F1, so they have no eval_split and are ignored
+        cur.execute("ALTER TABLE retrain_results ADD COLUMN IF NOT EXISTS mean_aspect_f1 DOUBLE PRECISION")
+        cur.execute("ALTER TABLE retrain_results ADD COLUMN IF NOT EXISTS eval_split TEXT")
         cur.execute("SELECT nextval('retrain_results_id_seq')")
         next_id = cur.fetchone()[0]
         name = f"cnn_v{next_id}"
@@ -61,8 +66,9 @@ def main():
         build_folder(cfg.tmp_dir, target, metrics)
         final_dir = target
         cur.execute(
-            "INSERT INTO retrain_results (id, model_name, macro_f1, balanced_acc) VALUES (%s, %s, %s, %s)",
-            (next_id, name, cand["macro_f1"], cand["balanced_acc"]),
+            "INSERT INTO retrain_results (id, model_name, macro_f1, balanced_acc, mean_aspect_f1, eval_split) "
+            "VALUES (%s, %s, %s, %s, %s, %s)",
+            (next_id, name, cand["macro_f1_flat"], cand["balanced_acc"], cand["mean_aspect_f1"], cand["split"]),
         )
         conn.commit()
         log.info("Promoted %s", name)
