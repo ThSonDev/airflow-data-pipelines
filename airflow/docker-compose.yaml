@@ -197,22 +197,15 @@ services:
         condition: service_completed_successfully
   
   streamlit-absa:
-    image: airflow-base:2.9.0-custom
+    build: ./projects/absa_streaming/streamlit
+    image: absa-streamlit:local
     container_name: streamlit-absa
-    entrypoint: ["bash", "-c", "streamlit run /opt/airflow/projects/absa_streaming/streamlit/streamlit_app.py --server.port 8501 --server.address 0.0.0.0"]
     ports:
       - "8501:8501"
     volumes:
-      - ${AIRFLOW_PROJ_DIR:-.}/projects:/opt/airflow/projects
-      - ${AIRFLOW_PROJ_DIR:-.}/models:/opt/airflow/models
+      - ${AIRFLOW_PROJ_DIR:-.}/projects/absa_streaming/streamlit:/app:ro
     depends_on:
-      airflow-webserver:
-        condition: service_healthy
-      airflow-scheduler:
-        condition: service_healthy
-      airflow-worker:
-        condition: service_healthy
-      airflow-triggerer:
+      postgres:
         condition: service_healthy
 
   streamlit-yolo:
