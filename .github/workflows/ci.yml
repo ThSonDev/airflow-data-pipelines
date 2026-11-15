@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements-dev.txt
+            airflow/base/requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install torch==2.3.0 torchvision==0.18.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-dev.txt
+      - name: Lint
+        run: >
+          ruff check airflow/projects/absa_streaming
+          airflow/dags/retrain_dag.py airflow/dags/absa_streaming_lifecycle_dag.py
+      - name: Test
+        run: python -m pytest -q airflow/projects/absa_streaming/tests
