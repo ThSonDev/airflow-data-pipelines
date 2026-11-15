@@ -42,3 +42,24 @@ def test_dev_requirements_pin_each_package_once():
     for f in (root / "requirements-dev.txt", BASE / "requirements.txt"):
         names += re.findall(r"^([A-Za-z0-9_.-]+)==", f.read_text(), re.M)
     assert len(names) == len(set(names))
+
+
+STREAMLIT = BASE.parent / "projects" / "absa_streaming" / "streamlit"
+
+
+def _pins(path):
+    return dict(re.findall(r"^([A-Za-z0-9_.-]+)==(\S+)$", path.read_text(), re.M))
+
+
+def test_streamlit_pins_match_base_requirements():
+    base = _pins(BASE / "requirements.txt")
+    own = _pins(STREAMLIT / "requirements.txt")
+    assert own and all(base.get(name) == ver for name, ver in own.items())
+
+
+def test_streamlit_image_is_slim_python_and_not_root():
+    text = (STREAMLIT / "Dockerfile").read_text()
+    assert re.search(r"^FROM python:3\.12-slim$", text, re.M)
+    assert re.findall(r"^USER\s+(\S+)", text, re.M)[-1] != "root"
+    # pip must run as root, otherwise streamlit lands in ~/.local/bin, which is not on PATH
+    assert text.index("pip install") < text.rindex("USER ")
