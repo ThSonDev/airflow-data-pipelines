@@ -19,7 +19,6 @@ def main():
         .config("spark.jars.packages",
                 f"org.apache.spark:spark-sql-kafka-0-10_{SCALA_VERSION}:{SPARK_VERSION},"
                 "org.postgresql:postgresql:42.6.0")
-        .config("spark.sql.streaming.checkpointLocation", "/opt/airflow/checkpoints/absa_streaming_checkpoint")
         .getOrCreate()
     )
     spark.sparkContext.setLogLevel("ERROR")
@@ -48,6 +47,8 @@ def main():
 
     query = (
         df_final.writeStream
+        .queryName("absa_reviews")
+        .option("checkpointLocation", cfg.checkpoint_dir)
         .foreachBatch(write_to_postgres)
         .outputMode("append")
         .trigger(processingTime="5 seconds")
