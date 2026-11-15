@@ -25,6 +25,7 @@ x-airflow-common: &airflow-common
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - ${AIRFLOW_PROJ_DIR:-.}/projects:/opt/airflow/projects
     - ${AIRFLOW_PROJ_DIR:-.}/models:/opt/airflow/models
+    - ${AIRFLOW_PROJ_DIR:-.}/checkpoints:/opt/airflow/checkpoints
     - ${AIRFLOW_PROJ_DIR:-.}/static:/opt/airflow/static
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
@@ -150,8 +151,8 @@ services:
     command:
       - -c
       - |
-        mkdir -p /sources/logs /sources/dags /sources/plugins
-        chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
+        mkdir -p /sources/logs /sources/dags /sources/plugins /sources/checkpoints
+        chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins,checkpoints}
         exec /entrypoint airflow version
     environment:
       <<: *airflow-common-env

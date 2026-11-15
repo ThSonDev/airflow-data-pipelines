@@ -60,12 +60,12 @@ with DAG(
 
     def monitor_job():
         log.info("Checking streaming job checkpoint")
-        path = "/opt/airflow/checkpoints/absa_streaming_checkpoint"
+        path = "/opt/airflow/checkpoints/absa_streaming"  # must match the CHECKPOINT_DIR default in absa_core
         if os.path.exists(path):
             size = subprocess.check_output(["du", "-sh", path]).decode().split()[0]
             log.info("Checkpoint exists (%s), job running normally", size)
         else:
-            log.warning("No checkpoint found, job may have failed or was cleaned")
+            log.warning("No checkpoint found, job has not started or failed early")
 
     monitor_stream = PythonOperator(
         task_id="monitor_stream",
@@ -73,14 +73,4 @@ with DAG(
         trigger_rule="all_done",
     )
 
-    cleanup_checkpoints = BashOperator(
-        task_id="cleanup_checkpoints",
-        bash_command=(
-            "echo '[Cleanup] Removing old checkpoint...'; "
-            "rm -rf /opt/airflow/checkpoints/absa_streaming_checkpoint || true; "
-            "echo '[Cleanup] Done.'"
-        ),
-        trigger_rule="all_done",
-    )
-
-    [deploy_producer, deploy_consumer] >> monitor_stream >> cleanup_checkpoints
+    [deploy_producer, deploy_consumer] >> monitor_stream

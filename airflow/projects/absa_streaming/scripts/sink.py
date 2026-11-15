@@ -1,6 +1,7 @@
 """foreachBatch writer: logs a preview and appends rows to PostgreSQL."""
 import json
 import sys
+from pathlib import Path
 
 from absa_core import ASPECTS, get_logger, get_settings
 
@@ -18,9 +19,13 @@ def write_to_postgres(batch_df, batch_id):
         preview = batch_df.select("ReviewText", *ASPECTS).limit(5).toPandas().to_dict(orient="records")
         log.info("Batch %s preview: %s", batch_id, json.dumps(preview, ensure_ascii=False))
 
-    if batch_id == 7:
+    # Crash once only: after a resume Spark replays this batch, and it must not crash forever.
+    marker = Path(cfg.checkpoint_dir) / "crash_done"
+    if batch_id == cfg.crash_batch and not marker.exists():
+        marker.parent.mkdir(parents=True, exist_ok=True)
+        marker.touch()
         log.error("Batch %s: simulated crash", batch_id)
-        raise Exception(f"Simulated crash at batch {batch_id}")
+        raise RuntimeError(f"Simulated crash at batch {batch_id}")
 
     try:
         (batch_df
@@ -36,6 +41,8 @@ def write_to_postgres(batch_df, batch_id):
             .mode("append")
             .save()
         )
-        log.info("Batch %s: wrote %d rows to PostgreSQL", batch_id, total_rows)
-    except Exception as e:
-        log.error("Batch %s: error writing to PostgreSQL: %s", batch_id, e)
+    except Exception:
+        # Re-raise so Spark does not mark the batch done; the next start replays it.
+        log.exception("Batch %s: error writing to PostgreSQL", batch_id)
+        raise
+    log.info("Batch %s: wrote %d rows to PostgreSQL", batch_id, total_rows)
