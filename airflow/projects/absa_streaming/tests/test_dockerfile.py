@@ -34,3 +34,11 @@ def test_pip_run_uses_a_cache_mount():
 def test_requirements_do_not_pin_redis():
     # The base image's redis must match the Airflow redis provider.
     assert not re.search(r"^redis\b", (BASE / "requirements.txt").read_text(), re.M)
+
+
+def test_dev_requirements_pin_each_package_once():
+    root = BASE.parent.parent
+    names = []
+    for f in (root / "requirements-dev.txt", BASE / "requirements.txt"):
+        names += re.findall(r"^([A-Za-z0-9_.-]+)==", f.read_text(), re.M)
+    assert len(names) == len(set(names))
