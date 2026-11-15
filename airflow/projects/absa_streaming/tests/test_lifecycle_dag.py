@@ -57,3 +57,8 @@ def test_consumer_lists_all_py_files(monkeypatch):
     cmd = _load_tasks(monkeypatch)["deploy_consumer"]["bash_command"]
     for m in MODULES:
         assert f"/scripts/{m}.py" in cmd
+
+
+def test_no_timeout_wrapper(monkeypatch):
+    tasks = _load_tasks(monkeypatch)
+    assert all("timeout " not in str(t.get("bash_command", "")) for t in tasks.values())

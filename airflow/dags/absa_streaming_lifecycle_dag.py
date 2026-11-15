@@ -33,17 +33,17 @@ with DAG(
 
     deploy_producer = BashOperator(
         task_id="deploy_producer",
-        bash_command="timeout 45m python /opt/airflow/projects/absa_streaming/scripts/producer.py",
+        bash_command="python /opt/airflow/projects/absa_streaming/scripts/producer.py",
         retries=3,
         retry_delay=timedelta(minutes=2),
-        execution_timeout=timedelta(minutes=50),
+        execution_timeout=timedelta(minutes=50),  # keep above STREAM_RUN_SECONDS plus startup time
         trigger_rule="all_done",
     )
 
     deploy_consumer = BashOperator(
         task_id="deploy_consumer",
         bash_command=(
-        "timeout 45m spark-submit "
+        "spark-submit "
         "--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.postgresql:postgresql:42.6.0 "
         "--py-files /opt/airflow/projects/absa_streaming/scripts/absa_core.py,"
         "/opt/airflow/projects/absa_streaming/scripts/inference.py,"
@@ -54,7 +54,7 @@ with DAG(
         ),
         retries=5,
         retry_delay=timedelta(minutes=2),
-        execution_timeout=timedelta(minutes=50),
+        execution_timeout=timedelta(minutes=50),  # keep above STREAM_RUN_SECONDS plus startup time
         trigger_rule="all_done",
     )
 
