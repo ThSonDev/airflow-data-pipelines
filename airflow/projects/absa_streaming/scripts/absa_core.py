@@ -54,6 +54,7 @@ def get_settings():
         tmp_dir=env("TMP_DIR", f"{models_dir}/tmp"),
         seed=int(env("SEED", "42")),
         checkpoint_dir=env("CHECKPOINT_DIR", "/opt/airflow/checkpoints/absa_streaming"),
+        run_seconds=int(env("STREAM_RUN_SECONDS", "2700")),
         crash_batch=int(env("SIMULATE_CRASH_BATCH", "-1")),
     )
 

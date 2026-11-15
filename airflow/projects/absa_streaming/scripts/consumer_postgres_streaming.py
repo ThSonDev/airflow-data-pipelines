@@ -12,6 +12,13 @@ SCALA_VERSION = "2.12"
 SPARK_VERSION = "3.5.1"
 
 
+def run_for(query, seconds):
+    """Wait up to `seconds`, then stop the query. A failed query still raises StreamingQueryException."""
+    if not query.awaitTermination(seconds):
+        log.info("Run time of %ds reached, stopping the query", seconds)
+        query.stop()  # a batch interrupted by stop is not committed, so the next run replays it
+
+
 def main():
     spark = (
         SparkSession.builder
@@ -55,7 +62,8 @@ def main():
         .start()
     )
     log.info("Streaming job started, listening to Kafka")
-    query.awaitTermination()
+    run_for(query, cfg.run_seconds)
+    spark.stop()
 
 
 if __name__ == "__main__":
