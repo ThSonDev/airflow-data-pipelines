@@ -9,7 +9,6 @@ from confluent_kafka import Producer
 log = get_logger("producer")
 cfg = get_settings()
 CSV_PATH = f"{cfg.data_dir}/test_data.csv"
-DELAY = 1.0
 FLUSH_SECONDS = 30
 failures = 0
 
@@ -37,7 +36,7 @@ def main():
         producer.poll(0)
         sent += 1
         log.info("[%d/%d] Sent: %s", i + 1, len(df), message)
-        time.sleep(DELAY)
+        time.sleep(cfg.producer_delay)
 
     remaining = producer.flush(FLUSH_SECONDS)
     if remaining > 0 or failures > 0:

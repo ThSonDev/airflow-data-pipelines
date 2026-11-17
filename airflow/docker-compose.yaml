@@ -24,6 +24,9 @@ x-airflow-common: &airflow-common
     AIRFLOW__CORE__DEFAULT_TIMEZONE: Asia/Ho_Chi_Minh
     STREAM_RUN_SECONDS: ${STREAM_RUN_SECONDS:-2700}
     SIMULATE_CRASH_BATCH: ${SIMULATE_CRASH_BATCH:--1}
+    PRODUCER_DELAY: ${PRODUCER_DELAY:-1.0}
+    MAX_OFFSETS_PER_TRIGGER: ${MAX_OFFSETS_PER_TRIGGER:-10}
+    TRIGGER_SECONDS: ${TRIGGER_SECONDS:-5}
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs

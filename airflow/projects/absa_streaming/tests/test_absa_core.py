@@ -61,6 +61,15 @@ def test_get_settings_defaults(monkeypatch):
     s = get_settings()
     assert (s.postgres_host, s.kafka_bootstrap) == ("postgres", "kafka:9092")
     assert s.tmp_dir == "/opt/airflow/models/tmp"
+    assert (s.producer_delay, s.max_offsets_per_trigger, s.trigger_seconds) == (1.0, 10, 5)
+
+
+def test_get_settings_stream_rate_env(monkeypatch):
+    monkeypatch.setenv("PRODUCER_DELAY", "0")
+    monkeypatch.setenv("MAX_OFFSETS_PER_TRIGGER", "500")
+    monkeypatch.setenv("TRIGGER_SECONDS", "2")
+    s = get_settings()
+    assert (s.producer_delay, s.max_offsets_per_trigger, s.trigger_seconds) == (0.0, 500, 2)
 
 
 @pytest.mark.skipif(not (MODELS / "cnn_best.pth").exists(), reason="model file missing")

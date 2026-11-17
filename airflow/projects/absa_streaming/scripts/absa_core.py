@@ -56,6 +56,9 @@ def get_settings():
         checkpoint_dir=env("CHECKPOINT_DIR", "/opt/airflow/checkpoints/absa_streaming"),
         run_seconds=int(env("STREAM_RUN_SECONDS", "2700")),
         crash_batch=int(env("SIMULATE_CRASH_BATCH", "-1")),
+        producer_delay=float(env("PRODUCER_DELAY", "1.0")),
+        max_offsets_per_trigger=int(env("MAX_OFFSETS_PER_TRIGGER", "10")),
+        trigger_seconds=int(env("TRIGGER_SECONDS", "5")),
     )
 
 

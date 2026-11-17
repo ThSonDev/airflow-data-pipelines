@@ -15,6 +15,7 @@ def _cfg(tmp_path, crash_batch=-1):
 def _df(rows=0):
     df = MagicMock()
     df.count.return_value = rows
+    df.persist.return_value = df
     return df
 
 
@@ -27,11 +28,14 @@ def test_write_error_is_re_raised(monkeypatch, tmp_path):
     df.select.return_value.write = w
     with pytest.raises(RuntimeError, match="db down"):
         sink.write_to_postgres(df, 1)
+    df.unpersist.assert_called_once()
 
 
 def test_crash_off_by_default(monkeypatch, tmp_path):
     monkeypatch.setattr(sink, "cfg", _cfg(tmp_path))
-    sink.write_to_postgres(_df(), 7)
+    df = _df()
+    sink.write_to_postgres(df, 7)
+    df.unpersist.assert_called_once()
 
 
 def test_simulated_crash_happens_once(monkeypatch, tmp_path):
