@@ -4,7 +4,7 @@ import types
 from pathlib import Path
 
 DAG_FILE = Path(__file__).resolve().parents[3] / "dags" / "retrain_dag.py"
-RUN_TMP = "/opt/airflow/models/tmp/{{ ts_nodash }}"
+RUN_TMP = "/opt/airflow/models/tmp/{{ run_id | replace(':', '') | replace('+', '') }}"
 
 
 def _load_dag(monkeypatch):
@@ -31,9 +31,12 @@ def _load_dag(monkeypatch):
             return other
 
     for name, attrs in {
-        "airflow": {"DAG": FakeDAG},
-        "airflow.operators": {},
-        "airflow.operators.bash": {"BashOperator": FakeTask},
+        "airflow": {},
+        "airflow.sdk": {"DAG": FakeDAG},
+        "airflow.providers": {},
+        "airflow.providers.standard": {},
+        "airflow.providers.standard.operators": {},
+        "airflow.providers.standard.operators.bash": {"BashOperator": FakeTask},
     }.items():
         module = types.ModuleType(name)
         module.__dict__.update(attrs)
@@ -68,3 +71,8 @@ def test_no_timeout_wrapper(monkeypatch):
     _, tasks = _load_dag(monkeypatch)
     assert all("timeout " not in t["bash_command"] for t in tasks.values())
     assert all("execution_timeout" in t for t in tasks.values() if ".py" in t["bash_command"])
+
+
+def test_run_tmp_does_not_need_a_logical_date():
+    # ts_nodash is undefined for a manual run without logical_date in Airflow 3
+    assert "ts_nodash" not in RUN_TMP and "run_id" in RUN_TMP

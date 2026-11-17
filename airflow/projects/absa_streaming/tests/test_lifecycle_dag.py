@@ -33,12 +33,13 @@ def _load_tasks(monkeypatch):
             return self
 
     for name, attrs in {
-        "airflow": {"DAG": FakeDAG},
-        "airflow.operators": {},
-        "airflow.operators.bash": {"BashOperator": FakeTask},
-        "airflow.operators.python": {"PythonOperator": FakeTask},
-        "airflow.utils": {},
-        "airflow.utils.dates": {"days_ago": lambda n: None},
+        "airflow": {},
+        "airflow.sdk": {"DAG": FakeDAG},
+        "airflow.providers": {},
+        "airflow.providers.standard": {},
+        "airflow.providers.standard.operators": {},
+        "airflow.providers.standard.operators.bash": {"BashOperator": FakeTask},
+        "airflow.providers.standard.operators.python": {"PythonOperator": FakeTask},
     }.items():
         module = types.ModuleType(name)
         module.__dict__.update(attrs)

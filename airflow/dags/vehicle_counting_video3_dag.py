@@ -1,7 +1,6 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
-from airflow.utils.dates import days_ago
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 # Base paths - Adjust based on your Docker mapping
 PRODUCER_SCRIPT_PATH = "/opt/airflow/projects/vehicle_counting/scripts/producer.py"
@@ -23,8 +22,8 @@ with DAG(
         dag_id=dag_id,
         default_args=default_args,
         description=f'YOLO Pipeline for {video_path}',
-        schedule_interval=None, # Trigger manually
-        start_date=days_ago(1),
+        schedule=None, # Trigger manually
+        start_date=datetime(2025, 1, 1),
         catchup=False,
         tags=['yolo', 'video', 'spark']
 ) as dag:
