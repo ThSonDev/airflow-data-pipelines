@@ -35,8 +35,9 @@ def main():
         .format("kafka")
         .option("kafka.bootstrap.servers", cfg.kafka_bootstrap)
         .option("subscribe", cfg.kafka_topic)
-        .option("startingOffsets", "latest")
-        .option("maxOffsetsPerTrigger", 10)
+        # Applies only when there is no checkpoint; a restart resumes from the checkpoint.
+        .option("startingOffsets", "earliest")
+        .option("maxOffsetsPerTrigger", cfg.max_offsets_per_trigger)
         .load()
     )
 
@@ -58,7 +59,7 @@ def main():
         .option("checkpointLocation", cfg.checkpoint_dir)
         .foreachBatch(write_to_postgres)
         .outputMode("append")
-        .trigger(processingTime="5 seconds")
+        .trigger(processingTime=f"{cfg.trigger_seconds} seconds")
         .start()
     )
     log.info("Streaming job started, listening to Kafka")

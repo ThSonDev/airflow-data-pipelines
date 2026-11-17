@@ -25,9 +25,10 @@ def setup(monkeypatch, tmp_path):
     csv = tmp_path / "t.csv"
     csv.write_text("review\nhello\nworld\n", encoding="utf-8")
     monkeypatch.setattr(producer, "CSV_PATH", str(csv))
-    monkeypatch.setattr(producer, "DELAY", 0)
     monkeypatch.setattr(producer, "failures", 0)
-    monkeypatch.setattr(producer, "cfg", SimpleNamespace(kafka_bootstrap="k", kafka_topic="t", run_seconds=60))
+    monkeypatch.setattr(
+        producer, "cfg", SimpleNamespace(kafka_bootstrap="k", kafka_topic="t", run_seconds=60, producer_delay=0),
+    )
     monkeypatch.setattr(producer, "Producer", FakeProducer)
     monkeypatch.setattr(FakeProducer, "leftover", 0)
 
