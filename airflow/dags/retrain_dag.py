@@ -1,8 +1,7 @@
 from datetime import datetime, timedelta
 
-from airflow.operators.bash import BashOperator
-
-from airflow import DAG
+from airflow.providers.standard.operators.bash import BashOperator
+from airflow.sdk import DAG
 
 default_args = {
     'owner': 'airflow',
@@ -25,8 +24,9 @@ with DAG(
 ) as dag:
 
     SCRIPTS_DIR = "/opt/airflow/projects/absa_streaming/scripts"
-    # One folder per run. ts_nodash is path-safe (run_id has ":" and "+") and unique per run.
-    RUN_TMP = "/opt/airflow/models/tmp/{{ ts_nodash }}"
+    # One folder per run. ts_nodash is undefined when a manual run has no logical_date (Airflow 3),
+    # so use run_id: unique per run, with ":" and "+" removed to keep the path safe.
+    RUN_TMP = "/opt/airflow/models/tmp/{{ run_id | replace(':', '') | replace('+', '') }}"
     # append_env keeps POSTGRES_*, PATH, etc.; env alone would replace the whole environment
     script_env = {"env": {"TMP_DIR": RUN_TMP}, "append_env": True}
 

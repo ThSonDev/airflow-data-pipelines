@@ -1,7 +1,8 @@
-from airflow import DAG
-from airflow.operators.python import PythonOperator
 from datetime import datetime
+
 import torch
+from airflow.providers.standard.operators.python import PythonOperator
+from airflow.sdk import DAG
 
 def check_gpu():
     print("PyTorch version:", torch.__version__)
@@ -17,7 +18,7 @@ def check_gpu():
 with DAG(
     dag_id="check_gpu_dag",
     description="Test GPU availability inside Airflow task container",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2025, 1, 1),
     catchup=False,
     tags=["gpu", "test"]

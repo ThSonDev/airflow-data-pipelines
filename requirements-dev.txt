@@ -1,5 +1,5 @@
 -r airflow/base/requirements.txt
+# model_registry imports psycopg2; the Airflow image gets it from the postgres provider (same version)
+psycopg2-binary==2.9.13
 pytest==9.2.0
 ruff==0.17.5
-# distutils is missing on Python 3.12 (pyspark needs it); pyarrow is pinned in airflow/base/requirements.txt
-setuptools<81

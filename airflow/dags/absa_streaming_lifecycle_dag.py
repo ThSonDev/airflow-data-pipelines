@@ -1,13 +1,11 @@
 import logging
 import os
 import subprocess
-from datetime import timedelta
+from datetime import datetime, timedelta
 
-from airflow.operators.bash import BashOperator
-from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago
-
-from airflow import DAG
+from airflow.providers.standard.operators.bash import BashOperator
+from airflow.providers.standard.operators.python import PythonOperator
+from airflow.sdk import DAG
 
 log = logging.getLogger(__name__)
 
@@ -24,8 +22,8 @@ with DAG(
         dag_id="absa_streaming_lifecycle_demo",
         default_args=default_args,
         description="Orchestrate Kafka–Spark–PostgreSQL streaming lifecycle (1-Hour Demo)",
-        schedule_interval=timedelta(hours=1),
-        start_date=days_ago(1),
+        schedule=timedelta(hours=1),
+        start_date=datetime(2025, 1, 1),
         catchup=False,
         dagrun_timeout=timedelta(minutes=55),  # must stay below the 1h schedule
         tags=["absa", "streaming", "kafka", "spark"],
